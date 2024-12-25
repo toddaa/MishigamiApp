@@ -7,10 +7,10 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import Slider from '@/components/Slider';
 
-export default function HomeScreen() {
+export default function MapScreen () {
   return (
     <View style={{ flex: 1 }}>
-    <CustomParallaxScrollView
+    <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}
       headerImage={
         <Image
@@ -18,12 +18,13 @@ export default function HomeScreen() {
           style={styles.reactLogo}
         />
       }>
+        
 
-      <Slider />
-    </CustomParallaxScrollView>
+    </ParallaxScrollView>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   titleContainer: {
@@ -45,26 +46,4 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
   },
-  // slide: {
-  //   padding: 100,
-  //   width: 100,
-  //   height: "100%"
-  // },
-  // scrollView: {
-  //   width: "115%",
-  //   height: "200%",
-  //   alignSelf: 'center',
-  // },
-  // horizontalscrollView: {
-  //   width: "115%",
-  //   height: "200%",
-  //   alignSelf: 'center',
-  // },
-  // item: {
-  //   margin: 40,
-  //   height: 700
-  // },
-  // pictureTitle: {
-  //   alignSelf: 'center',
-  // },
 });
