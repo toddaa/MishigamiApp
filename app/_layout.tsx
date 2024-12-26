@@ -5,15 +5,32 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-
 import { TabProvider } from '@/components/TabContext';
-
 import { useColorScheme } from '@/hooks/useColorScheme';
+import Constants from 'expo-constants';
+
+import {
+  AutoEnvAttributes,
+  LDProvider,
+  ReactNativeLDClient,
+} from '@launchdarkly/react-native-client-sdk';
+
+const featureClient = new ReactNativeLDClient(
+  'mob-930b7bf0-341d-419d-a458-8d3872368c72',
+  AutoEnvAttributes.Enabled,
+  {
+    debug: false,
+    applicationInfo: {
+      id: Constants.expoConfig?.name,
+      version: Constants.expoConfig?.version,
+    },
+  },
+);
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+export default function RootLayout () {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -30,14 +47,16 @@ export default function RootLayout() {
   }
 
   return (
-    <TabProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        {/* <StatusBar style="auto" /> */}
-      </ThemeProvider>
-    </TabProvider>
+    <LDProvider client={featureClient}>
+      <TabProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+          {/* <StatusBar style="auto" /> */}
+        </ThemeProvider>
+      </TabProvider>
+    </LDProvider>
   );
 }
