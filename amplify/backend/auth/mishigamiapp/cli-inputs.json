@@ -1,0 +1,12 @@
+{
+  "version": "1",
+  "cognitoConfig": {
+    "identityPoolName": "mishigamiapp_identitypool_e170a339",
+    "allowUnauthenticatedIdentities": true,
+    "authSelections": "identityPoolOnly",
+    "resourceName": "mishigamiapp",
+    "sharedId": "e170a339",
+    "serviceName": "Cognito",
+    "useDefault": "manual"
+  }
+}
