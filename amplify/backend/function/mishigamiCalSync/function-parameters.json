@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "api": {
+      "mishigamiapp": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  },
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "calendarId",
+      "environmentVariableName": "CALENDAR_ID"
+    },
+    {
+      "cloudFormationParameterName": "googleApiKey",
+      "environmentVariableName": "GOOGLE_API_KEY"
+    }
+  ]
+}

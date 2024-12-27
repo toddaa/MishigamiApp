@@ -27,6 +27,10 @@ const featureClient = new ReactNativeLDClient(
   },
 );
 
+import { Amplify } from 'aws-amplify';
+import config from '../src/amplifyconfiguration.json';
+Amplify.configure(config);
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 

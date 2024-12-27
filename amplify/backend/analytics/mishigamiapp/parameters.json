@@ -1,0 +1,22 @@
+{
+  "appName": "mishigamiapp",
+  "roleName": "pinpointLambdaRole807f5d24",
+  "cloudformationPolicyName": "cloudformationPolicy807f5d24",
+  "cloudWatchPolicyName": "cloudWatchPolicy807f5d24",
+  "pinpointPolicyName": "pinpointPolicy807f5d24",
+  "authPolicyName": "pinpoint_amplify_807f5d24",
+  "unauthPolicyName": "pinpoint_amplify_807f5d24",
+  "authRoleName": {
+    "Ref": "AuthRoleName"
+  },
+  "unauthRoleName": {
+    "Ref": "UnauthRoleName"
+  },
+  "authRoleArn": {
+    "Fn::GetAtt": [
+      "AuthRole",
+      "Arn"
+    ]
+  },
+  "pinpointInAppMessagingPolicyName": "pinpointInAppMessagingPolicyName807f5d24"
+}
