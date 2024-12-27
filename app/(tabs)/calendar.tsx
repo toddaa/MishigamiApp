@@ -95,7 +95,7 @@ export default function TabTwoScreen () {
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}
       headerImage={
         <Image
-          source={require('@/assets/images/Mishigami-Blue-Mastodon-Arrow-Text.png')}
+          source={require('@/assets/images/Mastodon-56000SM.png')}
           style={styles.reactLogo}
         />
       }>
@@ -171,9 +171,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   reactLogo: {
-    height: 75,
-    width: 150,
-    top: 60,
+    height: 92,
+    width: 130,
+    top: 55,
     alignSelf: 'center',
   },
 });

@@ -1,4 +1,4 @@
-import React, {useEffect,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Platform } from 'react-native';
 //import newsFeed from 'news.xml'
 import { HelloWave } from '@/components/HelloWave';
@@ -17,43 +17,43 @@ const dateTimeOptions = {
   // timeZoneName: 'short'
 }
 
-export default function HomeScreen() {
-  const [News, setNews] =useState([])
+export default function HomeScreen () {
+  const [News, setNews] = useState([])
   let url = '/news.xml' //`https://mishigami.org/feed/`;
   useEffect(() => {
     fetch(url)
-            .then((response) => response.text())
-            .then((responseJson) => {
-              // console.log(responseJson)
-             // const parser = new XMLParser();
-              const xml = parser.parseFromString(responseJson)
-              console.log(xml)
-              
-              console.log(xml.getElementsByTagName('item'))
-              //setNews(responseJson.items)
-                // this.setState({
-                //     pageToken: responseJson.nextPageToken,
-                //     dataSource: [...this.state.dataSource, ...responseJson.items],
-                //     loading: false,
-                //     refreshing: false,
-                //     error: responseJson.error || null,
-                // });
-            })
-            .then(() => {
-                // this.getDates()
-            }) 
-            .catch(error => {
-              console.log (error)
-                // this.setState({ error, loading: false, refreshing: false });
-            });
-   
+      .then((response) => response.text())
+      .then((responseJson) => {
+        // console.log(responseJson)
+        // const parser = new XMLParser();
+        const xml = parser.parseFromString(responseJson)
+        console.log(xml)
+
+        console.log(xml.getElementsByTagName('item'))
+        //setNews(responseJson.items)
+        // this.setState({
+        //     pageToken: responseJson.nextPageToken,
+        //     dataSource: [...this.state.dataSource, ...responseJson.items],
+        //     loading: false,
+        //     refreshing: false,
+        //     error: responseJson.error || null,
+        // });
+      })
+      .then(() => {
+        // this.getDates()
+      })
+      .catch(error => {
+        console.log(error)
+        // this.setState({ error, loading: false, refreshing: false });
+      });
+
   }, []);
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}
       headerImage={
         <Image
-          source={require('@/assets/images/Mishigami-Blue-Mastodon-Arrow-Text.png')}
+          source={require('@/assets/images/Mastodon-56000SM.png')}
           style={styles.reactLogo}
         />
       }>
@@ -103,9 +103,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   reactLogo: {
-    height: 75,
-    width: 150,
-    top: 60,
+    height: 92,
+    width: 130,
+    top: 55,
     alignSelf: 'center',
   },
 });

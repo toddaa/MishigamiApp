@@ -7,20 +7,20 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import Slider from '@/components/Slider';
 
-export default function HomeScreen() {
+export default function HomeScreen () {
   return (
     <View style={{ flex: 1 }}>
-    <CustomParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/Mishigami-Blue-Mastodon-Arrow-Text.png')}
-          style={styles.reactLogo}
-        />
-      }>
+      <CustomParallaxScrollView
+        headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}
+        headerImage={
+          <Image
+            source={require('@/assets/images/Mastodon-56000SM.png')}
+            style={styles.reactLogo}
+          />
+        }>
 
-      <Slider />
-    </CustomParallaxScrollView>
+        <Slider />
+      </CustomParallaxScrollView>
     </View>
   );
 }
@@ -36,9 +36,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   reactLogo: {
-    height: 75,
-    width: 150,
-    top: 60,
+    height: 92,
+    width: 130,
+    top: 55,
     alignSelf: 'center',
   },
   center: {
