@@ -1,15 +1,15 @@
 /* Amplify Params - DO NOT EDIT
-	API_MISHIGAMIAPP_GRAPHQLAPIENDPOINTOUTPUT
-	API_MISHIGAMIAPP_GRAPHQLAPIIDOUTPUT
-	API_MISHIGAMIAPP_GRAPHQLAPIKEYOUTPUT
-	ENV
-	REGION
+  API_MISHIGAMIAPP_GRAPHQLAPIENDPOINTOUTPUT
+  API_MISHIGAMIAPP_GRAPHQLAPIIDOUTPUT
+  API_MISHIGAMIAPP_GRAPHQLAPIKEYOUTPUT
+  ENV
+  REGION
 Amplify Params - DO NOT EDIT */
-import { default as fetch, Request } from 'node-fetch';
-import { startOfYear, endOfYear, differenceInDays, add } from 'date-fns';
+import { default as fetch, Request } from 'node-fetch'
+import { startOfYear, endOfYear, differenceInDays, add } from 'date-fns'
 
-const GRAPHQL_ENDPOINT = process.env.API_MISHIGAMIAPP_GRAPHQLAPIENDPOINTOUTPUT;
-const GRAPHQL_API_KEY = process.env.API_MISHIGAMIAPP_GRAPHQLAPIKEYOUTPUT;
+const GRAPHQL_ENDPOINT = process.env.API_MISHIGAMIAPP_GRAPHQLAPIENDPOINTOUTPUT
+const GRAPHQL_API_KEY = process.env.API_MISHIGAMIAPP_GRAPHQLAPIKEYOUTPUT
 
 const fetchEvents = async () => {
   const query = /* GraphQL */ `
@@ -29,7 +29,7 @@ const fetchEvents = async () => {
       }
     }
   }
-`;
+`
 
   const options = {
     method: 'POST',
@@ -38,21 +38,21 @@ const fetchEvents = async () => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ query })
-  };
+  }
 
-  const request = new Request(GRAPHQL_ENDPOINT, options);
+  const request = new Request(GRAPHQL_ENDPOINT, options)
 
-  let statusCode = 200;
-  let body;
-  let response;
+  let statusCode = 200
+  let body
+  let response
 
   try {
-    response = await fetch(request);
-    body = await response.json();
+    response = await fetch(request)
+    body = await response.json()
     // console.log(body)
-    if (body.errors) statusCode = 400;
+    if (body.errors) statusCode = 400
   } catch (error) {
-    statusCode = 400;
+    statusCode = 400
     body = {
       errors: [
         {
@@ -61,7 +61,7 @@ const fetchEvents = async () => {
           stack: error.stack
         }
       ]
-    };
+    }
   }
   return body
 }
@@ -83,7 +83,7 @@ const addEvent = async (params) => {
         createdAt
       }
     }
-  `;
+  `
 
   const options = {
     method: 'POST',
@@ -92,20 +92,20 @@ const addEvent = async (params) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ query, variables: params })
-  };
+  }
 
-  const request = new Request(GRAPHQL_ENDPOINT, options);
+  const request = new Request(GRAPHQL_ENDPOINT, options)
 
-  let statusCode = 200;
-  let body;
-  let response;
+  let statusCode = 200
+  let body
+  let response
 
   try {
-    response = await fetch(request);
-    body = await response.json();
-    if (body.errors) statusCode = 400;
+    response = await fetch(request)
+    body = await response.json()
+    if (body.errors) statusCode = 400
   } catch (error) {
-    statusCode = 400;
+    statusCode = 400
     body = {
       errors: [
         {
@@ -114,18 +114,17 @@ const addEvent = async (params) => {
           stack: error.stack
         }
       ]
-    };
+    }
   }
 }
-
 
 const { CALENDAR_ID, GOOGLE_API_KEY } = process.env
 
 export const handler = async (event) => {
-  console.log({ event });
+  console.log({ event })
 
-  const beginDate = new Date();
-  const endDate = add(new Date(endOfYear(beginDate)), {days: 60})
+  const beginDate = new Date()
+  const endDate = add(new Date(endOfYear(beginDate)), { days: 60 })
   let pageToken = ''
   // let url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${GOOGLE_API_KEY}&timeMin=${beginDate.toISOString()}&singleEvents=true&orderBy=startTime`;
 
@@ -134,7 +133,7 @@ export const handler = async (event) => {
 
   // FETCH EVENTS FROM GOOGLE
   do {
-    let url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${GOOGLE_API_KEY}&timeMin=${beginDate.toISOString()}&maxResults=50&singleEvents=true&orderBy=startTime&pageToken=${pageToken}&timeMax=${endDate.toISOString()}`;
+    let url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${GOOGLE_API_KEY}&timeMin=${beginDate.toISOString()}&maxResults=50&singleEvents=true&orderBy=startTime&pageToken=${pageToken}&timeMax=${endDate.toISOString()}`
     console.log(url)
     await fetch(url)
       .then((response) => {
@@ -182,6 +181,6 @@ export const handler = async (event) => {
       })
       .catch(error => {
         // this.setState({ error, loading: false, refreshing: false });
-      });
+      })
   } while (pageToken != '')
-};
+}

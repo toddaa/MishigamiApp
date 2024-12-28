@@ -17,9 +17,8 @@ type Article @model {
   id: ID!
   title: String!
   description: String
-  pubDate: AWSDateTime
   author: String
-  location: String
   link: AWSURL
-  category: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
 }
