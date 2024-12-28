@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyleSheet, Image, Platform } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-
 import { Collapsible } from '@/components/Collapsible';
 import { ExternalLink } from '@/components/ExternalLink';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -24,8 +22,7 @@ const dateTimeOptions = {
   // hour12:true,
   // timeZoneName: 'short'
 }
-export default function TabTwoScreen () {
-  const [pageToken, setPageToken] = useState('')
+export default function CalendarScreen () {
   const [events, setEvents] = useState([])
   const [viewableEvents, setViewableEvents] = useState([])
 
