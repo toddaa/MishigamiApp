@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { useBoolVariation, useLDClient } from '@launchdarkly/react-native-client-sdk'
+import { useBoolVariation } from '@launchdarkly/react-native-client-sdk'
 
 
 const TabContext = createContext()
@@ -7,14 +7,6 @@ const TabContext = createContext()
 export const TabProvider = ({ children }) => {
   const settingsFlag = useBoolVariation('settings', false)
   const messageFlag = useBoolVariation('message', false)
-  const ldc = useLDClient()
-
-  // FUTURE FEATURE WHEN WE HAVE USER ACCOUNTS
-  // useEffect(() => {
-  //   ldc
-  //     .identify({ kind: 'user', key: 'example-user-key', name: 'Sandy' })
-  //     .catch((e) => console.error('error: ' + e))
-  // }, [])
 
   useEffect(() => {
     setTabOrder(tabOrder.map(t => {
@@ -23,7 +15,7 @@ export const TabProvider = ({ children }) => {
         visible: t.name === 'settings' ? settingsFlag : t.visible
       }
     }))
-  }, [messageFlag])
+  }, [settingsFlag])
 
   useEffect(() => {
     setTabOrder(tabOrder.map(t => {
@@ -32,7 +24,7 @@ export const TabProvider = ({ children }) => {
         visible: t.name === 'message' ? messageFlag : t.visible
       }
     }))
-  }, [settingsFlag])
+  }, [messageFlag])
 
   const [tabOrder, setTabOrder] = useState([
     { name: 'index', title: 'Home', visible: true },
