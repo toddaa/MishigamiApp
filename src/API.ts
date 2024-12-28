@@ -4,6 +4,7 @@
 
 export type CreateEventInput = {
   id?: string | null,
+  gId?: string | null,
   name: string,
   description?: string | null,
   startDate?: string | null,
@@ -13,6 +14,7 @@ export type CreateEventInput = {
 };
 
 export type ModelEventConditionInput = {
+  gId?: ModelStringInput | null,
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
   startDate?: ModelStringInput | null,
@@ -69,6 +71,7 @@ export type ModelSizeInput = {
 export type Event = {
   __typename: "Event",
   id: string,
+  gId?: string | null,
   name: string,
   description?: string | null,
   startDate?: string | null,
@@ -81,6 +84,7 @@ export type Event = {
 
 export type UpdateEventInput = {
   id: string,
+  gId?: string | null,
   name?: string | null,
   description?: string | null,
   startDate?: string | null,
@@ -97,26 +101,22 @@ export type CreateArticleInput = {
   id?: string | null,
   title: string,
   description?: string | null,
-  pubDate?: string | null,
   author?: string | null,
-  location?: string | null,
   link?: string | null,
-  category?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type ModelArticleConditionInput = {
   title?: ModelStringInput | null,
   description?: ModelStringInput | null,
-  pubDate?: ModelStringInput | null,
   author?: ModelStringInput | null,
-  location?: ModelStringInput | null,
   link?: ModelStringInput | null,
-  category?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
   and?: Array< ModelArticleConditionInput | null > | null,
   or?: Array< ModelArticleConditionInput | null > | null,
   not?: ModelArticleConditionInput | null,
-  createdAt?: ModelStringInput | null,
-  updatedAt?: ModelStringInput | null,
 };
 
 export type Article = {
@@ -124,11 +124,8 @@ export type Article = {
   id: string,
   title: string,
   description?: string | null,
-  pubDate?: string | null,
   author?: string | null,
-  location?: string | null,
   link?: string | null,
-  category?: string | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -137,11 +134,10 @@ export type UpdateArticleInput = {
   id: string,
   title?: string | null,
   description?: string | null,
-  pubDate?: string | null,
   author?: string | null,
-  location?: string | null,
   link?: string | null,
-  category?: string | null,
+  createdAt?: string | null,
+  updatedAt?: string | null,
 };
 
 export type DeleteArticleInput = {
@@ -150,6 +146,7 @@ export type DeleteArticleInput = {
 
 export type ModelEventFilterInput = {
   id?: ModelIDInput | null,
+  gId?: ModelStringInput | null,
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
   startDate?: ModelStringInput | null,
@@ -189,11 +186,8 @@ export type ModelArticleFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
   description?: ModelStringInput | null,
-  pubDate?: ModelStringInput | null,
   author?: ModelStringInput | null,
-  location?: ModelStringInput | null,
   link?: ModelStringInput | null,
-  category?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelArticleFilterInput | null > | null,
@@ -209,6 +203,7 @@ export type ModelArticleConnection = {
 
 export type ModelSubscriptionEventFilterInput = {
   id?: ModelSubscriptionIDInput | null,
+  gId?: ModelSubscriptionStringInput | null,
   name?: ModelSubscriptionStringInput | null,
   description?: ModelSubscriptionStringInput | null,
   startDate?: ModelSubscriptionStringInput | null,
@@ -255,11 +250,8 @@ export type ModelSubscriptionArticleFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   title?: ModelSubscriptionStringInput | null,
   description?: ModelSubscriptionStringInput | null,
-  pubDate?: ModelSubscriptionStringInput | null,
   author?: ModelSubscriptionStringInput | null,
-  location?: ModelSubscriptionStringInput | null,
   link?: ModelSubscriptionStringInput | null,
-  category?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionArticleFilterInput | null > | null,
@@ -275,6 +267,7 @@ export type CreateEventMutation = {
   createEvent?:  {
     __typename: "Event",
     id: string,
+    gId?: string | null,
     name: string,
     description?: string | null,
     startDate?: string | null,
@@ -295,6 +288,7 @@ export type UpdateEventMutation = {
   updateEvent?:  {
     __typename: "Event",
     id: string,
+    gId?: string | null,
     name: string,
     description?: string | null,
     startDate?: string | null,
@@ -315,6 +309,7 @@ export type DeleteEventMutation = {
   deleteEvent?:  {
     __typename: "Event",
     id: string,
+    gId?: string | null,
     name: string,
     description?: string | null,
     startDate?: string | null,
@@ -337,11 +332,8 @@ export type CreateArticleMutation = {
     id: string,
     title: string,
     description?: string | null,
-    pubDate?: string | null,
     author?: string | null,
-    location?: string | null,
     link?: string | null,
-    category?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -358,11 +350,8 @@ export type UpdateArticleMutation = {
     id: string,
     title: string,
     description?: string | null,
-    pubDate?: string | null,
     author?: string | null,
-    location?: string | null,
     link?: string | null,
-    category?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -379,11 +368,8 @@ export type DeleteArticleMutation = {
     id: string,
     title: string,
     description?: string | null,
-    pubDate?: string | null,
     author?: string | null,
-    location?: string | null,
     link?: string | null,
-    category?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -397,6 +383,7 @@ export type GetEventQuery = {
   getEvent?:  {
     __typename: "Event",
     id: string,
+    gId?: string | null,
     name: string,
     description?: string | null,
     startDate?: string | null,
@@ -420,6 +407,7 @@ export type ListEventsQuery = {
     items:  Array< {
       __typename: "Event",
       id: string,
+      gId?: string | null,
       name: string,
       description?: string | null,
       startDate?: string | null,
@@ -443,11 +431,8 @@ export type GetArticleQuery = {
     id: string,
     title: string,
     description?: string | null,
-    pubDate?: string | null,
     author?: string | null,
-    location?: string | null,
     link?: string | null,
-    category?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -467,11 +452,8 @@ export type ListArticlesQuery = {
       id: string,
       title: string,
       description?: string | null,
-      pubDate?: string | null,
       author?: string | null,
-      location?: string | null,
       link?: string | null,
-      category?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -487,6 +469,7 @@ export type OnCreateEventSubscription = {
   onCreateEvent?:  {
     __typename: "Event",
     id: string,
+    gId?: string | null,
     name: string,
     description?: string | null,
     startDate?: string | null,
@@ -506,6 +489,7 @@ export type OnUpdateEventSubscription = {
   onUpdateEvent?:  {
     __typename: "Event",
     id: string,
+    gId?: string | null,
     name: string,
     description?: string | null,
     startDate?: string | null,
@@ -525,6 +509,7 @@ export type OnDeleteEventSubscription = {
   onDeleteEvent?:  {
     __typename: "Event",
     id: string,
+    gId?: string | null,
     name: string,
     description?: string | null,
     startDate?: string | null,
@@ -546,11 +531,8 @@ export type OnCreateArticleSubscription = {
     id: string,
     title: string,
     description?: string | null,
-    pubDate?: string | null,
     author?: string | null,
-    location?: string | null,
     link?: string | null,
-    category?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -566,11 +548,8 @@ export type OnUpdateArticleSubscription = {
     id: string,
     title: string,
     description?: string | null,
-    pubDate?: string | null,
     author?: string | null,
-    location?: string | null,
     link?: string | null,
-    category?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -586,11 +565,8 @@ export type OnDeleteArticleSubscription = {
     id: string,
     title: string,
     description?: string | null,
-    pubDate?: string | null,
     author?: string | null,
-    location?: string | null,
     link?: string | null,
-    category?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,

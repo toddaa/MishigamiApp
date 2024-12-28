@@ -2,7 +2,7 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from "../../amplify/backend/function/mishigamiCalSync/src/src/API";
+import * as APITypes from "../API";
 type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationInput: InputType;
   __generatedMutationOutput: OutputType;
@@ -14,6 +14,7 @@ export const createEvent = /* GraphQL */ `mutation CreateEvent(
 ) {
   createEvent(input: $input, condition: $condition) {
     id
+    gId
     name
     description
     startDate
@@ -35,6 +36,7 @@ export const updateEvent = /* GraphQL */ `mutation UpdateEvent(
 ) {
   updateEvent(input: $input, condition: $condition) {
     id
+    gId
     name
     description
     startDate
@@ -56,6 +58,7 @@ export const deleteEvent = /* GraphQL */ `mutation DeleteEvent(
 ) {
   deleteEvent(input: $input, condition: $condition) {
     id
+    gId
     name
     description
     startDate
@@ -79,11 +82,8 @@ export const createArticle = /* GraphQL */ `mutation CreateArticle(
     id
     title
     description
-    pubDate
     author
-    location
     link
-    category
     createdAt
     updatedAt
     __typename
@@ -101,11 +101,8 @@ export const updateArticle = /* GraphQL */ `mutation UpdateArticle(
     id
     title
     description
-    pubDate
     author
-    location
     link
-    category
     createdAt
     updatedAt
     __typename
@@ -123,11 +120,8 @@ export const deleteArticle = /* GraphQL */ `mutation DeleteArticle(
     id
     title
     description
-    pubDate
     author
-    location
     link
-    category
     createdAt
     updatedAt
     __typename

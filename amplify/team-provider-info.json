@@ -36,9 +36,13 @@
       "function": {
         "mishigamiCalSync": {
           "deploymentBucketName": "amplify-mishigamiapp-dev-27de0-deployment",
-          "s3Key": "amplify-builds/mishigamiCalSync-6d335562312b6e543650-build.zip",
+          "s3Key": "amplify-builds/mishigamiCalSync-6f5a6f65534563316836-build.zip",
           "calendarId": "c_ts6npsnahqspjgu18j0p8lu9uc@group.calendar.google.com",
           "googleApiKey": "AIzaSyCUAeWuG0RjOTcW7GHPHzTN5e4e7Jl96KI"
+        },
+        "mishigamiNewSync": {
+          "deploymentBucketName": "amplify-mishigamiapp-dev-27de0-deployment",
+          "s3Key": "amplify-builds/mishigamiNewSync-4a4f614844356b553045-build.zip"
         }
       }
     }

@@ -2,7 +2,7 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from "../../amplify/backend/function/mishigamiCalSync/src/src/API";
+import * as APITypes from "../API";
 type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryInput: InputType;
   __generatedQueryOutput: OutputType;
@@ -11,6 +11,7 @@ type GeneratedQuery<InputType, OutputType> = string & {
 export const getEvent = /* GraphQL */ `query GetEvent($id: ID!) {
   getEvent(id: $id) {
     id
+    gId
     name
     description
     startDate
@@ -31,6 +32,7 @@ export const listEvents = /* GraphQL */ `query ListEvents(
   listEvents(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      gId
       name
       description
       startDate
@@ -54,11 +56,8 @@ export const getArticle = /* GraphQL */ `query GetArticle($id: ID!) {
     id
     title
     description
-    pubDate
     author
-    location
     link
-    category
     createdAt
     updatedAt
     __typename
@@ -78,11 +77,8 @@ export const listArticles = /* GraphQL */ `query ListArticles(
       id
       title
       description
-      pubDate
       author
-      location
       link
-      category
       createdAt
       updatedAt
       __typename
