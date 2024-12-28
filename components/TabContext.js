@@ -6,6 +6,7 @@ const TabContext = createContext()
 
 export const TabProvider = ({ children }) => {
   const settingsFlag = useBoolVariation('settings', false)
+  const messageFlag = useBoolVariation('message', false)
   const ldc = useLDClient()
 
   // FUTURE FEATURE WHEN WE HAVE USER ACCOUNTS
@@ -17,10 +18,18 @@ export const TabProvider = ({ children }) => {
 
   useEffect(() => {
     setTabOrder(tabOrder.map(t => {
-
       return {
         ...t,
         visible: t.name === 'settings' ? settingsFlag : t.visible
+      }
+    }))
+  }, [messageFlag])
+
+  useEffect(() => {
+    setTabOrder(tabOrder.map(t => {
+      return {
+        ...t,
+        visible: t.name === 'message' ? messageFlag : t.visible
       }
     }))
   }, [settingsFlag])
@@ -32,6 +41,7 @@ export const TabProvider = ({ children }) => {
     { name: 'map', title: 'Map', visible: false },
     { name: 'tradingPost', title: 'Trading Post', visible: false },
     { name: 'settings', title: 'Settings', visible: true },
+    { name: 'message', title: 'message', visible: true },
     // { name: 'TabBarSettings', title: 'TabBarSettings', visible: false },
     // { name: 'AppPreferencesSettings', title: 'App Preferences', visible: false },
     // { name: 'AccountSettings', title: 'Account Settings', visible: false },
