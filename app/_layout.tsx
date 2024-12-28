@@ -8,12 +8,15 @@ import 'react-native-reanimated';
 import { TabProvider } from '@/components/TabContext';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import Constants from 'expo-constants';
-
 import {
   AutoEnvAttributes,
   LDProvider,
   ReactNativeLDClient,
 } from '@launchdarkly/react-native-client-sdk';
+
+import { Amplify } from 'aws-amplify';
+import config from '../src/amplifyconfiguration.json';
+Amplify.configure(config);
 
 const featureClient = new ReactNativeLDClient(
   'mob-930b7bf0-341d-419d-a458-8d3872368c72',
@@ -27,10 +30,6 @@ const featureClient = new ReactNativeLDClient(
   },
 );
 
-import { Amplify } from 'aws-amplify';
-import config from '../src/amplifyconfiguration.json';
-Amplify.configure(config);
-
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -39,6 +38,12 @@ export default function RootLayout () {
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
+
+  useEffect(() => {
+    featureClient
+      .identify({ kind: 'user', key: 'example-user-key' })
+      .catch((e) => console.error('error: ' + e))
+  }, [])
 
   useEffect(() => {
     if (loaded) {
