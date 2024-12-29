@@ -5,5 +5,13 @@
       "cloudFormationParameterName": "expoAccessToken",
       "environmentVariableName": "EXPO_ACCESS_TOKEN"
     }
-  ]
+  ],
+  "permissions": {
+    "api": {
+      "mishigamiapp": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  }
 }

@@ -5,6 +5,7 @@
     API_MISHIGAMIAPP_GRAPHQLAPIENDPOINTOUTPUT
     API_MISHIGAMIAPP_GRAPHQLAPIKEYOUTPUT
 Amplify Params - DO NOT EDIT */
+
 import { default as fetch, Request } from 'node-fetch'
 import { startOfYear, endOfYear, differenceInDays, add } from 'date-fns'
 

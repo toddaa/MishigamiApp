@@ -1,6 +1,17 @@
+/* Amplify Params - DO NOT EDIT
+    ENV
+    REGION
+    API_MISHIGAMIAPP_GRAPHQLAPIIDOUTPUT
+    API_MISHIGAMIAPP_GRAPHQLAPIENDPOINTOUTPUT
+    API_MISHIGAMIAPP_GRAPHQLAPIKEYOUTPUT
+Amplify Params - DO NOT EDIT */
+
+import { default as fetch, Request } from 'node-fetch'
 import { Expo } from 'expo-server-sdk'
 import { unmarshall } from "@aws-sdk/util-dynamodb"
 
+const GRAPHQL_ENDPOINT = process.env.API_MISHIGAMIAPP_GRAPHQLAPIENDPOINTOUTPUT
+const GRAPHQL_API_KEY = process.env.API_MISHIGAMIAPP_GRAPHQLAPIKEYOUTPUT
 
 const { EXPO_ACCESS_TOKEN } = process.env
 
@@ -9,7 +20,54 @@ let expo = new Expo({
   useFcmV1: true,
 })
 
+const fetchTokens = async () => {
+  const query = /* GraphQL */ `
+  query LIST_TOKENS {
+    listPushTokens {
+      items {
+        token
+      }
+    }
+  }
+`
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'x-api-key': GRAPHQL_API_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ query })
+  }
+
+  const request = new Request(GRAPHQL_ENDPOINT, options)
+
+  let statusCode = 200
+  let body
+  let response
+
+  try {
+    response = await fetch(request)
+    body = await response.json()
+    // console.log(body)
+    if (body.errors) statusCode = 400
+  } catch (error) {
+    statusCode = 400
+    body = {
+      errors: [
+        {
+          status: response.status,
+          message: error.message,
+          stack: error.stack
+        }
+      ]
+    }
+  }
+  return body
+}
+
 const sendNotification = async (params) => {
+  console.log(params)
   let messages = []
   for (let pushToken of params.pushTokens) {
     // Check that all your push tokens appear to be valid Expo push tokens
@@ -46,6 +104,12 @@ const sendNotification = async (params) => {
 
 export const handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`)
+
+  const pushTokenData = await fetchTokens()
+  console.log(pushTokenData)
+  const pushTokens = pushTokenData.data.listPushTokens.items.map((item) => item.token)
+  console.log(pushTokens)
+
   for (const record of event.Records) {
     // console.log(record.eventID);
     // console.log(record.eventName);
@@ -61,7 +125,7 @@ export const handler = async (event) => {
 
           await sendNotification({
             title,
-            pushTokens: ['ExponentPushToken[S-l4l4JSMMrEOxHwIJKqf8]']
+            pushTokens
           })
 
         } catch (error) {
