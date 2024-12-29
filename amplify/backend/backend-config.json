@@ -43,7 +43,12 @@
       "serviceType": "managed"
     }
   },
-  "custom": {},
+  "custom": {
+    "pushTokenManager": {
+      "providerPlugin": "awscloudformation",
+      "service": "customCDK"
+    }
+  },
   "function": {
     "mishigamiCalSync": {
       "build": true,
@@ -62,6 +67,38 @@
       "service": "Lambda"
     },
     "mishigamiNewSync": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "mishigamiapp"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "mishigamiNotification": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "mishigamiapp"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "mishigamiPushTokenManager": {
       "build": true,
       "dependsOn": [
         {
@@ -156,6 +193,46 @@
         {
           "category": "function",
           "resourceName": "mishigamiNewSync"
+        }
+      ]
+    },
+    "AMPLIFY_function_mishigamiNotification_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mishigamiNotification"
+        }
+      ]
+    },
+    "AMPLIFY_function_mishigamiNotification_expoAccessToken": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mishigamiNotification"
+        }
+      ]
+    },
+    "AMPLIFY_function_mishigamiNotification_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mishigamiNotification"
+        }
+      ]
+    },
+    "AMPLIFY_function_mishigamiPushTokenManager_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mishigamiPushTokenManager"
+        }
+      ]
+    },
+    "AMPLIFY_function_mishigamiPushTokenManager_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mishigamiPushTokenManager"
         }
       ]
     },

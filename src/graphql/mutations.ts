@@ -131,3 +131,117 @@ export const deleteArticle = /* GraphQL */ `mutation DeleteArticle(
   APITypes.DeleteArticleMutationVariables,
   APITypes.DeleteArticleMutation
 >;
+export const createMessage = /* GraphQL */ `mutation CreateMessage(
+  $input: CreateMessageInput!
+  $condition: ModelMessageConditionInput
+) {
+  createMessage(input: $input, condition: $condition) {
+    id
+    title
+    body
+    data
+    ttl
+    iosSubtitle
+    iosBadgeCount
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateMessageMutationVariables,
+  APITypes.CreateMessageMutation
+>;
+export const updateMessage = /* GraphQL */ `mutation UpdateMessage(
+  $input: UpdateMessageInput!
+  $condition: ModelMessageConditionInput
+) {
+  updateMessage(input: $input, condition: $condition) {
+    id
+    title
+    body
+    data
+    ttl
+    iosSubtitle
+    iosBadgeCount
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateMessageMutationVariables,
+  APITypes.UpdateMessageMutation
+>;
+export const deleteMessage = /* GraphQL */ `mutation DeleteMessage(
+  $input: DeleteMessageInput!
+  $condition: ModelMessageConditionInput
+) {
+  deleteMessage(input: $input, condition: $condition) {
+    id
+    title
+    body
+    data
+    ttl
+    iosSubtitle
+    iosBadgeCount
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteMessageMutationVariables,
+  APITypes.DeleteMessageMutation
+>;
+export const createPushTokens = /* GraphQL */ `mutation CreatePushTokens(
+  $input: CreatePushTokensInput!
+  $condition: ModelPushTokensConditionInput
+) {
+  createPushTokens(input: $input, condition: $condition) {
+    id
+    token
+    ttl
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreatePushTokensMutationVariables,
+  APITypes.CreatePushTokensMutation
+>;
+export const updatePushTokens = /* GraphQL */ `mutation UpdatePushTokens(
+  $input: UpdatePushTokensInput!
+  $condition: ModelPushTokensConditionInput
+) {
+  updatePushTokens(input: $input, condition: $condition) {
+    id
+    token
+    ttl
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdatePushTokensMutationVariables,
+  APITypes.UpdatePushTokensMutation
+>;
+export const deletePushTokens = /* GraphQL */ `mutation DeletePushTokens(
+  $input: DeletePushTokensInput!
+  $condition: ModelPushTokensConditionInput
+) {
+  deletePushTokens(input: $input, condition: $condition) {
+    id
+    token
+    ttl
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeletePushTokensMutationVariables,
+  APITypes.DeletePushTokensMutation
+>;

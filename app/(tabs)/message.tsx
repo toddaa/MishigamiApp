@@ -1,44 +1,92 @@
+import { useEffect, useState } from 'react';
 import { Image, StyleSheet, Platform, Text, View, SafeAreaView, ScrollView, FlatList, Animated, TextInput, TouchableOpacity, } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
 import CustomParallaxScrollView from '@/components/CustomParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import Slider from '@/components/Slider';
-import { useState } from 'react';
+import { startOfYear, endOfYear, differenceInDays, add } from 'date-fns';
+import { generateClient } from 'aws-amplify/api';
+import { listMessages } from '../../src/graphql/queries';
+import { sortUpdatedDesc } from '@/helpers/utils'
 
+const client = generateClient();
 
-export default function HomeScreen () {
+export default function MessagesScreen () {
+  const [messages, setMessages] = useState([])
+
+  useEffect(() => {
+    async function fetchData () {
+      const now = new Date();
+      const startOfYearDate = startOfYear(now);
+      // let endOfYearDate = endOfYear(now);
+
+      // if (differenceInDays(new Date(startOfYearDate), new Date(endOfYearDate)) < 60) {
+      //   endOfYearDate = add(new Date(endOfYearDate), { days: 60 })
+      // }
+
+      const messages = await client.graphql({ query: listMessages, variables: { filter: { updatedAt: { ge: startOfYearDate } } } });
+      setMessages(messages.data.listMessages.items.sort(sortUpdatedDesc))
+    }
+    fetchData();
+
+  }, [])
   return (
-    <View style={{ flex: 1 }}>
-      <CustomParallaxScrollView
-        headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}
-        headerImage={
-          <Image
-            source={require('@/assets/images/Mastodon-56000SM.png')}
-            style={styles.reactLogo}
-          />
-        }>
+    <CustomParallaxScrollView
+      headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}
+      headerImage={
+        <Image
+          source={require('@/assets/images/Mastodon-56000SM.png')}
+          style={styles.reactLogo}
+        />
+      }>
 
-        <ThemedView style={styles.container}>
-          <ThemedText style={styles.title} >Write your message</ThemedText>
-          <TextInput style={styles.inputStyle} multiline placeholderTextColor={'#808080'} placeholder='Subject' />
-
-          <TextInput style={styles.inputStyle} multiline placeholderTextColor={'#808080'} placeholder='Message' />
-
-          <TouchableOpacity onPress={() => { }} style={styles.submitButton}>
-            <Text style={styles.submitButtonText}>Send Message</Text>
-          </TouchableOpacity>
-
+      <View style={styles.viewContainer}>
+        <ThemedView style={styles.titleContainer}>
+          <ThemedText type="title">Messages</ThemedText>
         </ThemedView>
 
-      </CustomParallaxScrollView>
-    </View>
+        {
+          messages.map((e, i) => {
+            const title = e?.title
+
+            return <ThemedView key={i}>
+
+              <ThemedText type='subtitle'>
+                {title}
+              </ThemedText>
+
+              <View
+                style={styles.seperator}
+              />
+
+            </ThemedView>
+          })
+        }
+
+        <ThemedText style={styles.title} >Write your message</ThemedText>
+        <TextInput style={styles.inputStyle} multiline placeholderTextColor={'#808080'} placeholder='Subject' />
+
+        <TextInput style={styles.inputStyle} multiline placeholderTextColor={'#808080'} placeholder='Message' />
+
+        <TouchableOpacity onPress={() => { }} style={styles.submitButton}>
+          <Text style={styles.submitButtonText}>Send Message</Text>
+        </TouchableOpacity>
+
+      </View>
+
+    </CustomParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  viewContainer: {
+    padding: 20
+  },
+  seperator: {
+    borderBottomColor: 'white',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    marginBottom: 15,
+    marginTop: 15
+  },
   submitButtonText: {
     color: '#fff',
     textAlign: 'center',
@@ -59,10 +107,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginTop: 20,
-  },
-  container: {
-    // alignItems: 'center',
-    marginBottom: 15,
   },
   title: {
     fontSize: 20,

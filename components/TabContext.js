@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useBoolVariation } from '@launchdarkly/react-native-client-sdk'
 
-
 const TabContext = createContext()
 
 export const TabProvider = ({ children }) => {

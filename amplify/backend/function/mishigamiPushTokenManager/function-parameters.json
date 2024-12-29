@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "api": {
+      "mishigamiapp": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}
