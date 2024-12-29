@@ -125,6 +125,7 @@ export default function RootLayout () {
       console.log({ response });
     });
     // console.log({ expoPushToken })
+    savePushToken(expoPushToken)
 
     return () => {
       notificationListener.current &&
@@ -134,26 +135,24 @@ export default function RootLayout () {
     };
   }, [])
 
-  useEffect(() => {
-    // console.log({ expoPushToken })
-    async function fetchData () {
-      const now = new Date();
-      const exp = add(new Date(now), { years: 1 })
-      const input = {
-        token: expoPushToken,
-        ttl: getUnixTime(exp)
-      }
-      console.log({ input })
 
-      const response = await client.graphql({ query: createPushTokens, variables: { input: input } });
-      console.log({ response })
-      if (response.hasOwnProperty("errors")) {
-        const response1 = await client.graphql({ query: updatePushTokens, variables: { input: input } });
-        console.log({ response1 })
-      }
+  async function savePushToken (token: String) {
+    console.log(token)
+    const now = new Date();
+    const exp = add(new Date(now), { years: 1 })
+    const input = {
+      token: token,
+      ttl: getUnixTime(exp)
     }
-    fetchData();
-  }, [])
+    console.log({ input })
+
+    const response = await client.graphql({ query: createPushTokens, variables: { input: input } });
+    console.log({ response })
+    if (response.hasOwnProperty("errors")) {
+      const response1 = await client.graphql({ query: updatePushTokens, variables: { input: input } });
+      console.log({ response1 })
+    }
+  }
 
   useEffect(() => {
     if (loaded) {
