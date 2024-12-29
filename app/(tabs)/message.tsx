@@ -63,9 +63,9 @@ export default function MessagesScreen () {
         }
 
         <ThemedText style={styles.title} >Write your message</ThemedText>
-        <TextInput style={styles.inputStyle} multiline placeholder='Subject' />
+        <TextInput style={styles.inputStyle} multiline placeholderTextColor={'#808080'} placeholder='Subject' />
 
-        <TextInput style={styles.inputStyle} multiline placeholder='Message' />
+        <TextInput style={styles.inputStyle} multiline placeholderTextColor={'#808080'} placeholder='Message' />
 
         <TouchableOpacity onPress={() => { }} style={styles.submitButton}>
           <Text style={styles.submitButtonText}>Send Message</Text>
