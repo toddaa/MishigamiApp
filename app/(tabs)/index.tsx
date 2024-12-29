@@ -19,7 +19,7 @@ export default function HomeScreen () {
           />
         }>
         <StatusBar
-          backgroundColor={'#799FAF'}
+          backgroundColor={'transparent'}
           translucent={true}
         />
 
