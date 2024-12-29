@@ -1,31 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Platform, View, Text, Dimensions } from 'react-native';
-import { Collapsible } from '@/components/Collapsible';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
 import CustomParallaxScrollView from '@/components/CustomParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { startOfYear, endOfYear, differenceInDays, add } from 'date-fns';
+import { startOfYear } from 'date-fns';
 import { generateClient } from 'aws-amplify/api';
 import { listArticles } from '../../src/graphql/queries';
 import HTMLView from 'react-native-htmlview';
 import Unorderedlist from 'react-native-unordered-list';
+import { sortUpdatedDesc } from '@/helpers/utils'
+import { dateTimeOptions } from '@/constants/Dates'
 
 const client = generateClient();
 
 const { width } = Dimensions.get('window');
-
-
-const dateTimeOptions = {
-  year: 'numeric',
-  month: 'numeric',
-  day: '2-digit',
-  // hour: 'numeric',
-  // minute: 'numeric',
-  // second: 'numeric',
-  // hour12:true,
-  // timeZoneName: 'short'
-}
 
 export default function NewsScreen () {
   const [news, setNews] = useState([])
@@ -34,30 +22,13 @@ export default function NewsScreen () {
     async function fetchData () {
       const now = new Date();
       const startOfYearDate = startOfYear(now);
-      // let endOfYearDate = endOfYear(now);
-
-      // if (differenceInDays(new Date(startOfYearDate), new Date(endOfYearDate)) < 60) {
-      //   endOfYearDate = add(new Date(endOfYearDate), { days: 60 })
-      // }
 
       const articles = await client.graphql({ query: listArticles, variables: { filter: { updatedAt: { ge: startOfYearDate } } } });
-      setNews(articles.data.listArticles.items.sort(sortStartDesc))
+      setNews(articles.data.listArticles.items.sort(sortUpdatedDesc))
     }
     fetchData();
 
   }, [])
-
-  const sortStartDesc = (a, b) => {
-    if (a.updatedAt > b.updatedAt) {
-      return -1;
-    }
-    if (a.updatedAt < b.updatedAt) {
-      return 1;
-    }
-
-    // names must be equal
-    return 0;
-  }
 
   function renderNode (node, index, siblings, parent, defaultRenderer) {
     // console.log(node.name)
@@ -71,8 +42,6 @@ export default function NewsScreen () {
       )
     }
     if (node.name === 'img') {
-      // console.log(node.attribs['data-orig-file'])
-      // console.log(`${node.attribs.width}x${node.attribs.height}`)
       const imageURL = node.attribs['data-orig-file']
 
       const finalSize = {};
@@ -81,7 +50,6 @@ export default function NewsScreen () {
         const ratio = width / node.attribs.width;
         finalSize.height = node.attribs.height * ratio;
       }
-      // console.log(finalSize)
 
       const imgStyle = StyleSheet.create({
         width: finalSize.width,

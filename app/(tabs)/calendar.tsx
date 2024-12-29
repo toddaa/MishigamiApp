@@ -9,19 +9,11 @@ import { ThemedView } from '@/components/ThemedView';
 import { startOfYear, endOfYear, differenceInDays, add } from 'date-fns';
 import { generateClient } from 'aws-amplify/api';
 import { listEvents } from '../../src/graphql/queries';
+import { sortStartDesc } from '@/helpers/utils'
+import { dateTimeOptions } from '@/constants/Dates'
 
 const client = generateClient();
 
-const dateTimeOptions = {
-  year: 'numeric',
-  month: 'numeric',
-  day: '2-digit',
-  // hour: 'numeric',
-  // minute: 'numeric',
-  // second: 'numeric',
-  // hour12:true,
-  // timeZoneName: 'short'
-}
 export default function CalendarScreen () {
   const [events, setEvents] = useState([])
   const [viewableEvents, setViewableEvents] = useState([])
@@ -58,18 +50,6 @@ export default function CalendarScreen () {
   useEffect(() => {
     setViewableEvents(events.sort(sortStartDesc))
   }, [events]);
-
-  const sortStartDesc = (a, b) => {
-    if (a.startDate < b.startDate) {
-      return -1;
-    }
-    if (a.startDate > b.startDate) {
-      return 1;
-    }
-
-    // names must be equal
-    return 0;
-  }
 
   const filterChange = (value) => {
     let temp = []
