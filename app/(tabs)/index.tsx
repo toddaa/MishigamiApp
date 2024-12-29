@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, Text, View, SafeAreaView, ScrollView, FlatList, Animated, } from 'react-native';
+import { Image, StyleSheet, Platform, Text, View, SafeAreaView, ScrollView, FlatList, Animated, StatusBar, } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -18,6 +18,10 @@ export default function HomeScreen () {
             style={styles.reactLogo}
           />
         }>
+        <StatusBar
+          backgroundColor={'#799FAF'}
+          translucent={true}
+        />
 
         <Slider />
       </CustomParallaxScrollView>
