@@ -66,6 +66,48 @@ const fetchTokens = async () => {
   return body
 }
 
+const removeToken = async (params) => {
+  console.log(params)
+  const query = /* GraphQL */ `
+    mutation DELETE_TOKEN($token: String!) {
+      deletePushTokens(input: {token: $token}) {
+      }
+    }
+  `
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'x-api-key': GRAPHQL_API_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ query, variables: params })
+  }
+
+  const request = new Request(GRAPHQL_ENDPOINT, options)
+
+  let statusCode = 200
+  let body
+  let response
+
+  try {
+    response = await fetch(request)
+    body = await response.json()
+    if (body.errors) statusCode = 400
+  } catch (error) {
+    statusCode = 400
+    body = {
+      errors: [
+        {
+          status: response.status,
+          message: error.message,
+          stack: error.stack
+        }
+      ]
+    }
+  }
+}
+
 const sendNotification = async (params) => {
   console.log(params)
   let messages = []
@@ -100,15 +142,25 @@ const sendNotification = async (params) => {
       console.error(error)
     }
   }
+
+  let receiptIds = []
+  for (let ticket of tickets) {
+    // NOTE: Not all tickets have IDs; for example, tickets for notifications
+    // that could not be enqueued will have error information and no receipt ID.
+    if (ticket.status === 'ok') {
+      receiptIds.push(ticket.id)
+    }
+  }
+  console.log({ receiptIds })
 }
 
 export const handler = async (event) => {
   console.log(`EVENT: ${JSON.stringify(event)}`)
 
   const pushTokenData = await fetchTokens()
-  console.log(pushTokenData)
-  const pushTokens = pushTokenData.data.listPushTokens.items.map((item) => item.token)
-  console.log(pushTokens)
+  // console.log(pushTokenData)
+  // const pushTokens = pushTokenData.data.listPushTokens.items.map((item) => item.token)
+  // console.log(pushTokens)
 
   for (const record of event.Records) {
     // console.log(record.eventID);
@@ -121,11 +173,11 @@ export const handler = async (event) => {
           const item = unmarshall(record.dynamodb.NewImage)
           const { id, title } = item
 
-          console.log(title)
+          // console.log(title)
 
           await sendNotification({
+            pushTokens: pushTokenData.data.listPushTokens.items.map((item) => item.token),
             title,
-            pushTokens
           })
 
         } catch (error) {
