@@ -100,7 +100,7 @@ export default function CalendarScreen () {
         <ThemedText type="title">Calendar</ThemedText>
       </ThemedView>
 
-      <DropDownPicker
+      {/* <DropDownPicker
         open={open}
         value={value}
         items={items}
@@ -113,7 +113,7 @@ export default function CalendarScreen () {
         multiple={true}
         mode="BADGE"
         badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
-      />
+      /> */}
 
       {
         viewableEvents.map((e, i) => {
