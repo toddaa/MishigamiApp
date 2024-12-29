@@ -22,3 +22,19 @@ type Article @model {
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
 }
+
+type Message @model {
+  id: ID!
+  title: String!
+  body: String
+  data: AWSJSON
+  ttl: Int
+  iosSubtitle: String
+  iosBadgeCount: Int
+}
+
+type PushTokens @model {
+  id: ID!
+  token: String! @primaryKey
+  ttl: AWSTimestamp! @ttl
+}

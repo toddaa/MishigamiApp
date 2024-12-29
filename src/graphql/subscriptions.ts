@@ -113,3 +113,105 @@ export const onDeleteArticle = /* GraphQL */ `subscription OnDeleteArticle($filt
   APITypes.OnDeleteArticleSubscriptionVariables,
   APITypes.OnDeleteArticleSubscription
 >;
+export const onCreateMessage = /* GraphQL */ `subscription OnCreateMessage($filter: ModelSubscriptionMessageFilterInput) {
+  onCreateMessage(filter: $filter) {
+    id
+    title
+    body
+    data
+    ttl
+    iosSubtitle
+    iosBadgeCount
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateMessageSubscriptionVariables,
+  APITypes.OnCreateMessageSubscription
+>;
+export const onUpdateMessage = /* GraphQL */ `subscription OnUpdateMessage($filter: ModelSubscriptionMessageFilterInput) {
+  onUpdateMessage(filter: $filter) {
+    id
+    title
+    body
+    data
+    ttl
+    iosSubtitle
+    iosBadgeCount
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateMessageSubscriptionVariables,
+  APITypes.OnUpdateMessageSubscription
+>;
+export const onDeleteMessage = /* GraphQL */ `subscription OnDeleteMessage($filter: ModelSubscriptionMessageFilterInput) {
+  onDeleteMessage(filter: $filter) {
+    id
+    title
+    body
+    data
+    ttl
+    iosSubtitle
+    iosBadgeCount
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteMessageSubscriptionVariables,
+  APITypes.OnDeleteMessageSubscription
+>;
+export const onCreatePushTokens = /* GraphQL */ `subscription OnCreatePushTokens(
+  $filter: ModelSubscriptionPushTokensFilterInput
+) {
+  onCreatePushTokens(filter: $filter) {
+    id
+    token
+    ttl
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreatePushTokensSubscriptionVariables,
+  APITypes.OnCreatePushTokensSubscription
+>;
+export const onUpdatePushTokens = /* GraphQL */ `subscription OnUpdatePushTokens(
+  $filter: ModelSubscriptionPushTokensFilterInput
+) {
+  onUpdatePushTokens(filter: $filter) {
+    id
+    token
+    ttl
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdatePushTokensSubscriptionVariables,
+  APITypes.OnUpdatePushTokensSubscription
+>;
+export const onDeletePushTokens = /* GraphQL */ `subscription OnDeletePushTokens(
+  $filter: ModelSubscriptionPushTokensFilterInput
+) {
+  onDeletePushTokens(filter: $filter) {
+    id
+    token
+    ttl
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeletePushTokensSubscriptionVariables,
+  APITypes.OnDeletePushTokensSubscription
+>;

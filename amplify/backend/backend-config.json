@@ -76,6 +76,21 @@
       ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "mishigamiNotification": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ],
+          "category": "api",
+          "resourceName": "mishigamiapp"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "notifications": {
@@ -156,6 +171,30 @@
         {
           "category": "function",
           "resourceName": "mishigamiNewSync"
+        }
+      ]
+    },
+    "AMPLIFY_function_mishigamiNotification_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mishigamiNotification"
+        }
+      ]
+    },
+    "AMPLIFY_function_mishigamiNotification_expoAccessToken": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mishigamiNotification"
+        }
+      ]
+    },
+    "AMPLIFY_function_mishigamiNotification_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mishigamiNotification"
         }
       ]
     },

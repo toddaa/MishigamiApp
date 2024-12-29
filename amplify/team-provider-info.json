@@ -42,7 +42,12 @@
         },
         "mishigamiNewSync": {
           "deploymentBucketName": "amplify-mishigamiapp-dev-27de0-deployment",
-          "s3Key": "amplify-builds/mishigamiNewSync-4a4f614844356b553045-build.zip"
+          "s3Key": "amplify-builds/mishigamiNewSync-51366b754666652b4d55-build.zip"
+        },
+        "mishigamiNotification": {
+          "deploymentBucketName": "amplify-mishigamiapp-dev-27de0-deployment",
+          "s3Key": "amplify-builds/mishigamiNotification-306f663851354a644c4a-build.zip",
+          "expoAccessToken": "GAwn14UgcTBo8nP_1UpQUbAr0a7TSWfE6kqXW877"
         }
       }
     }

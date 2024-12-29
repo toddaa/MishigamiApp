@@ -91,3 +91,91 @@ export const listArticles = /* GraphQL */ `query ListArticles(
   APITypes.ListArticlesQueryVariables,
   APITypes.ListArticlesQuery
 >;
+export const getMessage = /* GraphQL */ `query GetMessage($id: ID!) {
+  getMessage(id: $id) {
+    id
+    title
+    body
+    data
+    ttl
+    iosSubtitle
+    iosBadgeCount
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetMessageQueryVariables,
+  APITypes.GetMessageQuery
+>;
+export const listMessages = /* GraphQL */ `query ListMessages(
+  $filter: ModelMessageFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      body
+      data
+      ttl
+      iosSubtitle
+      iosBadgeCount
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListMessagesQueryVariables,
+  APITypes.ListMessagesQuery
+>;
+export const getPushTokens = /* GraphQL */ `query GetPushTokens($token: String!) {
+  getPushTokens(token: $token) {
+    id
+    token
+    ttl
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetPushTokensQueryVariables,
+  APITypes.GetPushTokensQuery
+>;
+export const listPushTokens = /* GraphQL */ `query ListPushTokens(
+  $token: String
+  $filter: ModelPushTokensFilterInput
+  $limit: Int
+  $nextToken: String
+  $sortDirection: ModelSortDirection
+) {
+  listPushTokens(
+    token: $token
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
+    items {
+      id
+      token
+      ttl
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListPushTokensQueryVariables,
+  APITypes.ListPushTokensQuery
+>;

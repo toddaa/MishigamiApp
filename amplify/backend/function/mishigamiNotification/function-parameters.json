@@ -1,0 +1,9 @@
+{
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "expoAccessToken",
+      "environmentVariableName": "EXPO_ACCESS_TOKEN"
+    }
+  ]
+}
