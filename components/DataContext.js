@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useReducer } from 'react'
 import { useBoolVariation } from '@launchdarkly/react-native-client-sdk'
 import { initialState, DataReducer } from './DataReducer'
-import { startOfYear, endOfYear, differenceInDays, add } from 'date-fns'
+import { startOfYear, endOfYear, differenceInDays, add, getUnixTime } from 'date-fns'
 import { generateClient } from 'aws-amplify/api'
 import * as queries from '../src/graphql/queries'
 import * as subscriptions from '../src/graphql/subscriptions'
@@ -58,9 +58,12 @@ export const DataProvider = ({ children }) => {
   }
 
   const sendMessage = async (params) => {
+    const now = new Date()
+    const ttl = add(now, { days: 30 })
     const input = {
       title: params.subject,
-      body: params.message
+      body: params.message,
+      ttl: getUnixTime(ttl)
     }
     // console.log(input)
 
