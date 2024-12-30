@@ -59,6 +59,5 @@ amplifytools.xcconfig
 **.sample
 #amplify-do-not-edit-end
 
-google-services.json
 /ios
 /android

@@ -7,6 +7,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Text, View, Button, Platform } from 'react-native';
 import 'react-native-reanimated';
 import { TabProvider } from '@/components/TabContext';
+import { DataProvider } from '@/components/DataContext';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
@@ -83,13 +84,31 @@ async function registerForPushNotificationsAsync () {
           projectId,
         })
       ).data;
-      console.log({ pushTokenString });
+      // console.log({ pushTokenString });
       return pushTokenString;
     } catch (e: unknown) {
       handleRegistrationError(`${e}`);
     }
   } else {
     handleRegistrationError('Must use physical device for push notifications');
+  }
+}
+
+async function savePushToken (token: String) {
+  // console.log(token)
+  const now = new Date();
+  const exp = add(new Date(now), { years: 1 })
+  const input = {
+    token: token,
+    ttl: getUnixTime(exp)
+  }
+  // console.log({ input })
+
+  const response = await client.graphql({ query: createPushTokens, variables: { input: input } });
+  // console.log({ response })
+  if (response.hasOwnProperty("errors")) {
+    const response1 = await client.graphql({ query: updatePushTokens, variables: { input: input } });
+    // console.log({ response1 })
   }
 }
 
@@ -122,10 +141,8 @@ export default function RootLayout () {
     });
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log({ response });
+      // console.log({ response });
     });
-    // console.log({ expoPushToken })
-    savePushToken(expoPushToken)
 
     return () => {
       notificationListener.current &&
@@ -135,24 +152,11 @@ export default function RootLayout () {
     };
   }, [])
 
-
-  async function savePushToken (token: String) {
-    console.log(token)
-    const now = new Date();
-    const exp = add(new Date(now), { years: 1 })
-    const input = {
-      token: token,
-      ttl: getUnixTime(exp)
+  useEffect(() => {
+    if (expoPushToken !== '') {
+      savePushToken(expoPushToken)
     }
-    console.log({ input })
-
-    const response = await client.graphql({ query: createPushTokens, variables: { input: input } });
-    console.log({ response })
-    if (response.hasOwnProperty("errors")) {
-      const response1 = await client.graphql({ query: updatePushTokens, variables: { input: input } });
-      console.log({ response1 })
-    }
-  }
+  }, [expoPushToken]);
 
   useEffect(() => {
     if (loaded) {
@@ -166,15 +170,17 @@ export default function RootLayout () {
 
   return (
     <LDProvider client={featureClient}>
-      <TabProvider>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-          {/* <StatusBar style="auto" /> */}
-        </ThemeProvider>
-      </TabProvider>
+      <DataProvider>
+        <TabProvider>
+          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+            {/* <StatusBar style="auto" /> */}
+          </ThemeProvider>
+        </TabProvider>
+      </DataProvider>
     </LDProvider>
   );
 }

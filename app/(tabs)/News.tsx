@@ -3,32 +3,23 @@ import { Image, StyleSheet, Platform, View, Text, Dimensions } from 'react-nativ
 import CustomParallaxScrollView from '@/components/CustomParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { startOfYear } from 'date-fns';
-import { generateClient } from 'aws-amplify/api';
-import { listArticles } from '../../src/graphql/queries';
 import HTMLView from 'react-native-htmlview';
 import Unorderedlist from 'react-native-unordered-list';
-import { sortUpdatedDesc } from '@/helpers/utils'
 import { dateTimeOptions } from '@/constants/Dates'
-
-const client = generateClient();
+import { useDataContext } from '@/components/DataContext'
 
 const { width } = Dimensions.get('window');
 
 export default function NewsScreen () {
+  const { dataState } = useDataContext()
   const [news, setNews] = useState([])
 
   useEffect(() => {
-    async function fetchData () {
-      const now = new Date();
-      const startOfYearDate = startOfYear(now);
-
-      const articles = await client.graphql({ query: listArticles, variables: { filter: { updatedAt: { ge: startOfYearDate } } } });
-      setNews(articles.data.listArticles.items.sort(sortUpdatedDesc))
+    if (dataState.articles !== null) {
+      setNews(dataState.articles)
     }
-    fetchData();
 
-  }, [])
+  }, [dataState])
 
   function renderNode (node, index, siblings, parent, defaultRenderer) {
     // console.log(node.name)

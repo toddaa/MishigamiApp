@@ -6,15 +6,12 @@ import { ExternalLink } from '@/components/ExternalLink';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { startOfYear, endOfYear, differenceInDays, add } from 'date-fns';
-import { generateClient } from 'aws-amplify/api';
-import { listEvents } from '../../src/graphql/queries';
 import { sortStartDesc } from '@/helpers/utils'
 import { dateTimeOptions } from '@/constants/Dates'
-
-const client = generateClient();
+import { useDataContext } from '@/components/DataContext'
 
 export default function CalendarScreen () {
+  const { dataState } = useDataContext()
   const [events, setEvents] = useState([])
   const [viewableEvents, setViewableEvents] = useState([])
 
@@ -28,24 +25,10 @@ export default function CalendarScreen () {
   ]);
 
   useEffect(() => {
-    async function fetchData () {
-      const now = new Date();
-      const startOfYearDate = startOfYear(now);
-      let endOfYearDate = endOfYear(now);
-
-      if (differenceInDays(new Date(startOfYearDate), new Date(endOfYearDate)) < 60) {
-        endOfYearDate = add(new Date(endOfYearDate), { days: 60 })
-      }
-
-      const events = await client.graphql({ query: listEvents, variables: { filter: { startDate: { ge: startOfYearDate }, endDate: { lt: endOfYearDate } } } });
-      setEvents(events.data.listEvents.items)
+    if (dataState.events !== null) {
+      setEvents(dataState.events)
     }
-    fetchData();
-
-  }, []);
-
-  useEffect(() => {
-  }, []);
+  }, [dataState]);
 
   useEffect(() => {
     setViewableEvents(events.sort(sortStartDesc))
