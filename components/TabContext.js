@@ -5,7 +5,6 @@ const TabContext = createContext()
 
 export const TabProvider = ({ children }) => {
   const settingsFlag = useBoolVariation('settings', false)
-  const messageFlag = useBoolVariation('message', false)
 
   useEffect(() => {
     setTabOrder(tabOrder.map(t => {
@@ -16,15 +15,6 @@ export const TabProvider = ({ children }) => {
     }))
   }, [settingsFlag])
 
-  useEffect(() => {
-    setTabOrder(tabOrder.map(t => {
-      return {
-        ...t,
-        visible: t.name === 'message' ? messageFlag : t.visible
-      }
-    }))
-  }, [messageFlag])
-
   const [tabOrder, setTabOrder] = useState([
     { name: 'index', title: 'Home', visible: true },
     { name: 'calendar', title: 'Calendar', visible: true },
@@ -32,7 +22,7 @@ export const TabProvider = ({ children }) => {
     { name: 'map', title: 'Map', visible: false },
     { name: 'tradingPost', title: 'Trading Post', visible: false },
     { name: 'settings', title: 'Settings', visible: settingsFlag },
-    { name: 'message', title: 'message', visible: messageFlag },
+    { name: 'message', title: 'message', visible: true },
     // { name: 'TabBarSettings', title: 'TabBarSettings', visible: false },
     // { name: 'AppPreferencesSettings', title: 'App Preferences', visible: false },
     // { name: 'AccountSettings', title: 'Account Settings', visible: false },

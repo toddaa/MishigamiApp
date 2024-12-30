@@ -4,6 +4,7 @@ import CustomParallaxScrollView from '@/components/CustomParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useDataContext } from '@/components/DataContext'
+import { useBoolVariation } from '@launchdarkly/react-native-client-sdk'
 
 const MyTextInput = ({ style, value, name = '', onChange, placeholder, placeholderTextColor }) => {
   return (
@@ -18,13 +19,14 @@ const MyTextInput = ({ style, value, name = '', onChange, placeholder, placehold
 };
 
 export default function MessagesScreen () {
+  const messageFlag = useBoolVariation('message', false)
   const { dataState, sendMessage } = useDataContext()
   const [messages, setMessages] = useState([])
   const [isProcessing, setIsProcessing] = useState(false)
   const [isSubmitable, setIsSubmitable] = useState(false)
   const [formData, setFormData] = useState({
-    subject: 'test',
-    message: 'test',
+    subject: '',
+    message: '',
   })
   useEffect(() => {
     if (dataState.messages !== null) {
@@ -63,48 +65,59 @@ export default function MessagesScreen () {
         />
       }>
 
+      {!messageFlag
+        ? <View style={styles.viewContainerNewMessage}>
+          <ThemedView style={styles.titleContainer}>
+            <ThemedText type="title" style={{ color: 'black' }}>New Message</ThemedText>
+          </ThemedView>
+
+          {/* <ThemedText style={styles.title} >Write your message</ThemedText> */}
+
+          <MyTextInput
+            style={styles.inputStyle}
+            // multiline
+            placeholderTextColor={'#808080'}
+            placeholder='Subject'
+            name='subject'
+            onChange={handleFieldChange}
+            value={formData.subject} />
+
+          <MyTextInput
+            style={styles.inputStyle}
+            // multiline
+            placeholderTextColor={'#808080'}
+            placeholder='Message'
+            name='message'
+            onChange={handleFieldChange}
+            value={formData.message} />
+
+          <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}
+            disabled={!isSubmitable}>
+            <Text style={styles.submitButtonText}>Send Message</Text>
+          </TouchableOpacity>
+
+        </View>
+        : ''
+      }
+
+
       <View style={styles.viewContainer}>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="title">Messages</ThemedText>
         </ThemedView>
 
-        <ThemedText style={styles.title} >Write your message</ThemedText>
-
-        <MyTextInput
-          style={styles.inputStyle}
-          // multiline
-          placeholderTextColor={'#808080'}
-          placeholder='Subject'
-          name='subject'
-          onChange={handleFieldChange}
-          value={formData.subject} />
-
-        <MyTextInput
-          style={styles.inputStyle}
-          // multiline
-          placeholderTextColor={'#808080'}
-          placeholder='Message'
-          name='message'
-          onChange={handleFieldChange}
-          value={formData.message} />
-
-        <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}
-          disabled={!isSubmitable}>
-          <Text style={styles.submitButtonText}>Send Message</Text>
-        </TouchableOpacity>
-
-        <View
-          style={styles.seperator}
-        />
-
         {
           messages.map((e, i) => {
             const title = e?.title
+            const body = e?.body
 
             return <ThemedView key={i}>
 
               <ThemedText type='subtitle'>
                 {title}
+              </ThemedText>
+              <ThemedText type='default'>
+                {body}
               </ThemedText>
 
               <View
@@ -124,6 +137,14 @@ export default function MessagesScreen () {
 const styles = StyleSheet.create({
   viewContainer: {
     padding: 20
+  },
+  viewContainerNewMessage: {
+    margin: 10,
+    borderColor: 'grey',
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+    backgroundColor: 'white'
   },
   seperator: {
     borderBottomColor: 'white',
@@ -145,7 +166,7 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   inputStyle: {
-    color: '#fff',
+    color: 'black',
     borderColor: 'grey',
     borderWidth: 1,
     borderRadius: 10,
@@ -159,6 +180,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+    backgroundColor: 'transparent'
   },
   stepContainer: {
     gap: 8,
