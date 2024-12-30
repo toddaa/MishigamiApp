@@ -28,7 +28,7 @@ Amplify.configure(config);
 const client = generateClient();
 
 const featureClient = new ReactNativeLDClient(
-  'mob-930b7bf0-341d-419d-a458-8d3872368c72',
+  process.env.EXPO_PUBLIC_LD_KEY,
   AutoEnvAttributes.Enabled,
   {
     debug: false,
