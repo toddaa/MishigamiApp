@@ -1,3 +1,5 @@
+import { sortUpdatedDesc, sortStartDesc } from '@/helpers/utils'
+
 export const initialState = {
   events: [],
   articles: [],
@@ -15,19 +17,24 @@ export const DataReducer = (initialState, action) => {
     case 'UPDATE_MESSAGES':
       return {
         ...initialState,
-        messages: payload.messages,
+        messages: payload.messages.sort(sortUpdatedDesc),
       }
 
     case 'UPDATE_NEWS':
       return {
         ...initialState,
-        articles: payload.articles,
+        articles: payload.articles.sort(sortUpdatedDesc),
       }
 
     case 'UPDATE_EVENTS':
       return {
         ...initialState,
-        events: payload.events,
+        events: payload.events.sort(sortStartDesc),
+      }
+    case 'ADD_MESSAGE':
+      return {
+        ...initialState,
+        messages: initialState.messages.concat([payload.message]).sort(sortUpdatedDesc),
       }
     default:
       throw new Error(`Unhandled action type: ${action.type}`)

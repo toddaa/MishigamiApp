@@ -1,21 +1,11 @@
 import React, { createContext, useContext, useState, useEffect, useReducer } from 'react'
 import { useBoolVariation } from '@launchdarkly/react-native-client-sdk'
 import { initialState, DataReducer } from './DataReducer'
-import { startOfYear, endOfYear, differenceInDays, add } from 'date-fns'
-import { generateClient, CONNECTION_STATE_CHANGE, ConnectionState } from 'aws-amplify/api'
-import { listMessages, listArticles, listEvents } from '../src/graphql/queries'
+import { startOfYear, endOfYear, differenceInDays, add, getUnixTime } from 'date-fns'
+import { generateClient } from 'aws-amplify/api'
+import * as queries from '../src/graphql/queries'
 import * as subscriptions from '../src/graphql/subscriptions'
 import * as mutations from '../src/graphql/mutations'
-import { sortUpdatedDesc } from '@/helpers/utils'
-import { Hub } from 'aws-amplify/utils'
-
-// Hub.listen('api', (data) => {
-//   const { payload } = data
-//   if (payload.event === CONNECTION_STATE_CHANGE) {
-//     const connectionState = payload.data.connectionState
-//     console.log({ connectionState })
-//   }
-// })
 
 const DataContext = createContext()
 const client = generateClient()
@@ -28,9 +18,8 @@ export const DataProvider = ({ children }) => {
     getNews()
     getEvents()
 
-    // connectSubs()
+    connectSubs()
   }, [])
-
 
   async function connectSubs () {
     client.graphql({
@@ -39,7 +28,16 @@ export const DataProvider = ({ children }) => {
       }
     })
       .subscribe({
-        next: ({ data }) => console.log(data),
+        next: ({ data }) => {
+          if (data !== undefined && data !== null) {
+            dispatch({
+              type: 'ADD_MESSAGE',
+              payload: {
+                message: data.onCreateMessage,
+              },
+            })
+          }
+        },
         error: (error) => console.warn({ error })
       })
   }
@@ -48,21 +46,24 @@ export const DataProvider = ({ children }) => {
     const now = new Date()
     const startOfYearDate = startOfYear(now)
 
-    const messages = await client.graphql({ query: listMessages, variables: { filter: { updatedAt: { ge: startOfYearDate } } } })
-    // console.log(messages.data.listMessages.items.sort(sortUpdatedDesc))
+    const messages = await client.graphql({ query: queries.listMessages, variables: { filter: { updatedAt: { ge: startOfYearDate } } } })
+    // console.log(messages.data.listMessages.items)
 
     dispatch({
       type: 'UPDATE_MESSAGES',
       payload: {
-        messages: messages.data.listMessages.items.sort(sortUpdatedDesc),
+        messages: messages.data.listMessages.items,
       },
     })
   }
 
   const sendMessage = async (params) => {
+    const now = new Date()
+    const ttl = add(now, { days: 30 })
     const input = {
       title: params.subject,
-      body: params.message
+      body: params.message,
+      ttl: getUnixTime(ttl)
     }
     // console.log(input)
 
@@ -77,13 +78,13 @@ export const DataProvider = ({ children }) => {
     const now = new Date()
     const startOfYearDate = startOfYear(now)
 
-    const articles = await client.graphql({ query: listArticles, variables: { filter: { updatedAt: { ge: startOfYearDate } } } })
-    // console.log(messages.data.listMessages.items.sort(sortUpdatedDesc))
+    const articles = await client.graphql({ query: queries.listArticles, variables: { filter: { updatedAt: { ge: startOfYearDate } } } })
+    // console.log(messages.data.listMessages.items)
 
     dispatch({
       type: 'UPDATE_NEWS',
       payload: {
-        articles: articles.data.listArticles.items.sort(sortUpdatedDesc),
+        articles: articles.data.listArticles.items,
       },
     })
   }
@@ -97,7 +98,7 @@ export const DataProvider = ({ children }) => {
       endOfYearDate = add(new Date(endOfYearDate), { days: 60 })
     }
 
-    const events = await client.graphql({ query: listEvents, variables: { filter: { startDate: { ge: startOfYearDate }, endDate: { lt: endOfYearDate } } } })
+    const events = await client.graphql({ query: queries.listEvents, variables: { filter: { startDate: { ge: startOfYearDate }, endDate: { lt: endOfYearDate } } } })
     // console.log(events.data.listEvents.items)
 
     dispatch({

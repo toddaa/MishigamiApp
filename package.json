@@ -15,6 +15,9 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@aws-amplify/api": "^6.1.9",
+    "@aws-amplify/core": "^6.8.0",
+    "@aws-amplify/pubsub": "^6.1.39",
     "@aws-amplify/react-native": "^1.1.6",
     "@expo/vector-icons": "^14.0.2",
     "@launchdarkly/react-native-client-sdk": "^10.9.3",
@@ -28,6 +31,7 @@
     "expo-application": "~6.0.1",
     "expo-blur": "~14.0.1",
     "expo-constants": "~17.0.3",
+    "expo-dev-client": "~5.0.7",
     "expo-device": "~7.0.1",
     "expo-font": "~13.0.2",
     "expo-haptics": "~14.0.0",
@@ -52,8 +56,7 @@
     "react-native-screens": "~4.4.0",
     "react-native-unordered-list": "^1.0.4",
     "react-native-web": "~0.19.13",
-    "react-native-webview": "13.12.5",
-    "expo-dev-client": "~5.0.7"
+    "react-native-webview": "13.12.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

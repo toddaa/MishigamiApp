@@ -28,7 +28,7 @@ type Message @model {
   title: String!
   body: String
   data: AWSJSON
-  ttl: Int
+  ttl: AWSTimestamp! @ttl
   iosSubtitle: String
   iosBadgeCount: Int
 }
