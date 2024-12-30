@@ -3,32 +3,56 @@ import { Image, StyleSheet, Platform, Text, View, SafeAreaView, ScrollView, Flat
 import CustomParallaxScrollView from '@/components/CustomParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { startOfYear, endOfYear, differenceInDays, add } from 'date-fns';
-import { generateClient } from 'aws-amplify/api';
-import { listMessages } from '../../src/graphql/queries';
-import { sortUpdatedDesc } from '@/helpers/utils'
+import { useDataContext } from '@/components/DataContext'
 
-const client = generateClient();
+const MyTextInput = ({ style, value, name = '', onChange, placeholder, placeholderTextColor }) => {
+  return (
+    <TextInput
+      style={style}
+      value={value}
+      placeholderTextColor={placeholderTextColor}
+      placeholder={placeholder}
+      onChangeText={text => onChange({ name, text })}
+    />
+  );
+};
 
 export default function MessagesScreen () {
+  const { dataState, sendMessage } = useDataContext()
   const [messages, setMessages] = useState([])
+  const [isProcessing, setIsProcessing] = useState(false)
+  const [isSubmitable, setIsSubmitable] = useState(false)
+  const [formData, setFormData] = useState({
+    subject: 'test',
+    message: 'test',
+  })
+  useEffect(() => {
+    if (dataState.messages !== null) {
+      setMessages(dataState.messages)
+    }
+
+  }, [dataState])
 
   useEffect(() => {
-    async function fetchData () {
-      const now = new Date();
-      const startOfYearDate = startOfYear(now);
-      // let endOfYearDate = endOfYear(now);
-
-      // if (differenceInDays(new Date(startOfYearDate), new Date(endOfYearDate)) < 60) {
-      //   endOfYearDate = add(new Date(endOfYearDate), { days: 60 })
-      // }
-
-      const messages = await client.graphql({ query: listMessages, variables: { filter: { updatedAt: { ge: startOfYearDate } } } });
-      setMessages(messages.data.listMessages.items.sort(sortUpdatedDesc))
+    if (formData.subject && formData.message) {
+      setIsSubmitable(true)
+    } else {
+      setIsSubmitable(false)
     }
-    fetchData();
+  }, [formData])
 
-  }, [])
+  const handleSubmit = () => {
+    sendMessage(formData)
+  };
+
+  const handleFieldChange = event => {
+    const { name, text } = event;
+    setFormData({
+      ...formData,
+      [name]: text
+    })
+  }
+
   return (
     <CustomParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}
@@ -43,6 +67,35 @@ export default function MessagesScreen () {
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="title">Messages</ThemedText>
         </ThemedView>
+
+        <ThemedText style={styles.title} >Write your message</ThemedText>
+
+        <MyTextInput
+          style={styles.inputStyle}
+          // multiline
+          placeholderTextColor={'#808080'}
+          placeholder='Subject'
+          name='subject'
+          onChange={handleFieldChange}
+          value={formData.subject} />
+
+        <MyTextInput
+          style={styles.inputStyle}
+          // multiline
+          placeholderTextColor={'#808080'}
+          placeholder='Message'
+          name='message'
+          onChange={handleFieldChange}
+          value={formData.message} />
+
+        <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}
+          disabled={!isSubmitable}>
+          <Text style={styles.submitButtonText}>Send Message</Text>
+        </TouchableOpacity>
+
+        <View
+          style={styles.seperator}
+        />
 
         {
           messages.map((e, i) => {
@@ -61,15 +114,6 @@ export default function MessagesScreen () {
             </ThemedView>
           })
         }
-
-        <ThemedText style={styles.title} >Write your message</ThemedText>
-        <TextInput style={styles.inputStyle} multiline placeholderTextColor={'#808080'} placeholder='Subject' />
-
-        <TextInput style={styles.inputStyle} multiline placeholderTextColor={'#808080'} placeholder='Message' />
-
-        <TouchableOpacity onPress={() => { }} style={styles.submitButton}>
-          <Text style={styles.submitButtonText}>Send Message</Text>
-        </TouchableOpacity>
 
       </View>
 
