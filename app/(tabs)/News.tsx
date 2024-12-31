@@ -89,7 +89,7 @@ export default function NewsScreen () {
               </ThemedText>
 
               <View style={styles.row}>
-                <ThemedText type='link' style={styles.leftText}>by {e.author}</ThemedText>
+                <ThemedText type='link' style={styles.leftText}>by {e?.author}</ThemedText>
                 <ThemedText type='link' style={styles.rightText}>{updatedDate}</ThemedText>
               </View>
 

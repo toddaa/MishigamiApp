@@ -40,6 +40,44 @@ export const DataProvider = ({ children }) => {
         },
         error: (error) => console.warn({ error })
       })
+
+    client.graphql({
+      query: subscriptions.onCreateEvent, variables: {
+        filter: { name: { ne: '' } }
+      }
+    })
+      .subscribe({
+        next: ({ data }) => {
+          if (data !== undefined && data !== null) {
+            dispatch({
+              type: 'ADD_EVENT',
+              payload: {
+                event: data.onCreateEvent,
+              },
+            })
+          }
+        },
+        error: (error) => console.warn({ error })
+      })
+
+    client.graphql({
+      query: subscriptions.onCreateArticle, variables: {
+        filter: { title: { ne: '' } }
+      }
+    })
+      .subscribe({
+        next: ({ data }) => {
+          if (data !== undefined && data !== null) {
+            dispatch({
+              type: 'ADD_NEWS',
+              payload: {
+                article: data.onCreateArticle,
+              },
+            })
+          }
+        },
+        error: (error) => console.warn({ error })
+      })
   }
 
   const getMessages = async () => {

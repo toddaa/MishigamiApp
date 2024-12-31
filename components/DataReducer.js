@@ -36,6 +36,16 @@ export const DataReducer = (initialState, action) => {
         ...initialState,
         messages: initialState.messages.concat([payload.message]).sort(sortUpdatedDesc),
       }
+    case 'ADD_EVENT':
+      return {
+        ...initialState,
+        events: initialState.events.concat([payload.event]).sort(sortStartDesc),
+      }
+    case 'ADD_NEWS':
+      return {
+        ...initialState,
+        articles: initialState.articles.concat([payload.article]).sort(sortUpdatedDesc),
+      }
     default:
       throw new Error(`Unhandled action type: ${action.type}`)
   }
