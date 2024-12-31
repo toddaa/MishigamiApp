@@ -18,10 +18,9 @@ import {
   ReactNativeLDClient,
 } from '@launchdarkly/react-native-client-sdk';
 import { add, getUnixTime } from 'date-fns';
-
-
 import { Amplify } from 'aws-amplify';
 import { generateClient } from 'aws-amplify/api';
+import * as queries from '../src/graphql/queries'
 import { createPushTokens, updatePushTokens } from '../src/graphql/mutations';
 import config from '../src/amplifyconfiguration.json';
 Amplify.configure(config);
@@ -96,19 +95,25 @@ async function registerForPushNotificationsAsync () {
 
 async function savePushToken (token: String) {
   // console.log(token)
-  const now = new Date();
-  const exp = add(new Date(now), { years: 1 })
-  const input = {
-    token: token,
-    ttl: getUnixTime(exp)
-  }
-  // console.log({ input })
 
-  const response = await client.graphql({ query: createPushTokens, variables: { input: input } });
-  // console.log({ response })
-  if (response.hasOwnProperty("errors")) {
-    const response1 = await client.graphql({ query: updatePushTokens, variables: { input: input } });
-    // console.log({ response1 })
+  const existingToken = await client.graphql({ query: queries.getPushTokens, variables: { token: token + 't' } })
+  // console.log(existingToken.data)
+
+  if (existingToken.data.getPushTokens === null) {
+    const now = new Date();
+    const exp = add(new Date(now), { years: 1 })
+    const input = {
+      token: token,
+      ttl: getUnixTime(exp)
+    }
+    // console.log({ input })
+
+    const response = await client.graphql({ query: createPushTokens, variables: { input: input } });
+    // console.log({ response })
+    // if (response.hasOwnProperty("errors")) {
+    //   // const response1 = await client.graphql({ query: updatePushTokens, variables: { input: input } });
+    //   // console.log({ response1 })
+    // }
   }
 }
 
@@ -153,9 +158,10 @@ export default function RootLayout () {
   }, [])
 
   useEffect(() => {
-    if (expoPushToken !== '') {
-      savePushToken(expoPushToken)
+    async function saveToken () {
+      await savePushToken(expoPushToken)
     }
+    saveToken();
   }, [expoPushToken]);
 
   useEffect(() => {
