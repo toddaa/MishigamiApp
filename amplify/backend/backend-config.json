@@ -43,12 +43,7 @@
       "serviceType": "managed"
     }
   },
-  "custom": {
-    "pushTokenManager": {
-      "providerPlugin": "awscloudformation",
-      "service": "customCDK"
-    }
-  },
+  "custom": {},
   "function": {
     "mishigamiCalSync": {
       "build": true,
@@ -93,22 +88,14 @@
           ],
           "category": "api",
           "resourceName": "mishigamiapp"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "mishigamiPushTokenManager": {
-      "build": true,
-      "dependsOn": [
+        },
         {
           "attributes": [
-            "GraphQLAPIIdOutput",
-            "GraphQLAPIEndpointOutput",
-            "GraphQLAPIKeyOutput"
+            "QueueName",
+            "QueueARN"
           ],
-          "category": "api",
-          "resourceName": "mishigamiapp"
+          "category": "custom",
+          "resourceName": "pushTokenManager"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -148,7 +135,47 @@
         }
       ]
     },
-    "AMPLIFY_function_mishigamiCalSync_calendarId": {
+    "AMPLIFY_function_mishigamiCalSync_calIdCentral": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mishigamiCalSync"
+        }
+      ]
+    },
+    "AMPLIFY_function_mishigamiCalSync_calIdEast": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mishigamiCalSync"
+        }
+      ]
+    },
+    "AMPLIFY_function_mishigamiCalSync_calIdLodge": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mishigamiCalSync"
+        }
+      ]
+    },
+    "AMPLIFY_function_mishigamiCalSync_calIdNorth": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mishigamiCalSync"
+        }
+      ]
+    },
+    "AMPLIFY_function_mishigamiCalSync_calIdSouth": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "mishigamiCalSync"
+        }
+      ]
+    },
+    "AMPLIFY_function_mishigamiCalSync_calIdWest": {
       "usedBy": [
         {
           "category": "function",
@@ -217,22 +244,6 @@
         {
           "category": "function",
           "resourceName": "mishigamiNotification"
-        }
-      ]
-    },
-    "AMPLIFY_function_mishigamiPushTokenManager_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "mishigamiPushTokenManager"
-        }
-      ]
-    },
-    "AMPLIFY_function_mishigamiPushTokenManager_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "mishigamiPushTokenManager"
         }
       ]
     },

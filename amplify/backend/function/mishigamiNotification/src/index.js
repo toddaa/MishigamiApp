@@ -9,16 +9,43 @@ Amplify Params - DO NOT EDIT */
 import { default as fetch, Request } from 'node-fetch'
 import { Expo } from 'expo-server-sdk'
 import { unmarshall } from "@aws-sdk/util-dynamodb"
+import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs'
 
-const GRAPHQL_ENDPOINT = process.env.API_MISHIGAMIAPP_GRAPHQLAPIENDPOINTOUTPUT
-const GRAPHQL_API_KEY = process.env.API_MISHIGAMIAPP_GRAPHQLAPIKEYOUTPUT
+const region = 'us-east-1'
+const {
+  EXPO_ACCESS_TOKEN,
+  API_MISHIGAMIAPP_GRAPHQLAPIENDPOINTOUTPUT: GRAPHQL_ENDPOINT,
+  API_MISHIGAMIAPP_GRAPHQLAPIKEYOUTPUT: GRAPHQL_API_KEY,
+  QUEUE_MISHIGAMIAPP_PUSHNOTIFICATIONREVIEPTSOUTPUT: queue
+} = process.env
 
-const { EXPO_ACCESS_TOKEN } = process.env
+const sqsClient = new SQSClient({ region })
 
-let expo = new Expo({
+const expo = new Expo({
   accessToken: EXPO_ACCESS_TOKEN,
   useFcmV1: true,
 })
+
+const sendMessageToSQS = async (queueUrl, messageBody, data) => {
+  const params = {
+    QueueUrl: queueUrl,
+    MessageBody: messageBody,
+    MessageAttributes: data,
+    MessageGroupId: 'push_reciepts',
+    MessageDeduplicationId: 'unique-message-id-123',
+  }
+  console.log(params)
+
+  try {
+    const command = new SendMessageCommand(params)
+    const data = await sqsClient.send(command)
+    console.log('Message sent successfully:', data)
+    return data
+  } catch (error) {
+    console.error('Error sending message:', error)
+    throw error
+  }
+}
 
 const fetchTokens = async () => {
   const query = /* GraphQL */ `
@@ -71,6 +98,7 @@ const removeToken = async (params) => {
   const query = /* GraphQL */ `
     mutation DELETE_TOKEN($token: String!) {
       deletePushTokens(input: {token: $token}) {
+        id
       }
     }
   `
@@ -106,6 +134,7 @@ const removeToken = async (params) => {
       ]
     }
   }
+  return body
 }
 
 const sendNotification = async (params) => {
@@ -149,13 +178,24 @@ const sendNotification = async (params) => {
     // that could not be enqueued will have error information and no receipt ID.
     if (ticket.status === 'ok') {
       receiptIds.push(ticket.id)
+    } else if (ticket.status === 'error') {
+      const removalStatus = await removeToken({
+        token: ticket.details.expoPushToken
+      })
+      console.log(removalStatus)
     }
   }
-  console.log({ receiptIds })
+  return receiptIds
 }
 
-export const handler = async (event) => {
+export const handler = async (event, context) => {
   console.log(`EVENT: ${JSON.stringify(event)}`)
+  console.log(`CONTEXT: ${JSON.stringify(context)}`)
+
+  const { invokedFunctionArn } = context
+  const accountId = invokedFunctionArn.split(":")[4]
+
+  const queueUrl = `https://sqs.${region}.amazonaws.com/${accountId}/${queue}`  // Replace with your SQS URL
 
   const pushTokenData = await fetchTokens()
   // console.log(pushTokenData)
@@ -175,11 +215,14 @@ export const handler = async (event) => {
 
           // console.log(title)
 
-          await sendNotification({
+          const receiptIds = await sendNotification({
             pushTokens: pushTokenData.data.listPushTokens.items.map((item) => item.token),
             title,
           })
-
+          // console.log({ receiptIds })
+          // await sendMessageToSQS(queueUrl, 'test', { receiptIds: { DataType: 'String', StringValue: JSON.stringify(receiptIds) } })
+          //   .then(result => console.log('Message sent result:', result))
+          //   .catch(err => console.error('Error:', err))
         } catch (error) {
           console.error('Error', error)
         }

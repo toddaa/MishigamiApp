@@ -36,9 +36,14 @@
       "function": {
         "mishigamiCalSync": {
           "deploymentBucketName": "amplify-mishigamiapp-dev-27de0-deployment",
-          "s3Key": "amplify-builds/mishigamiCalSync-6f5a6f65534563316836-build.zip",
-          "calendarId": "c_ts6npsnahqspjgu18j0p8lu9uc@group.calendar.google.com",
-          "googleApiKey": "AIzaSyCUAeWuG0RjOTcW7GHPHzTN5e4e7Jl96KI"
+          "s3Key": "amplify-builds/mishigamiCalSync-6e30624566787a715951-build.zip",
+          "googleApiKey": "AIzaSyCUAeWuG0RjOTcW7GHPHzTN5e4e7Jl96KI",
+          "calIdLodge": "c_ts6npsnahqspjgu18j0p8lu9uc@group.calendar.google.com",
+          "calIdWest": "c_24akpjuco6he30a46ckoba5q0s@group.calendar.google.com",
+          "calIdNorth": "c_aaj7goj4k9nl6k61m7l4ne74k0@group.calendar.google.com",
+          "calIdCentral": "c_1u3gl27in4tepu1dv5vdsqi3n0@group.calendar.google.com",
+          "calIdEast": "c_4831m669h21v8q35kmho21s510@group.calendar.google.com",
+          "calIdSouth": "c_45efrpfcbsku5rhveroj9ugjc8@group.calendar.google.com"
         },
         "mishigamiNewSync": {
           "deploymentBucketName": "amplify-mishigamiapp-dev-27de0-deployment",
@@ -46,16 +51,9 @@
         },
         "mishigamiNotification": {
           "deploymentBucketName": "amplify-mishigamiapp-dev-27de0-deployment",
-          "s3Key": "amplify-builds/mishigamiNotification-72737438344b704f4575-build.zip",
+          "s3Key": "amplify-builds/mishigamiNotification-66444b38614f69775577-build.zip",
           "expoAccessToken": "GAwn14UgcTBo8nP_1UpQUbAr0a7TSWfE6kqXW877"
-        },
-        "mishigamiPushTokenManager": {
-          "deploymentBucketName": "amplify-mishigamiapp-dev-27de0-deployment",
-          "s3Key": "amplify-builds/mishigamiPushTokenManager-475659477174362f546f-build.zip"
         }
-      },
-      "custom": {
-        "pushTokenManager": {}
       }
     }
   }
