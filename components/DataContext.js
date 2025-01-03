@@ -1,7 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, useReducer } from 'react'
-import { useBoolVariation } from '@launchdarkly/react-native-client-sdk'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import { initialState, DataReducer } from './DataReducer'
-import { startOfYear, endOfYear, differenceInDays, add, getUnixTime } from 'date-fns'
+import { startOfYear, endOfYear, add, getUnixTime, sub } from 'date-fns'
 import { generateClient } from 'aws-amplify/api'
 import * as queries from '../src/graphql/queries'
 import * as subscriptions from '../src/graphql/subscriptions'
@@ -68,6 +67,7 @@ export const DataProvider = ({ children }) => {
       .subscribe({
         next: ({ data }) => {
           if (data !== undefined && data !== null) {
+            console.log(data)
             dispatch({
               type: 'ADD_NEWS',
               payload: {
@@ -114,10 +114,10 @@ export const DataProvider = ({ children }) => {
 
   const getNews = async () => {
     const now = new Date()
-    const startOfYearDate = startOfYear(now)
+    const startDate = sub(now, { days: 60 })
 
-    const articles = await client.graphql({ query: queries.listArticles, variables: { filter: { updatedAt: { ge: startOfYearDate } } } })
-    // console.log(messages.data.listMessages.items)
+    const articles = await client.graphql({ query: queries.listArticles, variables: { filter: { updatedAt: { ge: startDate } } } })
+    // console.log(articles.data.listArticles.items)
 
     dispatch({
       type: 'UPDATE_NEWS',
@@ -129,14 +129,10 @@ export const DataProvider = ({ children }) => {
 
   const getEvents = async () => {
     const now = new Date()
-    const startOfYearDate = startOfYear(now)
+    const startDate = sub(now, { days: 60 })
     let endOfYearDate = endOfYear(now)
 
-    if (differenceInDays(new Date(startOfYearDate), new Date(endOfYearDate)) < 60) {
-      endOfYearDate = add(new Date(endOfYearDate), { days: 60 })
-    }
-
-    const events = await client.graphql({ query: queries.listEvents, variables: { filter: { startDate: { ge: startOfYearDate }, endDate: { lt: endOfYearDate } } } })
+    const events = await client.graphql({ query: queries.listEvents, variables: { filter: { startDate: { ge: startDate }, endDate: { lt: endOfYearDate } } } })
     // console.log(events.data.listEvents.items)
 
     dispatch({
