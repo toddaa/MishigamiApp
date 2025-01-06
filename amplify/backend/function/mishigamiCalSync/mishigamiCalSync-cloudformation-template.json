@@ -28,10 +28,25 @@
       "Type": "String",
       "Default": "apimishigamiappGraphQLAPIKeyOutput"
     },
-    "calendarId": {
+    "googleApiKey": {
       "Type": "String"
     },
-    "googleApiKey": {
+    "calIdLodge": {
+      "Type": "String"
+    },
+    "calIdWest": {
+      "Type": "String"
+    },
+    "calIdNorth": {
+      "Type": "String"
+    },
+    "calIdCentral": {
+      "Type": "String"
+    },
+    "calIdEast": {
+      "Type": "String"
+    },
+    "calIdSouth": {
       "Type": "String"
     }
   },
@@ -97,11 +112,26 @@
             "API_MISHIGAMIAPP_GRAPHQLAPIKEYOUTPUT": {
               "Ref": "apimishigamiappGraphQLAPIKeyOutput"
             },
-            "CALENDAR_ID": {
-              "Ref": "calendarId"
-            },
             "GOOGLE_API_KEY": {
               "Ref": "googleApiKey"
+            },
+            "CAL_ID_LODGE": {
+              "Ref": "calIdLodge"
+            },
+            "CAL_ID_WEST": {
+              "Ref": "calIdWest"
+            },
+            "CAL_ID_NORTH": {
+              "Ref": "calIdNorth"
+            },
+            "CAL_ID_CENTRAL": {
+              "Ref": "calIdCentral"
+            },
+            "CAL_ID_EAST": {
+              "Ref": "calIdEast"
+            },
+            "CAL_ID_SOUTH": {
+              "Ref": "calIdSouth"
             }
           }
         },

@@ -8,8 +8,17 @@ Amplify Params - DO NOT EDIT */
 import { default as fetch, Request } from 'node-fetch'
 import { startOfYear, endOfYear, differenceInDays, add } from 'date-fns'
 
-const GRAPHQL_ENDPOINT = process.env.API_MISHIGAMIAPP_GRAPHQLAPIENDPOINTOUTPUT
-const GRAPHQL_API_KEY = process.env.API_MISHIGAMIAPP_GRAPHQLAPIKEYOUTPUT
+const {
+  CAL_ID_LODGE,
+  CAL_ID_WEST,
+  CAL_ID_NORTH,
+  CAL_ID_CENTRAL,
+  CAL_ID_EAST,
+  CAL_ID_SOUTH,
+  GOOGLE_API_KEY,
+  API_MISHIGAMIAPP_GRAPHQLAPIENDPOINTOUTPUT: GRAPHQL_ENDPOINT,
+  API_MISHIGAMIAPP_GRAPHQLAPIKEYOUTPUT: GRAPHQL_API_KEY
+} = process.env
 
 const fetchEvents = async () => {
   const query = /* GraphQL */ `
@@ -118,69 +127,69 @@ const addEvent = async (params) => {
   }
 }
 
-const { CALENDAR_ID, GOOGLE_API_KEY } = process.env
-
 export const handler = async (event) => {
   console.log({ event })
 
   const beginDate = new Date()
   const endDate = add(new Date(endOfYear(beginDate)), { days: 60 })
-  let pageToken = ''
-  // let url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${GOOGLE_API_KEY}&timeMin=${beginDate.toISOString()}&singleEvents=true&orderBy=startTime`;
 
   const existingEvents = await fetchEvents()
   // console.log(existingEvents.data.listEvents.items)
 
   // FETCH EVENTS FROM GOOGLE
-  do {
-    let url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?key=${GOOGLE_API_KEY}&timeMin=${beginDate.toISOString()}&maxResults=50&singleEvents=true&orderBy=startTime&pageToken=${pageToken}&timeMax=${endDate.toISOString()}`
-    console.log(url)
-    await fetch(url)
-      .then((response) => {
-        // console.log(response)
-        // console.log(response.headers)
-        return response.json()
-      })
-      .then(async (responseJson) => {
-        console.log(responseJson)
-        if (responseJson.hasOwnProperty("nextPageToken")) {
-          pageToken = responseJson.nextPageToken
-        } else {
-          pageToken = ''
-        }
-        console.log(pageToken)
 
-        // LOOP OVER ALL EVENTS
-        for (const item of responseJson.items) {
-          // console.log(item)
-          const { id, summary, start, end, creator, location, description } = item
-
-          // console.log(`Checking for Event id ${id}`)
-
-          // CHECK IF EVENT EXISTS
-          const hasEvent = existingEvents.data.listEvents.items.some(i => i.gId === id)
-          // console.log(hasEvent)
-          if (hasEvent) {
-            // console.log(`Event ${id} exists, do nothing`)
+  for (const cal of [CAL_ID_LODGE, CAL_ID_WEST, CAL_ID_NORTH, CAL_ID_CENTRAL, CAL_ID_EAST, CAL_ID_SOUTH]) {
+    let pageToken = ''
+    do {
+      let url = `https://www.googleapis.com/calendar/v3/calendars/${cal}/events?key=${GOOGLE_API_KEY}&timeMin=${beginDate.toISOString()}&maxResults=50&singleEvents=true&orderBy=startTime&pageToken=${pageToken}&timeMax=${endDate.toISOString()}`
+      console.log(url)
+      await fetch(url)
+        .then((response) => {
+          // console.log(response)
+          // console.log(response.headers)
+          return response.json()
+        })
+        .then(async (responseJson) => {
+          console.log(responseJson)
+          if (responseJson.hasOwnProperty("nextPageToken")) {
+            pageToken = responseJson.nextPageToken
           } else {
-            // console.log(`Add event ${id}`)
-            // let startDate, endDate
-            // if (start.hasOwnProperty("dateTime")) {
-            //   startDate = start.dateTime
-            // }
-            await addEvent({
-              name: summary,
-              gId: id,
-              description: description ?? '',
-              startDate: start.hasOwnProperty('date') ? new Date(start.date).toISOString() : start.dateTime,
-              endDate: end.hasOwnProperty('date') ? new Date(end.date).toISOString() : end.dateTime,
-              location: location ?? '',
-            })
+            pageToken = ''
           }
-        }
-      })
-      .catch(error => {
-        // this.setState({ error, loading: false, refreshing: false });
-      })
-  } while (pageToken != '')
+          console.log(pageToken)
+
+          // LOOP OVER ALL EVENTS
+          for (const item of responseJson.items) {
+            // console.log(item)
+            const { id, summary, start, end, creator, location, description } = item
+
+            // console.log(`Checking for Event id ${id}`)
+
+            // CHECK IF EVENT EXISTS
+            const hasEvent = existingEvents.data.listEvents.items.some(i => i.gId === id)
+            // console.log(hasEvent)
+            if (hasEvent) {
+              // console.log(`Event ${id} exists, do nothing`)
+            } else {
+              // console.log(`Add event ${id}`)
+              // let startDate, endDate
+              // if (start.hasOwnProperty("dateTime")) {
+              //   startDate = start.dateTime
+              // }
+              await addEvent({
+                name: summary,
+                gId: id,
+                description: description ?? '',
+                startDate: start.hasOwnProperty('date') ? new Date(start.date).toISOString() : start.dateTime,
+                endDate: end.hasOwnProperty('date') ? new Date(end.date).toISOString() : end.dateTime,
+                location: location ?? '',
+              })
+            }
+          }
+        })
+        .catch(error => {
+          // this.setState({ error, loading: false, refreshing: false });
+        })
+    } while (pageToken != '')
+  }
 }

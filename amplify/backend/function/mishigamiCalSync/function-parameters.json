@@ -10,12 +10,32 @@
   "lambdaLayers": [],
   "environmentVariableList": [
     {
-      "cloudFormationParameterName": "calendarId",
-      "environmentVariableName": "CALENDAR_ID"
-    },
-    {
       "cloudFormationParameterName": "googleApiKey",
       "environmentVariableName": "GOOGLE_API_KEY"
+    },
+    {
+      "cloudFormationParameterName": "calIdLodge",
+      "environmentVariableName": "CAL_ID_LODGE"
+    },
+    {
+      "cloudFormationParameterName": "calIdWest",
+      "environmentVariableName": "CAL_ID_WEST"
+    },
+    {
+      "cloudFormationParameterName": "calIdNorth",
+      "environmentVariableName": "CAL_ID_NORTH"
+    },
+    {
+      "cloudFormationParameterName": "calIdCentral",
+      "environmentVariableName": "CAL_ID_CENTRAL"
+    },
+    {
+      "cloudFormationParameterName": "calIdEast",
+      "environmentVariableName": "CAL_ID_EAST"
+    },
+    {
+      "cloudFormationParameterName": "calIdSouth",
+      "environmentVariableName": "CAL_ID_SOUTH"
     }
   ]
 }
