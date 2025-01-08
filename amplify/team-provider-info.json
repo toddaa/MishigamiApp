@@ -47,7 +47,7 @@
         },
         "mishigamiNewSync": {
           "deploymentBucketName": "amplify-mishigamiapp-dev-27de0-deployment",
-          "s3Key": "amplify-builds/mishigamiNewSync-6539393166794766476f-build.zip"
+          "s3Key": "amplify-builds/mishigamiNewSync-6464596a4564516b7232-build.zip"
         },
         "mishigamiNotification": {
           "deploymentBucketName": "amplify-mishigamiapp-dev-27de0-deployment",
