@@ -25,59 +25,92 @@ export const DataProvider = ({ children }) => {
       query: subscriptions.onCreateMessage, variables: {
         filter: { title: { ne: '' } }
       }
+    }).subscribe({
+      next: ({ data }) => {
+        if (data !== undefined && data !== null) {
+          dispatch({
+            type: 'ADD_MESSAGE',
+            payload: {
+              message: data.onCreateMessage,
+            },
+          })
+        }
+      },
+      error: (error) => console.warn({ error })
     })
-      .subscribe({
-        next: ({ data }) => {
-          if (data !== undefined && data !== null) {
-            dispatch({
-              type: 'ADD_MESSAGE',
-              payload: {
-                message: data.onCreateMessage,
-              },
-            })
-          }
-        },
-        error: (error) => console.warn({ error })
-      })
 
     client.graphql({
       query: subscriptions.onCreateEvent, variables: {
         filter: { name: { ne: '' } }
       }
+    }).subscribe({
+      next: ({ data }) => {
+        if (data !== undefined && data !== null) {
+          dispatch({
+            type: 'ADD_EVENT',
+            payload: {
+              event: data.onCreateEvent,
+            },
+          })
+        }
+      },
+      error: (error) => console.warn({ error })
     })
-      .subscribe({
-        next: ({ data }) => {
-          if (data !== undefined && data !== null) {
-            dispatch({
-              type: 'ADD_EVENT',
-              payload: {
-                event: data.onCreateEvent,
-              },
-            })
-          }
-        },
-        error: (error) => console.warn({ error })
-      })
 
     client.graphql({
       query: subscriptions.onCreateArticle, variables: {
         filter: { title: { ne: '' } }
       }
+    }).subscribe({
+      next: ({ data }) => {
+        if (data !== undefined && data !== null) {
+          console.log(data)
+          dispatch({
+            type: 'ADD_NEWS',
+            payload: {
+              article: data.onCreateArticle,
+            },
+          })
+        }
+      },
+      error: (error) => console.warn({ error })
     })
-      .subscribe({
-        next: ({ data }) => {
-          if (data !== undefined && data !== null) {
-            console.log(data)
-            dispatch({
-              type: 'ADD_NEWS',
-              payload: {
-                article: data.onCreateArticle,
-              },
-            })
-          }
-        },
-        error: (error) => console.warn({ error })
-      })
+
+    client.graphql({
+      query: subscriptions.onUpdateArticle, variables: {
+        filter: { title: { ne: '' } }
+      }
+    }).subscribe({
+      next: ({ data }) => {
+        if (data !== undefined && data !== null) {
+          dispatch({
+            type: 'UPDATE_ARTICLE',
+            payload: {
+              article: data.onUpdateArticle,
+            },
+          })
+        }
+      },
+      error: (error) => console.warn({ error })
+    })
+
+    client.graphql({
+      query: subscriptions.onDeleteArticle, variables: {
+        filter: { title: { ne: '' } }
+      }
+    }).subscribe({
+      next: ({ data }) => {
+        if (data !== undefined && data !== null) {
+          dispatch({
+            type: 'DELETE_ARTICLE',
+            payload: {
+              article: data.onDeleteArticle,
+            },
+          })
+        }
+      },
+      error: (error) => console.warn({ error })
+    })
   }
 
   const getMessages = async () => {
@@ -88,7 +121,7 @@ export const DataProvider = ({ children }) => {
     // console.log(messages.data.listMessages.items)
 
     dispatch({
-      type: 'UPDATE_MESSAGES',
+      type: 'INIT_MESSAGES',
       payload: {
         messages: messages.data.listMessages.items,
       },
@@ -114,13 +147,13 @@ export const DataProvider = ({ children }) => {
 
   const getNews = async () => {
     const now = new Date()
-    const startDate = sub(now, { days: 60 })
+    const startDate = sub(now, { days: 90 })
 
     const articles = await client.graphql({ query: queries.listArticles, variables: { filter: { updatedAt: { ge: startDate } } } })
     // console.log(articles.data.listArticles.items)
 
     dispatch({
-      type: 'UPDATE_NEWS',
+      type: 'INIT_NEWS',
       payload: {
         articles: articles.data.listArticles.items,
       },
@@ -129,14 +162,14 @@ export const DataProvider = ({ children }) => {
 
   const getEvents = async () => {
     const now = new Date()
-    const startDate = sub(now, { days: 60 })
+    const startDate = now // sub(now, { days: 1 })
     let endOfYearDate = endOfYear(now)
 
     const events = await client.graphql({ query: queries.listEvents, variables: { filter: { startDate: { ge: startDate }, endDate: { lt: endOfYearDate } } } })
     // console.log(events.data.listEvents.items)
 
     dispatch({
-      type: 'UPDATE_EVENTS',
+      type: 'INIT_EVENTS',
       payload: {
         events: events.data.listEvents.items,
       },

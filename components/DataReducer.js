@@ -14,19 +14,17 @@ export const DataReducer = (initialState, action) => {
   let updated
 
   switch (type) {
-    case 'UPDATE_MESSAGES':
+    case 'INIT_MESSAGES':
       return {
         ...initialState,
         messages: payload.messages.sort(sortUpdatedDesc),
       }
-
-    case 'UPDATE_NEWS':
+    case 'INIT_NEWS':
       return {
         ...initialState,
         articles: payload.articles.sort(sortUpdatedDesc),
       }
-
-    case 'UPDATE_EVENTS':
+    case 'INIT_EVENTS':
       return {
         ...initialState,
         events: payload.events.sort(sortStartDesc),
@@ -36,15 +34,81 @@ export const DataReducer = (initialState, action) => {
         ...initialState,
         messages: initialState.messages.concat([payload.message]).sort(sortUpdatedDesc),
       }
+    case 'UPDATE_MESSAGE':
+      updated = initialState.messages.map(n => {
+        if (n.id === payload.message.id) {
+          return payload.message
+        }
+        return n
+      }).sort(sortUpdatedDesc)
+      return {
+        ...initialState,
+        messages: updated,
+      }
+    case 'DELETE_MESSAGE':
+      updated = initialState.messages.filter(n => {
+        if (n.id !== payload.message.id) {
+          return true
+        }
+        return false
+      }).sort(sortUpdatedDesc)
+      return {
+        ...initialState,
+        messages: updated,
+      }
     case 'ADD_EVENT':
       return {
         ...initialState,
         events: initialState.events.concat([payload.event]).sort(sortStartDesc),
       }
-    case 'ADD_NEWS':
+    case 'UPDATE_EVENT':
+      updated = initialState.events.map(n => {
+        if (n.id === payload.event.id) {
+          return payload.event
+        }
+        return n
+      }).sort(sortStartDesc)
+      return {
+        ...initialState,
+        events: updated,
+      }
+    case 'DELETE_EVENT':
+      updated = initialState.events.filter(n => {
+        if (n.id !== payload.event.id) {
+          return true
+        }
+        return false
+      }).sort(sortStartDesc)
+      return {
+        ...initialState,
+        events: updated,
+      }
+    case 'ADD_ARTICLE':
       return {
         ...initialState,
         articles: initialState.articles.concat([payload.article]).sort(sortUpdatedDesc),
+      }
+    case 'UPDATE_ARTICLE':
+      updated = initialState.articles.map(n => {
+        if (n.id === payload.article.id) {
+          return payload.article
+        }
+        return n
+      }).sort(sortUpdatedDesc)
+      return {
+        ...initialState,
+        articles: updated,
+      }
+    case 'DELETE_ARTICLE':
+      updated = initialState.articles.filter(n => {
+        if (n.id !== payload.article.id) {
+          return true
+        }
+        return false
+      }).sort(sortUpdatedDesc)
+      return {
+        ...initialState,
+        articles: updated,
       }
     default:
       throw new Error(`Unhandled action type: ${action.type}`)
