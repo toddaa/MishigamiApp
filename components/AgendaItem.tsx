@@ -3,6 +3,7 @@ import { StyleSheet, Alert, View, Text, TouchableOpacity, Button } from 'react-n
 
 interface ItemProps {
   item: any;
+  onPress: any
 }
 
 function isEmpty (obj) {
@@ -16,15 +17,11 @@ function isEmpty (obj) {
 }
 
 const AgendaItem = (props: ItemProps) => {
-  const { item } = props;
+  const { item, onPress } = props;
   // console.log(item)
 
-  const buttonPressed = useCallback(() => {
-    Alert.alert('Show me more');
-  }, []);
-
   const itemPressed = useCallback(() => {
-    Alert.alert(item.title);
+    onPress(item)
   }, []);
 
   if (isEmpty(item)) {

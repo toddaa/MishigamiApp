@@ -1,10 +1,12 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react';
-import { StyleSheet, Platform, View, Image } from 'react-native';
+import { StyleSheet, Platform, View, Image, Text } from 'react-native';
 import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar } from 'react-native-calendars';
 import AgendaItem from '@/components/AgendaItem';
 import { useDataContext } from '@/components/DataContext'
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Header } from '@rneui/themed';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Header, BottomSheet, ListItem, Card, Button } from '@rneui/themed';
+// import { dateTimeOptions, dateTimeOptionsB } from '@/constants/Dates'
+import { add } from "date-fns";
 
 
 const leftArrowIcon = require('@/assets/images/previous.png');
@@ -21,10 +23,11 @@ function isEmpty (obj) {
 }
 
 export default function CalendarScreen () {
-  const insets = useSafeAreaInsets();
   const { dataState } = useDataContext()
   const [events, setEvents] = useState([])
   const [marks, setMarks] = useState({})
+  const [isVisible, setIsVisible] = useState(false);
+  const [bottomSheetContent, setBottomSheetContent] = useState({});
 
   const today = new Date()
   const INITIAL_DATE = today.toISOString().split('T')[0]
@@ -99,6 +102,7 @@ export default function CalendarScreen () {
         const existingEntry = acc.find((entry) => entry.title === startDate);
 
         const eventData = {
+          ...event,
           hour,
           duration,
           title: event.name,
@@ -151,20 +155,18 @@ export default function CalendarScreen () {
     }
   }, [events]);
 
-  // const onDateChanged = useCallback((date, updateSource) => {
-  //   console.log('ExpandableCalendarScreen onDateChanged: ', date, updateSource);
-  // }, []);
-
-  // const onMonthChange = useCallback(({dateString}) => {
-  //   console.log('ExpandableCalendarScreen onMonthChange: ', dateString);
-  // }, []);
+  const onAgendaPress = (e) => {
+    console.log(e)
+    setBottomSheetContent(e)
+    setIsVisible(true)
+  }
 
   const renderItem = useCallback(({ item }: any) => {
-    return <AgendaItem item={item} />;
+    return <AgendaItem item={item} onPress={onAgendaPress} />;
   }, []);
 
   return (
-    <>
+    <SafeAreaProvider>
       <Header backgroundColor='#799FAF'
         leftComponent={{ icon: 'menu', color: '#fff' }}
         centerComponent={
@@ -215,9 +217,62 @@ export default function CalendarScreen () {
         // dayFormat={'yyyy-MM-d'}
         />
       </CalendarProvider>
-    </>
+      <BottomEventSheet isVisible={isVisible} bottomSheetContent={bottomSheetContent} backdropAction={() => setIsVisible(false)} />
+    </SafeAreaProvider>
   );
 };
+
+const BottomEventSheet = ({ isVisible, bottomSheetContent, backdropAction }) => {
+  const [start, setStart] = useState('')
+  // const date = new Date(bottomSheetContent.startDate)
+  // console.log(date)
+  // start = new Intl.DateTimeFormat('en-US', dateTimeOptionsB).format(date)
+  // console.log(start)
+
+  const startDateOpts = {
+    weekday: 'long',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+  }
+
+  const endDateOpts = {
+    hour: 'numeric',
+  }
+
+  useEffect(() => {
+    console.log(bottomSheetContent)
+    if (!isEmpty(bottomSheetContent)) {
+      const { startDate, duration } = bottomSheetContent
+      const startingDate = new Date(startDate)
+      const startText = new Intl.DateTimeFormat('en-US', startDateOpts).format(startingDate)
+      // console.log(startText)
+
+      const endingDate = add(startingDate, { minutes: duration })
+      const endText = new Intl.DateTimeFormat('en-US', endDateOpts).format(endingDate)
+      // console.log(endText)
+      setStart(`${startText} - ${endText}`)
+
+    }
+  }, [bottomSheetContent]);
+
+  return (
+    <BottomSheet modalProps={{}} isVisible={isVisible} onBackdropPress={backdropAction}>
+      <Card containerStyle={{ margin: 0 }}>
+        <Card.Title>{bottomSheetContent.title}</Card.Title>
+        <Card.Divider />
+        <View style={{ position: "relative" }}>
+          <Text>{start}</Text>
+          {/* <Text>{bottomSheetContent.endDate}</Text> */}
+          {/* <Text>{bottomSheetContent.duration}</Text> */}
+          <Text>{bottomSheetContent.location}</Text>
+          <Text>{bottomSheetContent.signUpURL}</Text>
+          <Button title="Add to Calendar" />
+        </View>
+      </Card>
+    </BottomSheet>
+  )
+}
 
 // export default CalendarScreen;
 
