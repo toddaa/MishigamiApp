@@ -36,7 +36,7 @@
       "function": {
         "mishigamiCalSync": {
           "deploymentBucketName": "amplify-mishigamiapp-dev-27de0-deployment",
-          "s3Key": "amplify-builds/mishigamiCalSync-6e30624566787a715951-build.zip",
+          "s3Key": "amplify-builds/mishigamiCalSync-6373664d5850517a4937-build.zip",
           "googleApiKey": "AIzaSyCUAeWuG0RjOTcW7GHPHzTN5e4e7Jl96KI",
           "calIdLodge": "c_ts6npsnahqspjgu18j0p8lu9uc@group.calendar.google.com",
           "calIdWest": "c_24akpjuco6he30a46ckoba5q0s@group.calendar.google.com",

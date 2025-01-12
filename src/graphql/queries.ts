@@ -18,6 +18,7 @@ export const getEvent = /* GraphQL */ `query GetEvent($id: ID!) {
     endDate
     location
     signUpURL
+    category
     createdAt
     updatedAt
     __typename
@@ -39,6 +40,7 @@ export const listEvents = /* GraphQL */ `query ListEvents(
       endDate
       location
       signUpURL
+      category
       createdAt
       updatedAt
       __typename

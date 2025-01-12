@@ -21,6 +21,7 @@ export const createEvent = /* GraphQL */ `mutation CreateEvent(
     endDate
     location
     signUpURL
+    category
     createdAt
     updatedAt
     __typename
@@ -43,6 +44,7 @@ export const updateEvent = /* GraphQL */ `mutation UpdateEvent(
     endDate
     location
     signUpURL
+    category
     createdAt
     updatedAt
     __typename
@@ -65,6 +67,7 @@ export const deleteEvent = /* GraphQL */ `mutation DeleteEvent(
     endDate
     location
     signUpURL
+    category
     createdAt
     updatedAt
     __typename
