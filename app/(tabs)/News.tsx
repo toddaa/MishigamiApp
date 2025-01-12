@@ -7,6 +7,7 @@ import HTMLView from 'react-native-htmlview';
 import Unorderedlist from 'react-native-unordered-list';
 import { dateTimeOptions } from '@/constants/Dates'
 import { useDataContext } from '@/components/DataContext'
+import VideoPlayer from '@/components/VideoPlayer'
 
 const { width } = Dimensions.get('window');
 
@@ -54,7 +55,13 @@ export default function NewsScreen () {
         />
       )
     }
-
+    if (node.name === 'video') {
+      const videoUrl = node.attribs.src
+      console.log(node.attribs.src)
+      return (
+        <VideoPlayer key={index} src={videoUrl} />
+      )
+    }
   }
 
   return (
