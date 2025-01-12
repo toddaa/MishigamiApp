@@ -78,8 +78,8 @@ const fetchEvents = async () => {
 const addEvent = async (params) => {
   console.log(params)
   const query = /* GraphQL */ `
-    mutation CREATE_EVENT($name: String!, $gId: String, $description: String, $location: String, $startDate: AWSDateTime, $endDate: AWSDateTime) {
-      createEvent(input: {name: $name, gId: $gId, description: $description, location: $location, startDate: $startDate, endDate: $endDate}) {
+    mutation CREATE_EVENT($name: String!, $gId: String, $description: String, $location: String, $startDate: AWSDateTime, $endDate: AWSDateTime, $category: String) {
+      createEvent(input: {name: $name, gId: $gId, description: $description, location: $location, startDate: $startDate, endDate: $endDate, category: $category}) {
         id
         gId
         name
@@ -90,6 +90,7 @@ const addEvent = async (params) => {
         endDate
         description
         createdAt
+        category
       }
     }
   `
@@ -151,15 +152,17 @@ export const handler = async (event) => {
         })
         .then(async (responseJson) => {
           console.log(responseJson)
+          const { summary: calSummary, items } = responseJson
           if (responseJson.hasOwnProperty("nextPageToken")) {
             pageToken = responseJson.nextPageToken
           } else {
             pageToken = ''
           }
           console.log(pageToken)
+          console.log(calSummary)
 
           // LOOP OVER ALL EVENTS
-          for (const item of responseJson.items) {
+          for (const item of items) {
             // console.log(item)
             const { id, summary, start, end, creator, location, description } = item
 
@@ -183,6 +186,7 @@ export const handler = async (event) => {
                 startDate: start.hasOwnProperty('date') ? new Date(start.date).toISOString() : start.dateTime,
                 endDate: end.hasOwnProperty('date') ? new Date(end.date).toISOString() : end.dateTime,
                 location: location ?? '',
+                category: calSummary
               })
             }
           }
