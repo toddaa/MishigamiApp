@@ -18,6 +18,7 @@ export const onCreateEvent = /* GraphQL */ `subscription OnCreateEvent($filter: 
     endDate
     location
     signUpURL
+    category
     createdAt
     updatedAt
     __typename
@@ -37,6 +38,7 @@ export const onUpdateEvent = /* GraphQL */ `subscription OnUpdateEvent($filter: 
     endDate
     location
     signUpURL
+    category
     createdAt
     updatedAt
     __typename
@@ -56,6 +58,7 @@ export const onDeleteEvent = /* GraphQL */ `subscription OnDeleteEvent($filter: 
     endDate
     location
     signUpURL
+    category
     createdAt
     updatedAt
     __typename

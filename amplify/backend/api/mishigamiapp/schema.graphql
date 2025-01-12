@@ -11,6 +11,7 @@ type Event @model {
   endDate: AWSDateTime
   location: String
   signUpURL: AWSURL
+  category: String
 }
 
 type Article @model {
