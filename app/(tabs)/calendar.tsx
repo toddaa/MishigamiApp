@@ -3,7 +3,7 @@ import { StyleSheet, Platform, View, Image } from 'react-native';
 import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar } from 'react-native-calendars';
 import AgendaItem from '@/components/AgendaItem';
 import { useDataContext } from '@/components/DataContext'
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Header } from '@rneui/themed';
 
 
@@ -21,7 +21,7 @@ function isEmpty (obj) {
 }
 
 export default function CalendarScreen () {
-  const insets = useSafeAreaInsets();
+  // const insets = useSafeAreaInsets();
   const { dataState } = useDataContext()
   const [events, setEvents] = useState([])
   const [marks, setMarks] = useState({})
@@ -164,15 +164,9 @@ export default function CalendarScreen () {
   }, []);
 
   return (
-    <>
+    <SafeAreaProvider>
       <Header backgroundColor='#799FAF'
         leftComponent={{ icon: 'menu', color: '#fff' }}
-        centerComponent={
-          <Image
-            source={require('@/assets/images/Mastodon-56000SM.png')}
-            style={styles.reactLogo}
-          />
-        }
         rightComponent={{ icon: 'home', color: '#fff' }}
       />
       <CalendarProvider
@@ -215,7 +209,7 @@ export default function CalendarScreen () {
         // dayFormat={'yyyy-MM-d'}
         />
       </CalendarProvider>
-    </>
+    </SafeAreaProvider>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, Text, View, SafeAreaView, ScrollView, FlatList, Animated, StatusBar, } from 'react-native';
+import { Image, StyleSheet, Platform, Text, View, ScrollView, FlatList, Animated, StatusBar, } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -6,26 +6,37 @@ import CustomParallaxScrollView from '@/components/CustomParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import Slider from '@/components/Slider';
+import React from 'react';
+import { Header } from '@rneui/base';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useColorScheme } from '@/hooks/useColorScheme';
+
 
 export default function HomeScreen () {
   return (
-    <View style={{ flex: 1 }}>
-      <CustomParallaxScrollView
-        headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}
-        headerImage={
+    <SafeAreaProvider>
+      <Header
+        backgroundColor='#799FAF'
+        leftComponent={{ icon: 'menu', color: '#fff' }}
+        centerComponent={
           <Image
             source={require('@/assets/images/Mastodon-56000SM.png')}
             style={styles.reactLogo}
           />
-        }>
-        <StatusBar
-          backgroundColor={'transparent'}
-          translucent={true}
-        />
+        }
+        rightComponent={{ icon: 'home', color: '#fff' }}
+      />
 
+      <StatusBar
+        backgroundColor={'transparent'}
+        translucent={true}
+      />
+
+      <ThemedView>
         <Slider />
-      </CustomParallaxScrollView>
-    </View>
+      </ThemedView>
+    </SafeAreaProvider>
   );
 }
 
@@ -42,7 +53,6 @@ const styles = StyleSheet.create({
   reactLogo: {
     height: 92,
     width: 130,
-    top: 55,
     alignSelf: 'center',
   },
   center: {

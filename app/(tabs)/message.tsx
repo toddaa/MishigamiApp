@@ -5,6 +5,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useDataContext } from '@/components/DataContext'
 import { useBoolVariation } from '@launchdarkly/react-native-client-sdk'
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Header } from '@rneui/base';
 
 const MyTextInput = ({ style, value, name = '', onChange, placeholder, placeholderTextColor }) => {
   return (
@@ -56,81 +58,81 @@ export default function MessagesScreen () {
   }
 
   return (
-    <CustomParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/Mastodon-56000SM.png')}
-          style={styles.reactLogo}
-        />
-      }>
+    <SafeAreaProvider>
+      <Header
+        backgroundColor='#799FAF'
+        leftComponent={{ icon: 'menu', color: '#fff' }}
+        rightComponent={{ icon: 'home', color: '#fff' }}
+      />
 
-      {!messageFlag
-        ? <View style={styles.viewContainerNewMessage}>
-          <ThemedView style={styles.titleContainer}>
-            <ThemedText type="title" style={{ color: 'black' }}>New Message</ThemedText>
-          </ThemedView>
-
-          {/* <ThemedText style={styles.title} >Write your message</ThemedText> */}
-
-          <MyTextInput
-            style={styles.inputStyle}
-            // multiline
-            placeholderTextColor={'#808080'}
-            placeholder='Subject'
-            name='subject'
-            onChange={handleFieldChange}
-            value={formData.subject} />
-
-          <MyTextInput
-            style={styles.inputStyle}
-            // multiline
-            placeholderTextColor={'#808080'}
-            placeholder='Message'
-            name='message'
-            onChange={handleFieldChange}
-            value={formData.message} />
-
-          <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}
-            disabled={!isSubmitable}>
-            <Text style={styles.submitButtonText}>Send Message</Text>
-          </TouchableOpacity>
-
-        </View>
-        : ''
-      }
-
-
-      <View style={styles.viewContainer}>
-        <ThemedView style={styles.titleContainer}>
-          <ThemedText type="title">Messages</ThemedText>
-        </ThemedView>
-
-        {
-          messages.map((e, i) => {
-            const title = e?.title
-            const body = e?.body
-
-            return <ThemedView key={i}>
-
-              <ThemedText type='subtitle'>
-                {title}
-              </ThemedText>
-              <ThemedText type='default'>
-                {body}
-              </ThemedText>
-
-              <View
-                style={styles.seperator}
-              />
-
+      <ThemedView>
+        {!messageFlag
+          ? <View style={styles.viewContainerNewMessage}>
+            <ThemedView style={styles.titleContainer}>
+              <ThemedText type="title" style={{ color: 'black' }}>New Message</ThemedText>
             </ThemedView>
-          })
+
+            {/* <ThemedText style={styles.title} >Write your message</ThemedText> */}
+
+            <MyTextInput
+              style={styles.inputStyle}
+              // multiline
+              placeholderTextColor={'#808080'}
+              placeholder='Subject'
+              name='subject'
+              onChange={handleFieldChange}
+              value={formData.subject} />
+
+            <MyTextInput
+              style={styles.inputStyle}
+              // multiline
+              placeholderTextColor={'#808080'}
+              placeholder='Message'
+              name='message'
+              onChange={handleFieldChange}
+              value={formData.message} />
+
+            <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}
+              disabled={!isSubmitable}>
+              <Text style={styles.submitButtonText}>Send Message</Text>
+            </TouchableOpacity>
+
+
+          </View>
+          : ''
         }
 
-      </View>
 
-    </CustomParallaxScrollView>
+        <View style={styles.viewContainer}>
+          <ThemedView style={styles.titleContainer}>
+            <ThemedText type="title">Messages</ThemedText>
+          </ThemedView>
+
+          {
+            messages.map((e, i) => {
+              const title = e?.title
+              const body = e?.body
+
+              return <ThemedView key={i}>
+
+                <ThemedText type='subtitle'>
+                  {title}
+                </ThemedText>
+                <ThemedText type='default'>
+                  {body}
+                </ThemedText>
+
+                <View
+                  style={styles.seperator}
+                />
+
+              </ThemedView>
+            })
+          }
+
+        </View>
+      </ThemedView>
+    </SafeAreaProvider >
   );
 }
 

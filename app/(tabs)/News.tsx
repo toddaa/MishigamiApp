@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Platform, View, Text, Dimensions } from 'react-native';
+import { Image, StyleSheet, Platform, View, Text, Dimensions, ScrollView } from 'react-native';
 import CustomParallaxScrollView from '@/components/CustomParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -7,6 +7,9 @@ import HTMLView from 'react-native-htmlview';
 import Unorderedlist from 'react-native-unordered-list';
 import { dateTimeOptions } from '@/constants/Dates'
 import { useDataContext } from '@/components/DataContext'
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Header } from '@rneui/base';
 
 const { width } = Dimensions.get('window');
 
@@ -58,61 +61,73 @@ export default function NewsScreen () {
   }
 
   return (
-    <CustomParallaxScrollView
+    <SafeAreaProvider>
+      <Header
+        backgroundColor='#799FAF'
+        leftComponent={{ icon: 'menu', color: '#fff' }}
+        rightComponent={{ icon: 'home', color: '#fff' }}
+      />
+      {/* <CustomParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}
-      // style={{ padding: 10 }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/Mastodon-56000SM.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <View style={styles.viewContainer}>
-        <ThemedView style={styles.titleContainer}>
+        headerImage={
+          <Image
+            source={require('@/assets/images/Mishigami-Blue-Mastodon-Arrow-Text.png')}
+            style={styles.reactLogo}
+          />
+        }> */}
+      <ThemedView style={styles.viewContainer}>
+        <ScrollView
+        // pagingEnabled={true}
+        >
+          {/* <ThemedView style={styles.titleContainer}>
           <ThemedText type="title">News</ThemedText>
-        </ThemedView>
+        </ThemedView> */}
 
-        {
-          news.map((e, i) => {
-            const title = e?.title
-            let desc = e?.description
+          {
+            news.map((e, i) => {
+              const title = e?.title
+              let desc = e?.description
 
 
-            let updatedDate = ''
-            if (e?.updatedAt !== undefined) {
-              updatedDate = new Intl.DateTimeFormat('en-US', dateTimeOptions).format(new Date(e?.updatedAt))
-            }
+              let updatedDate = ''
+              if (e?.updatedAt !== undefined) {
+                updatedDate = new Intl.DateTimeFormat('en-US', dateTimeOptions).format(new Date(e?.updatedAt))
+              }
 
-            return <ThemedView key={i}>
-              <ThemedText type='subtitle'>
-                {title}
-              </ThemedText>
+              return <ThemedView key={i}>
+                <ThemedText type='subtitle'>
+                  {title}
+                </ThemedText>
 
-              <View style={styles.row}>
-                <ThemedText type='link' style={styles.leftText}>by {e?.author}</ThemedText>
-                <ThemedText type='link' style={styles.rightText}>{updatedDate}</ThemedText>
-              </View>
+                <View style={styles.row}>
+                  <ThemedText type='link' style={styles.leftText}>by {e?.author}</ThemedText>
+                  <ThemedText type='link' style={styles.rightText}>{updatedDate}</ThemedText>
+                </View>
 
-              <HTMLView
-                value={desc}
-                stylesheet={styles}
-                renderNode={renderNode}
-              />
+                <HTMLView
+                  value={desc}
+                  stylesheet={styles}
+                  renderNode={renderNode}
+                />
 
-              <View
-                style={styles.seperator}
-              />
-            </ThemedView>
-          })
-        }
-      </View>
-    </CustomParallaxScrollView >
+                <View
+                  style={styles.seperator}
+                />
+              </ThemedView>
+            })
+          }
+        </ScrollView>
+      </ThemedView>
+      {/* </CustomParallaxScrollView > */}
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
   viewContainer: {
-    padding: 20
+    padding: 20,
+    paddingBottom: 100,
+
   },
   seperator: {
     borderBottomColor: 'white',
@@ -132,7 +147,6 @@ const styles = StyleSheet.create({
   reactLogo: {
     height: 92,
     width: 130,
-    top: 55,
     alignSelf: 'center',
   },
   p: {
