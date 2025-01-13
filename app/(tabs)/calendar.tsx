@@ -1,10 +1,11 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react';
-import { StyleSheet, Platform, View, Image } from 'react-native';
+import { StyleSheet, Platform, View, Image, TouchableOpacity } from 'react-native';
 import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar } from 'react-native-calendars';
 import AgendaItem from '@/components/AgendaItem';
 import { useDataContext } from '@/components/DataContext'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Header } from '@rneui/themed';
+import { Header, Icon } from '@rneui/themed';
+import { router } from 'expo-router';
 
 
 const leftArrowIcon = require('@/assets/images/previous.png');
@@ -167,7 +168,11 @@ export default function CalendarScreen () {
     <SafeAreaProvider>
       <Header backgroundColor='#799FAF'
         leftComponent={{ icon: 'menu', color: '#fff' }}
-        rightComponent={{ icon: 'home', color: '#fff' }}
+        rightComponent={
+          <TouchableOpacity onPress={() => router.push('/message')}>
+            <Icon name="notifications" color="#fff" />
+          </TouchableOpacity>
+        }
       />
       <CalendarProvider
         date={INITIAL_DATE}

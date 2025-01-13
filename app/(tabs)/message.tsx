@@ -6,7 +6,8 @@ import { ThemedView } from '@/components/ThemedView';
 import { useDataContext } from '@/components/DataContext'
 import { useBoolVariation } from '@launchdarkly/react-native-client-sdk'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Header } from '@rneui/base';
+import { Header, Icon } from '@rneui/base';
+import { router } from 'expo-router';
 
 const MyTextInput = ({ style, value, name = '', onChange, placeholder, placeholderTextColor }) => {
   return (
@@ -62,7 +63,11 @@ export default function MessagesScreen () {
       <Header
         backgroundColor='#799FAF'
         leftComponent={{ icon: 'menu', color: '#fff' }}
-        rightComponent={{ icon: 'home', color: '#fff' }}
+        rightComponent={
+          <TouchableOpacity onPress={() => router.push('/message')}>
+            <Icon name="notifications" color="#fff" />
+          </TouchableOpacity>
+        }
       />
 
       <ThemedView>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Platform, View, Text, Dimensions, ScrollView } from 'react-native';
+import { Image, StyleSheet, Platform, View, Text, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
 import CustomParallaxScrollView from '@/components/CustomParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -9,7 +9,8 @@ import { dateTimeOptions } from '@/constants/Dates'
 import { useDataContext } from '@/components/DataContext'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Header } from '@rneui/base';
+import { Header, Icon } from '@rneui/base';
+import { router } from 'expo-router';
 
 const { width } = Dimensions.get('window');
 
@@ -65,7 +66,11 @@ export default function NewsScreen () {
       <Header
         backgroundColor='#799FAF'
         leftComponent={{ icon: 'menu', color: '#fff' }}
-        rightComponent={{ icon: 'home', color: '#fff' }}
+        rightComponent={
+          <TouchableOpacity onPress={() => router.push('/message')}>
+            <Icon name="notifications" color="#fff" />
+          </TouchableOpacity>
+        }
       />
       {/* <CustomParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}

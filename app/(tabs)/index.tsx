@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, Text, View, ScrollView, FlatList, Animated, StatusBar, } from 'react-native';
+import { Image, StyleSheet, Platform, Text, View, ScrollView, FlatList, Animated, StatusBar, TouchableOpacity, } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -6,11 +6,12 @@ import CustomParallaxScrollView from '@/components/CustomParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import Slider from '@/components/Slider';
-import React from 'react';
-import { Header } from '@rneui/base';
+import React, { useRef } from 'react';
+import { Header, Icon } from '@rneui/base';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { router } from 'expo-router';
 
 
 export default function HomeScreen () {
@@ -25,10 +26,14 @@ export default function HomeScreen () {
             style={styles.reactLogo}
           />
         }
-        rightComponent={{ icon: 'home', color: '#fff' }}
+        rightComponent={
+          <TouchableOpacity onPress={() => router.push('/message')}>
+            <Icon name="notifications" color="#fff" />
+          </TouchableOpacity>
+        }
       />
 
-      <StatusBar
+      < StatusBar
         backgroundColor={'transparent'}
         translucent={true}
       />
@@ -36,7 +41,7 @@ export default function HomeScreen () {
       <ThemedView>
         <Slider />
       </ThemedView>
-    </SafeAreaProvider>
+    </SafeAreaProvider >
   );
 }
 
