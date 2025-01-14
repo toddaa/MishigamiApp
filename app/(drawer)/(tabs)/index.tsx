@@ -12,6 +12,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { router } from 'expo-router';
+import { DrawerToggleButton } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+
 
 
 export default function HomeScreen () {
@@ -19,7 +22,13 @@ export default function HomeScreen () {
     <SafeAreaProvider>
       <Header
         backgroundColor='#799FAF'
-        leftComponent={{ icon: 'menu', color: '#fff' }}
+        leftComponent={<DrawerToggleButton />
+
+          // this is what i wanna do but idk how to implet it
+          // <TouchableOpacity onPress={() => <DrawerToggleButton />}>
+          //   <Icon name="menu" color="#fff" />
+          // </TouchableOpacity>
+        }
         centerComponent={
           <Image
             source={require('@/assets/images/Mastodon-56000SM.png')}

@@ -6,6 +6,7 @@ import { useDataContext } from '@/components/DataContext'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Header, Icon } from '@rneui/themed';
 import { router } from 'expo-router';
+import { DrawerToggleButton } from '@react-navigation/drawer';
 
 
 const leftArrowIcon = require('@/assets/images/previous.png');
@@ -167,7 +168,7 @@ export default function CalendarScreen () {
   return (
     <SafeAreaProvider>
       <Header backgroundColor='#799FAF'
-        leftComponent={{ icon: 'menu', color: '#fff' }}
+        leftComponent={<DrawerToggleButton />}
         rightComponent={
           <TouchableOpacity onPress={() => router.push('/message')}>
             <Icon name="notifications" color="#fff" />

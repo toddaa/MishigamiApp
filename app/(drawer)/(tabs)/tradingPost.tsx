@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, Text, View, SafeAreaView, ScrollView, FlatList, Animated, } from 'react-native';
+import { Image, StyleSheet, Platform, Text, View, SafeAreaView, ScrollView, FlatList, Animated, TouchableOpacity, } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -6,22 +6,26 @@ import CustomParallaxScrollView from '@/components/CustomParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import Slider from '@/components/Slider';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Header, Icon } from '@rneui/base';
+import { DrawerToggleButton } from '@react-navigation/drawer';
+import { router } from 'expo-router';
 
 export default function MapScreen () {
   return (
-    <View style={{ flex: 1 }}>
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/Mishigami-Blue-Mastodon-Arrow-Text.png')}
-          style={styles.reactLogo}
-        />
-      }>
-        
+    <SafeAreaProvider>
+      <Header
+        backgroundColor='#799FAF'
+        leftComponent={<DrawerToggleButton />}
+        rightComponent={
+          <TouchableOpacity onPress={() => router.push('/message')}>
+            <Icon name="notifications" color="#fff" />
+          </TouchableOpacity>
+        }
+      />
 
-    </ParallaxScrollView>
-    </View>
+
+    </SafeAreaProvider >
   );
 }
 

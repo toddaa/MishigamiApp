@@ -8,6 +8,7 @@ import { useBoolVariation } from '@launchdarkly/react-native-client-sdk'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Header, Icon } from '@rneui/base';
 import { router } from 'expo-router';
+import { DrawerToggleButton } from '@react-navigation/drawer';
 
 const MyTextInput = ({ style, value, name = '', onChange, placeholder, placeholderTextColor }) => {
   return (
@@ -62,7 +63,7 @@ export default function MessagesScreen () {
     <SafeAreaProvider>
       <Header
         backgroundColor='#799FAF'
-        leftComponent={{ icon: 'menu', color: '#fff' }}
+        leftComponent={<DrawerToggleButton />}
         rightComponent={
           <TouchableOpacity onPress={() => router.push('/message')}>
             <Icon name="notifications" color="#fff" />
