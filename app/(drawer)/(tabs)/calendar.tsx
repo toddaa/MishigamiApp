@@ -1,10 +1,12 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react';
-import { StyleSheet, Platform, View, Image } from 'react-native';
+import { StyleSheet, Platform, View, Image, TouchableOpacity } from 'react-native';
 import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar } from 'react-native-calendars';
 import AgendaItem from '@/components/AgendaItem';
 import { useDataContext } from '@/components/DataContext'
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Header } from '@rneui/themed';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Header, Icon } from '@rneui/themed';
+import { router } from 'expo-router';
+import { DrawerToggleButton } from '@react-navigation/drawer';
 
 
 const leftArrowIcon = require('@/assets/images/previous.png');
@@ -21,7 +23,7 @@ function isEmpty (obj) {
 }
 
 export default function CalendarScreen () {
-  const insets = useSafeAreaInsets();
+  // const insets = useSafeAreaInsets();
   const { dataState } = useDataContext()
   const [events, setEvents] = useState([])
   const [marks, setMarks] = useState({})
@@ -164,16 +166,14 @@ export default function CalendarScreen () {
   }, []);
 
   return (
-    <>
+    <SafeAreaProvider>
       <Header backgroundColor='#799FAF'
-        leftComponent={{ icon: 'menu', color: '#fff' }}
-        centerComponent={
-          <Image
-            source={require('@/assets/images/Mastodon-56000SM.png')}
-            style={styles.reactLogo}
-          />
+        leftComponent={<DrawerToggleButton />}
+        rightComponent={
+          <TouchableOpacity onPress={() => router.push('/message')}>
+            <Icon name="notifications" color="#fff" />
+          </TouchableOpacity>
         }
-        rightComponent={{ icon: 'home', color: '#fff' }}
       />
       <CalendarProvider
         date={INITIAL_DATE}
@@ -215,7 +215,7 @@ export default function CalendarScreen () {
         // dayFormat={'yyyy-MM-d'}
         />
       </CalendarProvider>
-    </>
+    </SafeAreaProvider>
   );
 };
 

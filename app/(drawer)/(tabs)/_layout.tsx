@@ -44,9 +44,9 @@ export default function TabLayout () {
           case 'settings':
             iconNames = { focused: 'settings', unfocused: 'settings-outline' };
             break;
-          case 'message':
-            iconNames = { focused: 'chatbox-ellipses', unfocused: 'chatbox-ellipses-outline' };
-            break;
+          // case 'message':
+          //   iconNames = { focused: 'chatbox-ellipses', unfocused: 'chatbox-ellipses-outline' };
+          //   break;
           default:
             iconNames = { focused: 'circle', unfocused: 'circle-outline' };
             break;
@@ -93,12 +93,12 @@ export default function TabLayout () {
           href: null,
         }}
       />
-      {/* <Tabs.Screen
+      <Tabs.Screen
         name="message"
         options={{
-
+          href: null,
         }}
-      /> */}
+      />
 
     </Tabs>
   );
