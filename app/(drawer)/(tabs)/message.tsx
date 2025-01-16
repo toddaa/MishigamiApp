@@ -9,6 +9,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Header, Icon } from '@rneui/base';
 import { router } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
+import { CustomHeader } from '@/components/CustomHeader';
 
 const MyTextInput = ({ style, value, name = '', onChange, placeholder, placeholderTextColor }) => {
   return (
@@ -61,15 +62,7 @@ export default function MessagesScreen () {
 
   return (
     <SafeAreaProvider>
-      <Header
-        backgroundColor='#799FAF'
-        leftComponent={<DrawerToggleButton />}
-        rightComponent={
-          <TouchableOpacity onPress={() => router.push('/message')}>
-            <Icon name="notifications" color="#fff" />
-          </TouchableOpacity>
-        }
-      />
+      <CustomHeader />
 
       <ThemedView>
         {!messageFlag

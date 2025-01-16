@@ -10,19 +10,12 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Header, Icon } from '@rneui/base';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { router } from 'expo-router';
+import { CustomHeader } from '@/components/CustomHeader';
 
 export default function MapScreen () {
   return (
     <SafeAreaProvider>
-      <Header
-        backgroundColor='#799FAF'
-        leftComponent={<DrawerToggleButton />}
-        rightComponent={
-          <TouchableOpacity onPress={() => router.push('/message')}>
-            <Icon name="notifications" color="#fff" />
-          </TouchableOpacity>
-        }
-      />
+      <CustomHeader />
 
 
     </SafeAreaProvider >

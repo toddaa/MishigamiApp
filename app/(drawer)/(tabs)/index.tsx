@@ -14,33 +14,13 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { router } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-
+import { CustomHeader } from '@/components/CustomHeader';
 
 
 export default function HomeScreen () {
   return (
     <SafeAreaProvider>
-      <Header
-        backgroundColor='#799FAF'
-        leftComponent={<DrawerToggleButton />
-
-          // this is what i wanna do but idk how to implet it
-          // <TouchableOpacity onPress={() => <DrawerToggleButton />}>
-          //   <Icon name="menu" color="#fff" />
-          // </TouchableOpacity>
-        }
-        centerComponent={
-          <Image
-            source={require('@/assets/images/Mastodon-56000SM.png')}
-            style={styles.reactLogo}
-          />
-        }
-        rightComponent={
-          <TouchableOpacity onPress={() => router.push('/message')}>
-            <Icon name="notifications" color="#fff" />
-          </TouchableOpacity>
-        }
-      />
+      <CustomHeader />
 
       < StatusBar
         backgroundColor={'transparent'}
