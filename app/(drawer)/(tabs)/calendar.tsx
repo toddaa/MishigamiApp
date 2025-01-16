@@ -7,6 +7,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Header, Icon } from '@rneui/themed';
 import { router } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
+import { CustomHeader } from '@/components/CustomHeader';
 
 
 const leftArrowIcon = require('@/assets/images/previous.png');
@@ -167,14 +168,7 @@ export default function CalendarScreen () {
 
   return (
     <SafeAreaProvider>
-      <Header backgroundColor='#799FAF'
-        leftComponent={<DrawerToggleButton />}
-        rightComponent={
-          <TouchableOpacity onPress={() => router.push('/message')}>
-            <Icon name="notifications" color="#fff" />
-          </TouchableOpacity>
-        }
-      />
+      <CustomHeader />
       <CalendarProvider
         date={INITIAL_DATE}
         // onDateChanged={onDateChanged}
