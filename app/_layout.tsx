@@ -23,6 +23,8 @@ import { generateClient } from 'aws-amplify/api';
 import * as queries from '../src/graphql/queries'
 import { createPushTokens, updatePushTokens } from '../src/graphql/mutations';
 import config from '../src/amplifyconfiguration.json';
+// import * as Calendar from 'expo-calendar';
+
 Amplify.configure(config);
 const client = generateClient();
 
@@ -133,6 +135,15 @@ export default function RootLayout () {
   const responseListener = useRef<Notifications.EventSubscription>();
 
   useEffect(() => {
+    // (async () => {
+    //   const { status } = await Calendar.requestCalendarPermissionsAsync();
+    //   if (status === 'granted') {
+    //     const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+    //     console.log('Here are all your calendars:');
+    //     console.log({ calendars });
+    //   }
+    // })();
+
     featureClient
       .identify({ kind: 'user', key: 'example-user-key' })
       .catch((e) => console.error('error: ' + e))
