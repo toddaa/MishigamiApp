@@ -4,11 +4,7 @@ import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar } from '
 import AgendaItem from '@/components/AgendaItem';
 import { useDataContext } from '@/components/DataContext'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Header, Icon } from '@rneui/themed';
-import { router } from 'expo-router';
-import { DrawerToggleButton } from '@react-navigation/drawer';
 import { CustomHeader } from '@/components/CustomHeader';
-
 
 const leftArrowIcon = require('@/assets/images/previous.png');
 const rightArrowIcon = require('@/assets/images/next.png');
@@ -28,6 +24,9 @@ export default function CalendarScreen () {
   const { dataState } = useDataContext()
   const [events, setEvents] = useState([])
   const [marks, setMarks] = useState({})
+
+  // @ts-ignore fix for defaultProps warning: https://github.com/wix/react-native-calendars/issues/2455
+  ExpandableCalendar.defaultProps = undefined
 
   const today = new Date()
   const INITIAL_DATE = today.toISOString().split('T')[0]
@@ -212,8 +211,6 @@ export default function CalendarScreen () {
     </SafeAreaProvider>
   );
 };
-
-// export default CalendarScreen;
 
 const styles = StyleSheet.create({
   viewContainer: {
