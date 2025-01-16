@@ -23,9 +23,9 @@ const CustomDrawerContent = (props) => {
   const colorScheme = useColorScheme() ?? 'light';
   const textColor = colorScheme === 'dark' ? '#fff' : '#000';
 
-  useEffect(() => {
-    console.log(pathname);
-  }, [pathname]);
+  // useEffect(() => {
+  //   console.log(pathname);
+  // }, [pathname]);
 
   return (
     <DrawerContentScrollView {...props}>
