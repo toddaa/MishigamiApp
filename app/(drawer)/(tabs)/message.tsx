@@ -64,7 +64,7 @@ export default function MessagesScreen () {
     <SafeAreaProvider>
       <CustomHeader />
 
-      <ThemedView>
+      <ThemedView style={styles.container}>
         {!messageFlag
           ? <View style={styles.viewContainerNewMessage}>
             <ThemedView style={styles.titleContainer}>
@@ -136,6 +136,9 @@ export default function MessagesScreen () {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   viewContainer: {
     padding: 20
   },
