@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, Alert, View, Text, TouchableOpacity, Button } from 'react-native';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 interface ItemProps {
   item: any;
@@ -17,8 +18,50 @@ function isEmpty (obj) {
 }
 
 const AgendaItem = (props: ItemProps) => {
+  const colorScheme = useColorScheme();
   const { item, onPress } = props;
   // console.log(item)
+
+  const styles = StyleSheet.create({
+    item: {
+      padding: 20,
+      backgroundColor: (colorScheme === 'light' ? 'white' : 'black'),
+      borderBottomWidth: 1,
+      borderBottomColor: 'lightgrey',
+      flexDirection: 'row'
+    },
+    itemHourText: {
+      color: (colorScheme === 'light' ? 'black' : 'white')
+    },
+    itemDurationText: {
+      color: 'grey',
+      fontSize: 12,
+      marginTop: 4,
+      marginLeft: 4
+    },
+    itemTitleText: {
+      color: (colorScheme === 'light' ? 'black' : 'white'),
+      marginLeft: 16,
+      fontWeight: 'bold',
+      fontSize: 16
+    },
+    itemButtonContainer: {
+      flex: 1,
+      alignItems: 'flex-end'
+    },
+    emptyItem: {
+      paddingLeft: 20,
+      height: 52,
+      justifyContent: 'center',
+      borderBottomWidth: 1,
+      borderBottomColor: 'lightgrey',
+      // borderBottomColor: (colorScheme === 'light' ? 'lightgrey' : 'darkgrey'),
+    },
+    emptyItemText: {
+      color: 'lightgrey',
+      fontSize: 14
+    }
+  });
 
   const itemPressed = useCallback(() => {
     onPress(item)
@@ -47,44 +90,3 @@ const AgendaItem = (props: ItemProps) => {
 };
 
 export default React.memo(AgendaItem);
-
-
-const styles = StyleSheet.create({
-  item: {
-    padding: 20,
-    backgroundColor: 'white',
-    borderBottomWidth: 1,
-    borderBottomColor: 'lightgrey',
-    flexDirection: 'row'
-  },
-  itemHourText: {
-    color: 'black'
-  },
-  itemDurationText: {
-    color: 'grey',
-    fontSize: 12,
-    marginTop: 4,
-    marginLeft: 4
-  },
-  itemTitleText: {
-    color: 'black',
-    marginLeft: 16,
-    fontWeight: 'bold',
-    fontSize: 16
-  },
-  itemButtonContainer: {
-    flex: 1,
-    alignItems: 'flex-end'
-  },
-  emptyItem: {
-    paddingLeft: 20,
-    height: 52,
-    justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: 'lightgrey'
-  },
-  emptyItemText: {
-    color: 'lightgrey',
-    fontSize: 14
-  }
-});
