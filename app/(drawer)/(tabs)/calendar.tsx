@@ -6,6 +6,7 @@ import { useDataContext } from '@/components/DataContext'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { CustomHeader } from '@/components/CustomHeader';
 import EventAddSheet from '@/components/EventAddSheet';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 const leftArrowIcon = require('@/assets/images/previous.png');
 const rightArrowIcon = require('@/assets/images/next.png');
@@ -21,6 +22,7 @@ function isEmpty (obj) {
 }
 
 export default function CalendarScreen () {
+  const colorScheme = useColorScheme();
   // const insets = useSafeAreaInsets();
   const { dataState } = useDataContext()
   const [events, setEvents] = useState([])
@@ -36,19 +38,20 @@ export default function CalendarScreen () {
 
   // const { weekView } = props;
   const weekView = false
+
   const theme = {
     // arrows
-    arrowColor: 'black',
+    arrowColor: (colorScheme === 'light' ? 'black' : 'white'),
     arrowStyle: { padding: 0 },
     // knob
     expandableKnobColor: '#00AAAF',
     // month
-    monthTextColor: 'black',
+    monthTextColor: (colorScheme === 'light' ? 'black' : 'white'),
     textMonthFontSize: 16,
     textMonthFontFamily: 'HelveticaNeue',
     textMonthFontWeight: 'bold' as const,
     // day names
-    textSectionTitleColor: 'black',
+    textSectionTitleColor: (colorScheme === 'light' ? 'black' : 'white'),
     textDayHeaderFontSize: 12,
     textDayHeaderFontFamily: 'HelveticaNeue',
     textDayHeaderFontWeight: 'normal' as const,
@@ -61,15 +64,46 @@ export default function CalendarScreen () {
     textDayStyle: { marginTop: Platform.OS === 'android' ? 2 : 4 },
     // selected date
     selectedDayBackgroundColor: '#00AAAF',
-    selectedDayTextColor: 'white',
+    selectedDayTextColor: (colorScheme === 'light' ? 'white' : 'black'),
     // disabled date
     textDisabledColor: 'grey',
     // dot (marked date)
     dotColor: '#00AAAF',
-    selectedDotColor: 'white',
+    selectedDotColor: (colorScheme === 'light' ? 'white' : 'black'),
     disabledDotColor: 'grey',
-    dotStyle: { marginTop: -2 }
+    dotStyle: { marginTop: -2 },
+    calendarBackground: (colorScheme === 'light' ? 'white' : 'black')
   };
+
+  const styles = StyleSheet.create({
+    viewContainer: {
+      // padding: 20
+    },
+    titleContainer: {
+      flexDirection: 'row',
+      gap: 8,
+      paddingTop: 10,
+      paddingBottom: 10
+    },
+    calendar: {
+      paddingLeft: 20,
+      paddingRight: 20
+    },
+    header: {
+      backgroundColor: 'lightgrey'
+    },
+    section: {
+      backgroundColor: (colorScheme === 'light' ? '#f2f7f7' : '#2e2e2e'),
+      color: 'grey',
+      textTransform: 'capitalize'
+    },
+    reactLogo: {
+      height: 92,
+      width: 130,
+      alignSelf: 'center',
+    },
+  });
+
   const todayBtnTheme = useRef({
     todayButtonTextColor: '#00AAAF'
   });
@@ -212,32 +246,3 @@ export default function CalendarScreen () {
     </SafeAreaProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  viewContainer: {
-    // padding: 20
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-    paddingTop: 10,
-    paddingBottom: 10
-  },
-  calendar: {
-    paddingLeft: 20,
-    paddingRight: 20
-  },
-  header: {
-    backgroundColor: 'lightgrey'
-  },
-  section: {
-    backgroundColor: '#f2f7f7',
-    color: 'grey',
-    textTransform: 'capitalize'
-  },
-  reactLogo: {
-    height: 92,
-    width: 130,
-    alignSelf: 'center',
-  },
-});
