@@ -49,7 +49,15 @@ const CustomDrawerContent = (props) => {
           <Text style={[styles.userEmail, { color: textColor }]}>email</Text>
         </View>
       </View> */}
-      <View style={styles.top}>
+      <View
+      // style={styles.top}
+      >
+        <View style={styles.headerView}>
+          <Image
+            source={require('@/assets/images/Mastodon-56000SM.png')}
+            style={styles.headerImg}
+          />
+        </View>
         <DrawerItem
           icon={({ color, size }) => (
             <FontAwesome5
@@ -151,7 +159,7 @@ export default function Layout () {
 
 const styles = StyleSheet.create({
   top: {
-    paddingTop: 30,
+    paddingTop: 0,
   },
   navItemLabel: {
     marginLeft: -10,
@@ -164,6 +172,15 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ccc",
     borderBottomWidth: 1,
     marginBottom: 10,
+  },
+  headerView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 20,
+  },
+  headerImg: {
+    height: 100,
+    resizeMode: 'contain',
   },
   userImg: {
     borderRadius: 40,
