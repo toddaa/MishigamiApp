@@ -139,7 +139,7 @@ export default function RootLayout () {
 
     registerForPushNotificationsAsync()
       .then(token => setExpoPushToken(token ?? ''))
-      .catch((error: any) => setExpoPushToken(`${error}`));
+      .catch((error: any) => console.log(`${error}`));
 
     notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
       setNotification(notification);
