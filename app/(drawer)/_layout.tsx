@@ -17,6 +17,8 @@ import {
 } from "@expo/vector-icons";
 import { router, usePathname } from "expo-router";
 import TabLayout from './(tabs)/_layout'
+import * as WebBrowser from 'expo-web-browser';
+
 
 const CustomDrawerContent = (props) => {
   const pathname = usePathname();
@@ -26,6 +28,10 @@ const CustomDrawerContent = (props) => {
   // useEffect(() => {
   //   console.log(pathname);
   // }, [pathname]);
+
+  const handleTraidingPostPress = async () => {
+    let result = await WebBrowser.openBrowserAsync('https://mishigami.org/shop/');
+  };
 
   return (
     <DrawerContentScrollView {...props}>
@@ -65,49 +71,47 @@ const CustomDrawerContent = (props) => {
             router.push('/(drawer)/(tabs)/map');
           }}
         />
+        <DrawerItem
+          icon={({ color, size }) => (
+            <MaterialIcons
+              name="shopping-cart"
+              size={size}
+              color={pathname == "/favourites" ? "#fff" : "#000"}
+            />
+          )}
+          label={"Trading Post"}
+          labelStyle={[
+            styles.navItemLabel,
+            { color: pathname == "/favourites" ? "#fff" : "#000" },
+          ]}
+          style={{
+            borderWidth: 2,
+            backgroundColor: pathname == "/favourites" ? "#333" : "#fff"
+          }}
+          onPress={handleTraidingPostPress}
+        />
+        <DrawerItem
+          icon={({ color, size }) => (
+            <Ionicons
+              name="settings-outline"
+              size={size}
+              color={pathname == "/settings" ? "#fff" : "#000"}
+            />
+          )}
+          label={"Settings"}
+          labelStyle={[
+            styles.navItemLabel,
+            { color: pathname == "/settings" ? "#fff" : "#000" },
+          ]}
+          style={{
+            borderWidth: 2,
+            backgroundColor: pathname == "/settings" ? "#333" : "#fff"
+          }}
+          onPress={() => {
+            router.push("/settings");
+          }}
+        />
       </View>
-      <DrawerItem
-        icon={({ color, size }) => (
-          <MaterialIcons
-            name="shopping-cart"
-            size={size}
-            color={pathname == "/favourites" ? "#fff" : "#000"}
-          />
-        )}
-        label={"Trading Post"}
-        labelStyle={[
-          styles.navItemLabel,
-          { color: pathname == "/favourites" ? "#fff" : "#000" },
-        ]}
-        style={{
-          borderWidth: 2,
-          backgroundColor: pathname == "/favourites" ? "#333" : "#fff"
-        }}
-        onPress={() => {
-          router.push("/(drawer)/(tabs)/tradingPost");
-        }}
-      />
-      <DrawerItem
-        icon={({ color, size }) => (
-          <Ionicons
-            name="settings-outline"
-            size={size}
-            color={pathname == "/settings" ? "#fff" : "#000"}
-          />
-        )}
-        label={"Settings"}
-        labelStyle={[
-          styles.navItemLabel,
-          { color: pathname == "/settings" ? "#fff" : "#000" },
-        ]}
-        style={{
-          borderWidth: 2,
-          backgroundColor: pathname == "/settings" ? "#333" : "#fff"
-        }}
-        onPress={() => {
-          router.push("/settings");
-        }}
-      />
     </DrawerContentScrollView>
   );
 };
