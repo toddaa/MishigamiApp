@@ -1,10 +1,11 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react';
-import { StyleSheet, Platform, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Platform, View, Image, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar } from 'react-native-calendars';
 import AgendaItem from '@/components/AgendaItem';
 import { useDataContext } from '@/components/DataContext'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { CustomHeader } from '@/components/CustomHeader';
+import EventAddSheet from '@/components/EventAddSheet';
 
 const leftArrowIcon = require('@/assets/images/previous.png');
 const rightArrowIcon = require('@/assets/images/next.png');
@@ -24,6 +25,8 @@ export default function CalendarScreen () {
   const { dataState } = useDataContext()
   const [events, setEvents] = useState([])
   const [marks, setMarks] = useState({})
+  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+  const [bottomSheetContent, setBottomSheetContent] = useState({});
 
   // @ts-ignore fix for defaultProps warning: https://github.com/wix/react-native-calendars/issues/2455
   ExpandableCalendar.defaultProps = undefined
@@ -101,10 +104,9 @@ export default function CalendarScreen () {
         const existingEntry = acc.find((entry) => entry.title === startDate);
 
         const eventData = {
+          ...event,
           hour,
           duration,
-          title: event.name,
-          // category: event.category,
         };
 
         if (existingEntry) {
@@ -153,16 +155,14 @@ export default function CalendarScreen () {
     }
   }, [events]);
 
-  // const onDateChanged = useCallback((date, updateSource) => {
-  //   console.log('ExpandableCalendarScreen onDateChanged: ', date, updateSource);
-  // }, []);
-
-  // const onMonthChange = useCallback(({dateString}) => {
-  //   console.log('ExpandableCalendarScreen onMonthChange: ', dateString);
-  // }, []);
+  const onAgendaPress = (e) => {
+    // console.log(e)
+    setBottomSheetContent(e)
+    setIsBottomSheetVisible(true)
+  }
 
   const renderItem = useCallback(({ item }: any) => {
-    return <AgendaItem item={item} />;
+    return <AgendaItem item={item} onPress={onAgendaPress} />;
   }, []);
 
   return (
@@ -208,6 +208,7 @@ export default function CalendarScreen () {
         // dayFormat={'yyyy-MM-d'}
         />
       </CalendarProvider>
+      <EventAddSheet isVisible={isBottomSheetVisible} bottomSheetContent={bottomSheetContent} backdropAction={() => setIsBottomSheetVisible(false)} />
     </SafeAreaProvider>
   );
 };
