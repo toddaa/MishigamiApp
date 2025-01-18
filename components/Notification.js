@@ -1,42 +1,43 @@
-import { Image, StyleSheet, Platform, Text, View, SafeAreaView, ScrollView, FlatList, Animated, TouchableOpacity, Switch, } from 'react-native';
-import React, { useState } from 'react';
+import { Image, StyleSheet, Platform, Text, View, SafeAreaView, ScrollView, FlatList, Animated, TouchableOpacity, Switch, } from 'react-native'
+import React, { useState } from 'react'
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import CustomParallaxScrollView from '@/components/CustomParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import Slider from '@/components/Slider';
+import { HelloWave } from '@/components/HelloWave'
+import ParallaxScrollView from '@/components/ParallaxScrollView'
+import CustomParallaxScrollView from '@/components/CustomParallaxScrollView'
+import { ThemedText } from '@/components/ThemedText'
+import { ThemedView } from '@/components/ThemedView'
+import Slider from '@/components/Slider'
 
-import { useNavigation } from '@react-navigation/native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { CustomHeader } from '@/components/CustomHeader';
+import { useNavigation } from '@react-navigation/native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { CustomHeader } from '@/components/CustomHeader'
 
-// const Notification = () => {
-export default function HomeScreen () {
-  const [LodgeNotificationsEnabled, setLodgeNotificationsEnabled] = useState(true);
-  const toggleLodgeNotifications = () => setLodgeNotificationsEnabled(!LodgeNotificationsEnabled);
+const Notification = () => {
+  // export default function HomeScreen () {
+  const [LodgeNotificationsEnabled, setLodgeNotificationsEnabled] = useState(true)
+  const toggleLodgeNotifications = () => setLodgeNotificationsEnabled(!LodgeNotificationsEnabled)
 
-  const [NorthNotificationsEnabled, setNorthNotificationsEnabled] = useState(true);
-  const toggleNorthNotifications = () => setNorthNotificationsEnabled(!NorthNotificationsEnabled);
+  const [NorthNotificationsEnabled, setNorthNotificationsEnabled] = useState(true)
+  const toggleNorthNotifications = () => setNorthNotificationsEnabled(!NorthNotificationsEnabled)
 
-  const [SouthNotificationsEnabled, setSouthNotificationsEnabled] = useState(true);
-  const toggleSouthNotifications = () => setSouthNotificationsEnabled(!SouthNotificationsEnabled);
+  const [SouthNotificationsEnabled, setSouthNotificationsEnabled] = useState(true)
+  const toggleSouthNotifications = () => setSouthNotificationsEnabled(!SouthNotificationsEnabled)
 
-  const [EastNotificationsEnabled, setEastNotificationsEnabled] = useState(true);
-  const toggleEastNotifications = () => setEastNotificationsEnabled(!EastNotificationsEnabled);
+  const [EastNotificationsEnabled, setEastNotificationsEnabled] = useState(true)
+  const toggleEastNotifications = () => setEastNotificationsEnabled(!EastNotificationsEnabled)
 
-  const [WestNotificationsEnabled, setWestNotificationsEnabled] = useState(true);
-  const toggleWestNotifications = () => setWestNotificationsEnabled(!WestNotificationsEnabled);
+  const [WestNotificationsEnabled, setWestNotificationsEnabled] = useState(true)
+  const toggleWestNotifications = () => setWestNotificationsEnabled(!WestNotificationsEnabled)
 
-  const [CentralNotificationsEnabled, setCentralNotificationsEnabled] = useState(true);
-  const toggleCentralNotifications = () => setCentralNotificationsEnabled(!CentralNotificationsEnabled);
+  const [CentralNotificationsEnabled, setCentralNotificationsEnabled] = useState(true)
+  const toggleCentralNotifications = () => setCentralNotificationsEnabled(!CentralNotificationsEnabled)
 
   return (
     <SafeAreaProvider>
-      <CustomHeader />
 
       <ThemedView style={styles.section}>
+        <ThemedText style={styles.sectionTitle}>Notifications</ThemedText>
+
         <ThemedView style={styles.item}>
           <ThemedText style={styles.itemText}>Lodge Notifications</ThemedText>
           <Switch
@@ -88,9 +89,9 @@ export default function HomeScreen () {
       </ThemedView>
 
     </SafeAreaProvider>
-  );
+  )
 }
-// export default Notification
+export default Notification
 
 
 
@@ -130,13 +131,14 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: '600',
-    marginBottom: 8,
+    paddingTop: 10,
   },
   item: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 12,
+    // paddingBottom: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
@@ -147,4 +149,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#999',
   },
-});
+})

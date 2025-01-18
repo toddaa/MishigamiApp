@@ -1,67 +1,68 @@
-import { Image, StyleSheet, Platform, Text, View, SafeAreaView, ScrollView, FlatList, Animated, Switch, } from 'react-native';
+import { Image, StyleSheet, Platform, Text, View, SafeAreaView, ScrollView, FlatList, Animated, Switch, } from 'react-native'
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import CustomParallaxScrollView from '@/components/CustomParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import Slider from '@/components/Slider';
-import { TouchableOpacity, } from 'react-native';
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { CustomHeader } from '@/components/CustomHeader';
+import { HelloWave } from '@/components/HelloWave'
+import ParallaxScrollView from '@/components/ParallaxScrollView'
+import CustomParallaxScrollView from '@/components/CustomParallaxScrollView'
+import { ThemedText } from '@/components/ThemedText'
+import { ThemedView } from '@/components/ThemedView'
+import Slider from '@/components/Slider'
+import { TouchableOpacity, } from 'react-native'
+import React, { useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { CustomHeader } from '@/components/CustomHeader'
 
-export default function HomeScreen () {
-  const [darkMode, setDarkMode] = useState(false);
-  const [lightMode, setLightMode] = useState(false);
-  const [autoMode, setAutoMode] = useState(false);
+const ColorSetting = () => {
+  // export default function HomeScreen () {
+  const [darkMode, setDarkMode] = useState(false)
+  const [lightMode, setLightMode] = useState(false)
+  const [autoMode, setAutoMode] = useState(false)
 
   const toggleDarkMode = () => {
     setDarkMode((prev) => {
       if (prev && !lightMode && !autoMode) {
-        return prev;
+        return prev
       }
       if (!prev) {
-        setAutoMode(false);
-        setLightMode(false);
+        setAutoMode(false)
+        setLightMode(false)
       }
-      return !prev;
-    });
-  };
+      return !prev
+    })
+  }
   const toggleLightMode = () => {
     setLightMode((prev) => {
       if (prev && !darkMode && !autoMode) {
-        return prev;
+        return prev
       }
       if (!prev) {
-        setDarkMode(false);
-        setAutoMode(false);
+        setDarkMode(false)
+        setAutoMode(false)
       }
-      return !prev;
-    });
-  };
+      return !prev
+    })
+  }
   const toggleAutoMode = () => {
     setAutoMode((prev) => {
       if (prev && !lightMode && !darkMode) {
-        return prev;
+        return prev
       }
       if (!prev) {
-        setDarkMode(false);
-        setLightMode(false);
+        setDarkMode(false)
+        setLightMode(false)
       }
-      return !prev;
-    });
-  };
+      return !prev
+    })
+  }
 
 
 
   return (
     <SafeAreaProvider>
-      <CustomHeader />
 
       <ThemedView style={styles.container}>
         <ThemedView style={styles.section}>
+          <ThemedText style={styles.sectionTitle}>Color Theme</ThemedText>
           <ThemedView style={styles.item}>
             <ThemedText style={styles.itemText}>Dark Mode</ThemedText>
             <Switch
@@ -90,8 +91,9 @@ export default function HomeScreen () {
 
       </ThemedView>
     </SafeAreaProvider>
-  );
+  )
 }
+export default ColorSetting
 
 
 const styles = StyleSheet.create({
@@ -130,7 +132,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: '600',
-    marginBottom: 8,
+    // paddingTop: 10,
   },
   item: {
     flexDirection: 'row',
@@ -147,4 +149,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#999',
   },
-});
+})

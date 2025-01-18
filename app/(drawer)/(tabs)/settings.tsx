@@ -10,6 +10,8 @@ import { Header, Icon } from '@rneui/base';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { router } from 'expo-router';
 import { CustomHeader } from '@/components/CustomHeader';
+import Notification from '@/components/Notification';
+import ColorSetting from '@/components/ColorSetting';
 
 export default function SettingsPage () {
   const navigation = useNavigation();
@@ -17,37 +19,39 @@ export default function SettingsPage () {
   return (
     <SafeAreaProvider>
       <CustomHeader />
+      <Notification />
+      <ColorSetting />
 
 
-      <ThemedView style={styles.container}>
-        {/* Account Settings Section */}
+      {/* <ThemedView style={styles.container}> */}
+      {/* Account Settings Section
         <ThemedView style={styles.section}>
           <TouchableOpacity onPress={() => navigation.navigate('AccountSettings')}>
             <ThemedText style={styles.sectionTitle}>Account Settings</ThemedText>
           </TouchableOpacity>
-        </ThemedView>
+        </ThemedView> */}
 
-        {/* Notifications Section */}
+      {/* Notifications Section
         <ThemedView style={styles.section}>
           <TouchableOpacity onPress={() => navigation.navigate('NotificationsSettings')}>
             <ThemedText style={styles.sectionTitle}>Notifications</ThemedText>
           </TouchableOpacity>
-        </ThemedView>
+        </ThemedView> */}
 
-        {/* App Preferences Section */}
+      {/* App Preferences Section
         <ThemedView style={styles.section}>
           <TouchableOpacity onPress={() => navigation.navigate('AppPreferencesSettings')}>
             <ThemedText style={styles.sectionTitle}>App Preferences</ThemedText>
           </TouchableOpacity>
-        </ThemedView>
+        </ThemedView> */}
 
-        {/* TabBar Section */}
+      {/* TabBar Section
         <ThemedView style={styles.section}>
           <TouchableOpacity onPress={() => navigation.navigate('TabBarSettings')}>
             <ThemedText style={styles.sectionTitle}>Tab Bar</ThemedText>
           </TouchableOpacity>
-        </ThemedView>
-      </ThemedView>
+        </ThemedView> */}
+      {/* </ThemedView> */}
     </SafeAreaProvider>
   );
 }

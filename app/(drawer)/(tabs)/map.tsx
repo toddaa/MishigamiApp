@@ -16,6 +16,10 @@ export default function MapScreen () {
   return (
     <SafeAreaProvider>
       <CustomHeader />
+      <ThemedView style={styles.container}>
+
+
+      </ThemedView>
 
 
     </SafeAreaProvider >
@@ -24,6 +28,9 @@ export default function MapScreen () {
 
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
