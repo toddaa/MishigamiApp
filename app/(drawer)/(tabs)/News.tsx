@@ -13,12 +13,15 @@ import { Header, Icon } from '@rneui/base';
 import { router } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { CustomHeader } from '@/components/CustomHeader';
+import { useColorScheme } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
 export default function NewsScreen () {
   const { dataState } = useDataContext()
   const [news, setNews] = useState([])
+  const colorScheme = useColorScheme();
+
 
   useEffect(() => {
     if (dataState.articles !== null) {
@@ -37,6 +40,13 @@ export default function NewsScreen () {
           </Text>
         </Unorderedlist>
       )
+    }
+    if (node.name === 'p') {
+      return (
+        <Text key={index} style={{ color: (colorScheme === 'light' ? 'black' : 'white'), marginBottom: 20, fontSize: 16, }}>
+          {defaultRenderer(node.children, parent)}
+        </Text>
+      );
     }
     if (node.name === 'img') {
       const imageURL = node.attribs['data-orig-file']
@@ -78,6 +88,7 @@ export default function NewsScreen () {
         <ScrollView
         // pagingEnabled={true}
         >
+
           {/* <ThemedView style={styles.titleContainer}>
           <ThemedText type="title">News</ThemedText>
         </ThemedView> */}
@@ -148,11 +159,11 @@ const styles = StyleSheet.create({
     width: 130,
     alignSelf: 'center',
   },
-  p: {
-    color: 'white',
-    fontSize: 16,
-    marginBottom: -20
-  },
+  // p: {
+  //   // color: 'white',
+  //   fontSize: 16,
+  //   marginBottom: -20
+  // },
   ul: {
     color: 'white',
     paddingBottom: 20
