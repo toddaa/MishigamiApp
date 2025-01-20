@@ -146,6 +146,7 @@ export const createMessage = /* GraphQL */ `mutation CreateMessage(
     ttl
     iosSubtitle
     iosBadgeCount
+    target
     createdAt
     updatedAt
     __typename
@@ -167,6 +168,7 @@ export const updateMessage = /* GraphQL */ `mutation UpdateMessage(
     ttl
     iosSubtitle
     iosBadgeCount
+    target
     createdAt
     updatedAt
     __typename
@@ -188,6 +190,7 @@ export const deleteMessage = /* GraphQL */ `mutation DeleteMessage(
     ttl
     iosSubtitle
     iosBadgeCount
+    target
     createdAt
     updatedAt
     __typename
@@ -205,6 +208,7 @@ export const createPushTokens = /* GraphQL */ `mutation CreatePushTokens(
     id
     token
     ttl
+    subscriptions
     createdAt
     updatedAt
     __typename
@@ -222,6 +226,7 @@ export const updatePushTokens = /* GraphQL */ `mutation UpdatePushTokens(
     id
     token
     ttl
+    subscriptions
     createdAt
     updatedAt
     __typename
@@ -239,6 +244,7 @@ export const deletePushTokens = /* GraphQL */ `mutation DeletePushTokens(
     id
     token
     ttl
+    subscriptions
     createdAt
     updatedAt
     __typename

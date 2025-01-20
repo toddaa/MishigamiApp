@@ -10,6 +10,7 @@ import { Header, Icon } from '@rneui/base';
 import { router } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { CustomHeader } from '@/components/CustomHeader';
+import SelectDropdown from 'react-native-select-dropdown'
 
 const MyTextInput = ({ style, value, name = '', onChange, placeholder, placeholderTextColor }) => {
   return (
@@ -32,12 +33,17 @@ export default function MessagesScreen () {
   const [formData, setFormData] = useState({
     subject: '',
     message: '',
+    target: '',
   })
+
+  useEffect(() => {
+    console.log(messageFlag)
+  }, [messageFlag])
+
   useEffect(() => {
     if (dataState.messages !== null) {
       setMessages(dataState.messages)
     }
-
   }, [dataState])
 
   useEffect(() => {
@@ -52,7 +58,7 @@ export default function MessagesScreen () {
     sendMessage(formData)
   };
 
-  const handleFieldChange = event => {
+  const handleTextFieldChange = event => {
     const { name, text } = event;
     setFormData({
       ...formData,
@@ -60,12 +66,29 @@ export default function MessagesScreen () {
     })
   }
 
+  const handleSelectFieldChange = event => {
+    const { value } = event;
+    setFormData({
+      ...formData,
+      target: value
+    })
+  }
+
+  const emojisWithIcons = [
+    { title: 'All Lodge', value: 'lodge' },
+    { title: 'North Area', value: 'north' },
+    { title: 'South Area', value: 'south' },
+    { title: 'East Area', value: 'east' },
+    { title: 'West Area', value: 'west' },
+    { title: 'Central Area', value: 'central' },
+  ];
+
   return (
     <SafeAreaProvider>
       <CustomHeader />
 
       <ThemedView style={styles.container}>
-        {!messageFlag
+        {messageFlag
           ? <View style={styles.viewContainerNewMessage}>
             <ThemedView style={styles.titleContainer}>
               <ThemedText type="title" style={{ color: 'black' }}>New Message</ThemedText>
@@ -79,7 +102,7 @@ export default function MessagesScreen () {
               placeholderTextColor={'#808080'}
               placeholder='Subject'
               name='subject'
-              onChange={handleFieldChange}
+              onChange={handleTextFieldChange}
               value={formData.subject} />
 
             <MyTextInput
@@ -88,8 +111,39 @@ export default function MessagesScreen () {
               placeholderTextColor={'#808080'}
               placeholder='Message'
               name='message'
-              onChange={handleFieldChange}
+              onChange={handleTextFieldChange}
               value={formData.message} />
+
+            <SelectDropdown
+              data={emojisWithIcons}
+              // onSelect={(selectedItem, index) => {
+              //   console.log(selectedItem, index);
+              // }}
+              onSelect={handleSelectFieldChange}
+              renderButton={(selectedItem, isOpened) => {
+                return (
+                  <View style={styles1.dropdownButtonStyle}>
+                    {/* {selectedItem && (
+                      <Icon name={selectedItem.icon} style={styles1.dropdownButtonIconStyle} />
+                    )} */}
+                    <Text style={styles1.dropdownButtonTxtStyle}>
+                      {(selectedItem && selectedItem.title) || 'Target Group'}
+                    </Text>
+                    {/* <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles1.dropdownButtonArrowStyle} /> */}
+                  </View>
+                );
+              }}
+              renderItem={(item, index, isSelected) => {
+                return (
+                  <View style={{ ...styles1.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' }) }}>
+                    {/* <Icon name={item.icon} style={styles1.dropdownItemIconStyle} /> */}
+                    <Text style={styles1.dropdownItemTxtStyle}>{item.title}</Text>
+                  </View>
+                );
+              }}
+              showsVerticalScrollIndicator={false}
+            // dropdownStyle={styles.dropdownMenuStyle}
+            />
 
             <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}
               disabled={!isSubmitable}>
@@ -200,26 +254,52 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
   },
-  // slide: {
-  //   padding: 100,
-  //   width: 100,
-  //   height: "100%"
-  // },
-  // scrollView: {
-  //   width: "115%",
-  //   height: "200%",
-  //   alignSelf: 'center',
-  // },
-  // horizontalscrollView: {
-  //   width: "115%",
-  //   height: "200%",
-  //   alignSelf: 'center',
-  // },
-  // item: {
-  //   margin: 40,
-  //   height: 700
-  // },
-  // pictureTitle: {
-  //   alignSelf: 'center',
-  // },
+});
+
+const styles1 = StyleSheet.create({
+  dropdownButtonStyle: {
+    width: 200,
+    height: 50,
+    backgroundColor: '#E9ECEF',
+    borderRadius: 12,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+  },
+  dropdownButtonTxtStyle: {
+    flex: 1,
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#151E26',
+  },
+  dropdownButtonArrowStyle: {
+    fontSize: 28,
+  },
+  dropdownButtonIconStyle: {
+    fontSize: 28,
+    marginRight: 8,
+  },
+  dropdownMenuStyle: {
+    backgroundColor: '#E9ECEF',
+    borderRadius: 8,
+  },
+  dropdownItemStyle: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingHorizontal: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  dropdownItemTxtStyle: {
+    flex: 1,
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#151E26',
+  },
+  dropdownItemIconStyle: {
+    fontSize: 28,
+    marginRight: 8,
+  },
 });

@@ -53,6 +53,7 @@ const fetchTokens = async () => {
     listPushTokens {
       items {
         token
+        subscriptions
       }
     }
   }
@@ -199,8 +200,8 @@ export const handler = async (event, context) => {
 
   const pushTokenData = await fetchTokens()
   // console.log(pushTokenData)
-  // const pushTokens = pushTokenData.data.listPushTokens.items.map((item) => item.token)
-  // console.log(pushTokens)
+  const pushTokens = pushTokenData.data.listPushTokens.items.map((item) => item.token)
+  console.log({ pushTokens })
 
   for (const record of event.Records) {
     // console.log(record.eventID);
@@ -211,12 +212,23 @@ export const handler = async (event, context) => {
       case 'INSERT':
         try {
           const item = unmarshall(record.dynamodb.NewImage)
-          const { id, title } = item
+          const { id, title, target, body } = item
 
           // console.log(title)
 
+          const filteredTokens = pushTokenData.data.listPushTokens.items.reduce((acc, item) => {
+            if (item.subscriptions) {
+              const subscriptions = JSON.parse(item.subscriptions)
+              if (subscriptions[target]) {
+                acc.push(item.token)
+              }
+            }
+            return acc
+          }, [])
+          console.log({ filteredTokens })
+
           const receiptIds = await sendNotification({
-            pushTokens: pushTokenData.data.listPushTokens.items.map((item) => item.token),
+            pushTokens: filteredTokens,
             title,
           })
           // console.log({ receiptIds })
