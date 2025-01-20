@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Platform, Text, View, SafeAreaView, ScrollView, FlatList, Animated, TouchableOpacity, Switch, } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { HelloWave } from '@/components/HelloWave'
 import ParallaxScrollView from '@/components/ParallaxScrollView'
@@ -11,26 +11,27 @@ import Slider from '@/components/Slider'
 import { useNavigation } from '@react-navigation/native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { CustomHeader } from '@/components/CustomHeader'
+import { useDataContext } from '@/components/DataContext'
 
 const Notification = () => {
-  // export default function HomeScreen () {
+  const { dataState, saveSubscription } = useDataContext()
+  const [subscriptions, setSubscriptions] = useState(true)
+
   const [LodgeNotificationsEnabled, setLodgeNotificationsEnabled] = useState(true)
-  const toggleLodgeNotifications = () => setLodgeNotificationsEnabled(!LodgeNotificationsEnabled)
-
   const [NorthNotificationsEnabled, setNorthNotificationsEnabled] = useState(true)
-  const toggleNorthNotifications = () => setNorthNotificationsEnabled(!NorthNotificationsEnabled)
-
   const [SouthNotificationsEnabled, setSouthNotificationsEnabled] = useState(true)
-  const toggleSouthNotifications = () => setSouthNotificationsEnabled(!SouthNotificationsEnabled)
-
   const [EastNotificationsEnabled, setEastNotificationsEnabled] = useState(true)
-  const toggleEastNotifications = () => setEastNotificationsEnabled(!EastNotificationsEnabled)
-
   const [WestNotificationsEnabled, setWestNotificationsEnabled] = useState(true)
-  const toggleWestNotifications = () => setWestNotificationsEnabled(!WestNotificationsEnabled)
-
   const [CentralNotificationsEnabled, setCentralNotificationsEnabled] = useState(true)
-  const toggleCentralNotifications = () => setCentralNotificationsEnabled(!CentralNotificationsEnabled)
+
+  useEffect(() => {
+    // console.log(dataState.subscriptions)
+    setSubscriptions(dataState.subscriptions)
+  }, [dataState.subscriptions])
+
+  const toggleSubscription = async (sub) => {
+    await saveSubscription(sub, !subscriptions[sub])
+  }
 
   return (
     <SafeAreaProvider>
@@ -41,48 +42,48 @@ const Notification = () => {
         <ThemedView style={styles.item}>
           <ThemedText style={styles.itemText}>Lodge Notifications</ThemedText>
           <Switch
-            value={LodgeNotificationsEnabled}
-            onValueChange={toggleLodgeNotifications}
+            value={subscriptions.lodge}
+            onValueChange={() => toggleSubscription('lodge')}
           />
         </ThemedView>
 
         <ThemedView style={styles.item}>
           <ThemedText style={styles.itemText}>North Area Notifications</ThemedText>
           <Switch
-            value={NorthNotificationsEnabled}
-            onValueChange={toggleNorthNotifications}
+            value={subscriptions.north}
+            onValueChange={() => toggleSubscription('north')}
           />
         </ThemedView>
 
         <ThemedView style={styles.item}>
           <ThemedText style={styles.itemText}>South Area Notifications</ThemedText>
           <Switch
-            value={SouthNotificationsEnabled}
-            onValueChange={toggleSouthNotifications}
+            value={subscriptions.south}
+            onValueChange={() => toggleSubscription('south')}
           />
         </ThemedView>
 
         <ThemedView style={styles.item}>
           <ThemedText style={styles.itemText}>East Area Notifications</ThemedText>
           <Switch
-            value={EastNotificationsEnabled}
-            onValueChange={toggleEastNotifications}
+            value={subscriptions.east}
+            onValueChange={() => toggleSubscription('east')}
           />
         </ThemedView>
 
         <ThemedView style={styles.item}>
           <ThemedText style={styles.itemText}>West Area Notifications</ThemedText>
           <Switch
-            value={WestNotificationsEnabled}
-            onValueChange={toggleWestNotifications}
+            value={subscriptions.west}
+            onValueChange={() => toggleSubscription('west')}
           />
         </ThemedView>
 
         <ThemedView style={styles.item}>
           <ThemedText style={styles.itemText}>Central Area Notifications</ThemedText>
           <Switch
-            value={CentralNotificationsEnabled}
-            onValueChange={toggleCentralNotifications}
+            value={subscriptions.central}
+            onValueChange={() => toggleSubscription('central')}
           />
         </ThemedView>
 
