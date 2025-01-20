@@ -51,7 +51,7 @@
         },
         "mishigamiNotification": {
           "deploymentBucketName": "amplify-mishigamiapp-dev-27de0-deployment",
-          "s3Key": "amplify-builds/mishigamiNotification-66444b38614f69775577-build.zip",
+          "s3Key": "amplify-builds/mishigamiNotification-774773567755734c6150-build.zip",
           "expoAccessToken": "GAwn14UgcTBo8nP_1UpQUbAr0a7TSWfE6kqXW877"
         }
       }

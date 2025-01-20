@@ -32,10 +32,12 @@ type Message @model {
   ttl: AWSTimestamp! @ttl
   iosSubtitle: String
   iosBadgeCount: Int
+  target: String
 }
 
 type PushTokens @model {
   id: ID!
   token: String! @primaryKey
   ttl: AWSTimestamp! @ttl
+  subscriptions: AWSJSON
 }

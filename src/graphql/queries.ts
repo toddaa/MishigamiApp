@@ -102,6 +102,7 @@ export const getMessage = /* GraphQL */ `query GetMessage($id: ID!) {
     ttl
     iosSubtitle
     iosBadgeCount
+    target
     createdAt
     updatedAt
     __typename
@@ -125,6 +126,7 @@ export const listMessages = /* GraphQL */ `query ListMessages(
       ttl
       iosSubtitle
       iosBadgeCount
+      target
       createdAt
       updatedAt
       __typename
@@ -142,6 +144,7 @@ export const getPushTokens = /* GraphQL */ `query GetPushTokens($token: String!)
     id
     token
     ttl
+    subscriptions
     createdAt
     updatedAt
     __typename
@@ -169,6 +172,7 @@ export const listPushTokens = /* GraphQL */ `query ListPushTokens(
       id
       token
       ttl
+      subscriptions
       createdAt
       updatedAt
       __typename

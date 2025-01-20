@@ -125,6 +125,7 @@ export const onCreateMessage = /* GraphQL */ `subscription OnCreateMessage($filt
     ttl
     iosSubtitle
     iosBadgeCount
+    target
     createdAt
     updatedAt
     __typename
@@ -143,6 +144,7 @@ export const onUpdateMessage = /* GraphQL */ `subscription OnUpdateMessage($filt
     ttl
     iosSubtitle
     iosBadgeCount
+    target
     createdAt
     updatedAt
     __typename
@@ -161,6 +163,7 @@ export const onDeleteMessage = /* GraphQL */ `subscription OnDeleteMessage($filt
     ttl
     iosSubtitle
     iosBadgeCount
+    target
     createdAt
     updatedAt
     __typename
@@ -177,6 +180,7 @@ export const onCreatePushTokens = /* GraphQL */ `subscription OnCreatePushTokens
     id
     token
     ttl
+    subscriptions
     createdAt
     updatedAt
     __typename
@@ -193,6 +197,7 @@ export const onUpdatePushTokens = /* GraphQL */ `subscription OnUpdatePushTokens
     id
     token
     ttl
+    subscriptions
     createdAt
     updatedAt
     __typename
@@ -209,6 +214,7 @@ export const onDeletePushTokens = /* GraphQL */ `subscription OnDeletePushTokens
     id
     token
     ttl
+    subscriptions
     createdAt
     updatedAt
     __typename

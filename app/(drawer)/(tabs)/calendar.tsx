@@ -44,7 +44,7 @@ export default function CalendarScreen () {
     arrowColor: (colorScheme === 'light' ? 'black' : 'white'),
     arrowStyle: { padding: 0 },
     // knob
-    expandableKnobColor: '#00AAAF',
+    expandableKnobColor: '#8DB7CB',
     // month
     monthTextColor: (colorScheme === 'light' ? 'black' : 'white'),
     textMonthFontSize: 16,
@@ -56,19 +56,19 @@ export default function CalendarScreen () {
     textDayHeaderFontFamily: 'HelveticaNeue',
     textDayHeaderFontWeight: 'normal' as const,
     // dates
-    dayTextColor: '#00AAAF',
-    todayTextColor: '#af0078',
+    dayTextColor: '#8DB7CB',
+    todayTextColor: '#8DB7CB',
     textDayFontSize: 18,
     textDayFontFamily: 'HelveticaNeue',
     textDayFontWeight: '500' as const,
     textDayStyle: { marginTop: Platform.OS === 'android' ? 2 : 4 },
     // selected date
-    selectedDayBackgroundColor: '#00AAAF',
+    selectedDayBackgroundColor: '#8DB7CB',
     selectedDayTextColor: (colorScheme === 'light' ? 'white' : 'black'),
     // disabled date
     textDisabledColor: 'grey',
     // dot (marked date)
-    dotColor: '#00AAAF',
+    dotColor: '#8DB7CB',
     selectedDotColor: (colorScheme === 'light' ? 'white' : 'black'),
     disabledDotColor: 'grey',
     dotStyle: { marginTop: -2 },
@@ -105,7 +105,7 @@ export default function CalendarScreen () {
   });
 
   const todayBtnTheme = useRef({
-    todayButtonTextColor: '#00AAAF'
+    todayButtonTextColor: '#799FAF'
   });
 
   const getCatColor = (c) => {

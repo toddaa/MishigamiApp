@@ -4,6 +4,8 @@ export const initialState = {
   events: [],
   articles: [],
   messages: [],
+  subscriptions: {},
+  pushToken: null,
 }
 
 export const DataReducer = (initialState, action) => {
@@ -28,6 +30,13 @@ export const DataReducer = (initialState, action) => {
       return {
         ...initialState,
         events: payload.events.sort(sortStartDesc),
+      }
+    case 'INIT_SUBS':
+      // console.log(payload)
+      return {
+        ...initialState,
+        pushToken: payload.token,
+        subscriptions: payload.subscriptions,
       }
     case 'ADD_MESSAGE':
       return {
@@ -109,6 +118,12 @@ export const DataReducer = (initialState, action) => {
       return {
         ...initialState,
         articles: updated,
+      }
+    case 'UPDATE_SUBS':
+      // console.log(payload)
+      return {
+        ...initialState,
+        subscriptions: payload.subscriptions,
       }
     default:
       throw new Error(`Unhandled action type: ${action.type}`)

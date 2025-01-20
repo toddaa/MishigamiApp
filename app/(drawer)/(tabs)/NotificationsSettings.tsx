@@ -9,40 +9,95 @@ import { ThemedView } from '@/components/ThemedView';
 import Slider from '@/components/Slider';
 
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { CustomHeader } from '@/components/CustomHeader';
 
+// const Notification = () => {
 export default function HomeScreen () {
-    const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-    const toggleNotifications = () => setNotificationsEnabled(!notificationsEnabled);
+  const [LodgeNotificationsEnabled, setLodgeNotificationsEnabled] = useState(true);
+  const toggleLodgeNotifications = () => setLodgeNotificationsEnabled(!LodgeNotificationsEnabled);
 
+  const [NorthNotificationsEnabled, setNorthNotificationsEnabled] = useState(true);
+  const toggleNorthNotifications = () => setNorthNotificationsEnabled(!NorthNotificationsEnabled);
+
+  const [SouthNotificationsEnabled, setSouthNotificationsEnabled] = useState(true);
+  const toggleSouthNotifications = () => setSouthNotificationsEnabled(!SouthNotificationsEnabled);
+
+  const [EastNotificationsEnabled, setEastNotificationsEnabled] = useState(true);
+  const toggleEastNotifications = () => setEastNotificationsEnabled(!EastNotificationsEnabled);
+
+  const [WestNotificationsEnabled, setWestNotificationsEnabled] = useState(true);
+  const toggleWestNotifications = () => setWestNotificationsEnabled(!WestNotificationsEnabled);
+
+  const [CentralNotificationsEnabled, setCentralNotificationsEnabled] = useState(true);
+  const toggleCentralNotifications = () => setCentralNotificationsEnabled(!CentralNotificationsEnabled);
 
   return (
-    <View style={{ flex: 1 }}>
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#799FAF' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/Mishigami-Blue-Mastodon-Arrow-Text.png')}
-          style={styles.reactLogo}
-        />
-      }>
-        <ThemedView style={styles.section}>
-            <ThemedText style={styles.sectionTitle}>Notifications</ThemedText>
-            <ThemedView style={styles.item}>
-                <ThemedText style={styles.itemText}>Enable Notifications</ThemedText>
-                    <Switch
-                        value={notificationsEnabled}
-                        onValueChange={toggleNotifications}
-                    />
-            </ThemedView>
+    <SafeAreaProvider>
+      <CustomHeader />
+
+      <ThemedView style={styles.section}>
+        <ThemedView style={styles.item}>
+          <ThemedText style={styles.itemText}>Lodge Notifications</ThemedText>
+          <Switch
+            value={LodgeNotificationsEnabled}
+            onValueChange={toggleLodgeNotifications}
+          />
         </ThemedView>
 
-    </ParallaxScrollView>
-    </View>
+        <ThemedView style={styles.item}>
+          <ThemedText style={styles.itemText}>North Area Notifications</ThemedText>
+          <Switch
+            value={NorthNotificationsEnabled}
+            onValueChange={toggleNorthNotifications}
+          />
+        </ThemedView>
+
+        <ThemedView style={styles.item}>
+          <ThemedText style={styles.itemText}>South Area Notifications</ThemedText>
+          <Switch
+            value={SouthNotificationsEnabled}
+            onValueChange={toggleSouthNotifications}
+          />
+        </ThemedView>
+
+        <ThemedView style={styles.item}>
+          <ThemedText style={styles.itemText}>East Area Notifications</ThemedText>
+          <Switch
+            value={EastNotificationsEnabled}
+            onValueChange={toggleEastNotifications}
+          />
+        </ThemedView>
+
+        <ThemedView style={styles.item}>
+          <ThemedText style={styles.itemText}>West Area Notifications</ThemedText>
+          <Switch
+            value={WestNotificationsEnabled}
+            onValueChange={toggleWestNotifications}
+          />
+        </ThemedView>
+
+        <ThemedView style={styles.item}>
+          <ThemedText style={styles.itemText}>Central Area Notifications</ThemedText>
+          <Switch
+            value={CentralNotificationsEnabled}
+            onValueChange={toggleCentralNotifications}
+          />
+        </ThemedView>
+
+      </ThemedView>
+
+    </SafeAreaProvider>
   );
 }
+// export default Notification
+
 
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -62,18 +117,15 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
   },
-  container: {
-    flex: 1,
-    padding: 5,
-  },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 16,
   },
   section: {
-    marginBottom: 24,
-    paddingVertical: 8,
+    flex: 1,
+    paddingTop: 5,
+    paddingHorizontal: 10,
   },
   sectionTitle: {
     fontSize: 20,
