@@ -42,11 +42,18 @@ const Slider = () => {
         onScroll={handleOnScroll}
         viewabilityConfig={viewabilityConfig}
       />
-      <Pagination data={Slides} scrollX={scrollX} index={index} />
+      <View style={styles.spacer}>
+        <Pagination data={Slides} scrollX={scrollX} index={index} />
+      </View>
     </View>
   )
 }
 
 export default Slider
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  spacer: {
+    paddingTop: 20,
+
+  }
+})
