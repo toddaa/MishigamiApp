@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "mishigami",
+    "name": "Mishigami",
     "slug": "mishigami",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -10,7 +10,10 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.toddaa.mishigami"
+      "bundleIdentifier": "com.toddaa.mishigami",
+      "config": {
+        "googleMapsApiKey": "AIzaSyAWUGhOgp3I9x5HqgISnaEdBGL6YCkyFtA"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -18,7 +21,12 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.toddaa.mishigami",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBRKmzPMM34YxV4-PxPg3GJaxT0iDZb9xM"
+        }
+      }
     },
     "web": {
       "bundler": "metro",
