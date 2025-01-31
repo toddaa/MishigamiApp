@@ -13,6 +13,7 @@ import { router } from 'expo-router';
 import { CustomHeader } from '@/components/CustomHeader';
 import MapView, { Marker, Overlay, Polygon, UrlTile, PROVIDER_GOOGLE, Callout, LocalTile } from 'react-native-maps';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import MarkerSheet from '@/components/MarkerSheet';
 
 // import geojson from '@/data/MishigamiAreas.json';
 
@@ -38,6 +39,9 @@ const SAMPLE_REGION = {
 
 export default function MapScreen () {
   const [coordinates, setCoordinates] = useState([]);
+  const [isBottomSheetVisible, setIsBottomSheetVisible] = useState(false);
+  const [bottomSheetContent, setBottomSheetContent] = useState({});
+
   // useEffect(() => {
   //   // Parse GeoJSON file to extract coordinates
   //   const parseGeoJSON = () => {
@@ -104,12 +108,18 @@ export default function MapScreen () {
     }
   ]
 
+  const handleMarkerPress = (marker) => {
+    console.log('Marker pressed:', marker);
+    // Do something with the marker data
+    setIsBottomSheetVisible(true)
+    setBottomSheetContent(marker)
+  };
+
 
   return (
     <SafeAreaProvider>
       <CustomHeader />
       <ThemedView style={styles.container}>
-
 
       </ThemedView>
 
@@ -117,7 +127,7 @@ export default function MapScreen () {
         // mapType='standard'
         showsUserLocation
         showsMyLocationButton
-        // provider={PROVIDER_GOOGLE}
+        provider={PROVIDER_GOOGLE}
         initialRegion={SAMPLE_REGION}
         style={styles.map}>
         {
@@ -126,15 +136,17 @@ export default function MapScreen () {
               <Marker
                 key={i}
                 coordinate={m.latlon}
+                onPress={() => handleMarkerPress(m)}
+
               >
                 <FontAwesome6 name="campground" size={20} color="black" />
 
-                <Callout>
+                {/* <Callout>
                   <View style={{ padding: 10, width: 180 }}>
                     <Text style={{ fontSize: 18 }}>{m.title}</Text>
                     <Text style={{ fontSize: 14 }}>{m.desc}</Text>
                   </View>
-                </Callout>
+                </Callout> */}
               </Marker>
             )
           })
@@ -175,7 +187,7 @@ export default function MapScreen () {
           tileSize={256}
         /> */}
       </MapView>
-
+      <MarkerSheet isVisible={isBottomSheetVisible} bottomSheetContent={bottomSheetContent} backdropAction={() => setIsBottomSheetVisible(false)} />
     </SafeAreaProvider >
   );
 }
