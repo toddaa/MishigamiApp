@@ -63,3 +63,9 @@ google-services.json
 /ios
 /android
 .env
+data/central.json
+data/north.json
+data/south.json
+data/west.json
+data/east.json
+data/MishigamiAreas.json

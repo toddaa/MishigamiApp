@@ -30,7 +30,9 @@ export const DataProvider = ({ children }) => {
     getNews()
     getEvents()
 
-    connectSubs()
+    connectMessageSubs()
+    connectEventSubs()
+    connectArticleSubs()
   }, [])
 
   // useEffect(() => {
@@ -100,7 +102,7 @@ export const DataProvider = ({ children }) => {
     }
   }
 
-  async function connectSubs () {
+  async function connectMessageSubs () {
     client.graphql({
       query: subscriptions.onCreateMessage, variables: {
         filter: { title: { ne: '' } }
@@ -118,7 +120,9 @@ export const DataProvider = ({ children }) => {
       },
       error: (error) => console.warn({ error })
     })
+  }
 
+  async function connectEventSubs () {
     client.graphql({
       query: subscriptions.onCreateEvent, variables: {
         filter: { name: { ne: '' } }
@@ -137,6 +141,41 @@ export const DataProvider = ({ children }) => {
       error: (error) => console.warn({ error })
     })
 
+    client.graphql({
+      query: subscriptions.onUpdateEvent, variables: {}
+    }).subscribe({
+      next: ({ data }) => {
+        console.log(data)
+        if (data !== undefined && data !== null) {
+          dispatch({
+            type: 'UPDATE_EVENT',
+            payload: {
+              event: data.onUpdateEvent,
+            },
+          })
+        }
+      },
+      error: (error) => console.warn({ error })
+    })
+
+    client.graphql({
+      query: subscriptions.onDeleteEvent, variables: {}
+    }).subscribe({
+      next: ({ data }) => {
+        if (data !== undefined && data !== null) {
+          dispatch({
+            type: 'DELETE_EVENT',
+            payload: {
+              event: data.onDeleteEvent,
+            },
+          })
+        }
+      },
+      error: (error) => console.warn({ error })
+    })
+  }
+
+  async function connectArticleSubs () {
     client.graphql({
       query: subscriptions.onCreateArticle, variables: {
         filter: { title: { ne: '' } }

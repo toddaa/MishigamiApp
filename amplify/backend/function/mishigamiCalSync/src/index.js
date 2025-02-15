@@ -128,6 +128,59 @@ const addEvent = async (params) => {
   }
 }
 
+const updateEvent = async (params) => {
+  console.log(params)
+  const query = /* GraphQL */ `
+    mutation UPDATE_EVENT($id: ID!, $name: String!, $description: String, $location: String, $startDate: AWSDateTime, $endDate: AWSDateTime, $category: String) {
+      updateEvent(input: {id: $id, name: $name, description: $description, location: $location, startDate: $startDate, endDate: $endDate, category: $category}) {
+        id
+        gId
+        name
+        updatedAt
+        startDate
+        signUpURL
+        location
+        endDate
+        description
+        createdAt
+        category
+      }
+    }
+  `
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'x-api-key': GRAPHQL_API_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ query, variables: params })
+  }
+
+  const request = new Request(GRAPHQL_ENDPOINT, options)
+
+  let statusCode = 200
+  let body
+  let response
+
+  try {
+    response = await fetch(request)
+    body = await response.json()
+    if (body.errors) statusCode = 400
+  } catch (error) {
+    statusCode = 400
+    body = {
+      errors: [
+        {
+          status: response.status,
+          message: error.message,
+          stack: error.stack
+        }
+      ]
+    }
+  }
+}
+
 export const handler = async (event) => {
   console.log({ event })
 
@@ -172,13 +225,19 @@ export const handler = async (event) => {
             const hasEvent = existingEvents.data.listEvents.items.some(i => i.gId === id)
             // console.log(hasEvent)
             if (hasEvent) {
+              const existingEvent = existingEvents.data.listEvents.items.filter(i => i.gId === id).shift()
+              // console.log(existingEvent)
               // console.log(`Event ${id} exists, do nothing`)
+              await updateEvent({
+                id: existingEvent.id,
+                name: summary,
+                description: description ?? '',
+                startDate: start.hasOwnProperty('date') ? new Date(start.date).toISOString() : start.dateTime,
+                endDate: end.hasOwnProperty('date') ? new Date(end.date).toISOString() : end.dateTime,
+                location: location ?? '',
+                category: calSummary
+              })
             } else {
-              // console.log(`Add event ${id}`)
-              // let startDate, endDate
-              // if (start.hasOwnProperty("dateTime")) {
-              //   startDate = start.dateTime
-              // }
               await addEvent({
                 name: summary,
                 gId: id,

@@ -67,7 +67,8 @@
     "react-native-select-dropdown": "^4.0.1",
     "react-native-unordered-list": "^1.0.4",
     "react-native-web": "~0.19.13",
-    "react-native-webview": "13.12.5"
+    "react-native-webview": "13.12.5",
+    "expo-location": "~18.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
