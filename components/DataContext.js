@@ -383,6 +383,7 @@ export const DataProvider = ({ children }) => {
 
   const sharedState = {
     dataState,
+    expoPushToken,
     sendMessage,
     saveSubscription,
   }

@@ -14,6 +14,7 @@ import {
   MaterialIcons,
   Ionicons,
   FontAwesome5,
+  FontAwesome6
 } from "@expo/vector-icons";
 import { router, usePathname } from "expo-router";
 import TabLayout from './(tabs)/_layout'
@@ -119,6 +120,27 @@ const CustomDrawerContent = (props) => {
             router.push("/settings");
           }}
         />
+        <DrawerItem
+          icon={({ color, size }) => (
+            <FontAwesome6
+              name="circle-question"
+              size={size}
+              color={pathname == "/about" ? "#fff" : "#000"}
+            />
+          )}
+          label={"About"}
+          labelStyle={[
+            styles.navItemLabel,
+            { color: pathname == "/about" ? "#fff" : "#000" },
+          ]}
+          style={{
+            borderWidth: 2,
+            backgroundColor: pathname == "/about" ? "#333" : "#fff"
+          }}
+          onPress={() => {
+            router.push("/about");
+          }}
+        />
       </View>
     </DrawerContentScrollView>
   );
@@ -147,6 +169,13 @@ export default function Layout () {
       }}
       />
       <Drawer.Screen name="tradingPost" options={{
+        headerShown: true,
+        headerStyle: { backgroundColor: '#A1CEDC' },
+        headerTintColor: '#fff',
+        headerTitleStyle: { fontWeight: 'bold', }
+      }}
+      />
+      <Drawer.Screen name="about" options={{
         headerShown: true,
         headerStyle: { backgroundColor: '#A1CEDC' },
         headerTintColor: '#fff',

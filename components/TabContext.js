@@ -22,6 +22,7 @@ export const TabProvider = ({ children }) => {
     { name: 'map', title: 'Map', visible: false },
     { name: 'tradingPost', title: 'Trading Post', visible: false },
     { name: 'settings', title: 'Settings', visible: settingsFlag },
+    { name: 'about', title: 'About', visible: false },
     // { name: 'message', title: 'message', visible: true },
     // { name: 'TabBarSettings', title: 'TabBarSettings', visible: false },
     // { name: 'AppPreferencesSettings', title: 'App Preferences', visible: false },
