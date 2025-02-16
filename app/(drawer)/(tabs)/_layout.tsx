@@ -44,6 +44,9 @@ export default function TabLayout () {
           case 'settings':
             iconNames = { focused: 'settings', unfocused: 'settings-outline' };
             break;
+          case 'about':
+            iconNames = { focused: 'about', unfocused: 'settings-outline' };
+            break;
           // case 'message':
           //   iconNames = { focused: 'chatbox-ellipses', unfocused: 'chatbox-ellipses-outline' };
           //   break;

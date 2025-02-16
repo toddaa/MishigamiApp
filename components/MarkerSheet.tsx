@@ -7,6 +7,10 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { CustomHeader } from '@/components/CustomHeader';
 import { Header, BottomSheet, ListItem, Card, Button, Dialog, CheckBox, Input } from '@rneui/themed';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import openMap from 'react-native-open-maps';
+import * as Linking from 'expo-linking';
+
+
 
 const MarkerSheet = ({ isVisible, bottomSheetContent, backdropAction }) => {
   const colorScheme = useColorScheme();
@@ -30,7 +34,14 @@ const MarkerSheet = ({ isVisible, bottomSheetContent, backdropAction }) => {
   })
 
   const pressHandler = async () => {
-
+    const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+    const latLng = `${bottomSheetContent.latlon.latitude},${bottomSheetContent.latlon.longitude}`;
+    const url = Platform.select({
+      ios: `${scheme}${bottomSheetContent.title}@${latLng}`,
+      android: `${scheme}${latLng}(${bottomSheetContent.title})`
+    });
+    // console.log(url)
+    Linking.openURL(url);
   }
 
   return (

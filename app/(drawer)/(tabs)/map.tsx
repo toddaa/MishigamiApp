@@ -1,6 +1,5 @@
 import { Image, StyleSheet, Dimensions, Text, View, SafeAreaView, ScrollView, FlatList, Animated, TouchableOpacity, Icon } from 'react-native';
 import React, { useRef, useCallback, useEffect, useState } from 'react';
-import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import CustomParallaxScrollView from '@/components/CustomParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -16,6 +15,31 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MarkerSheet from '@/components/MarkerSheet';
 
 // import geojson from '@/data/MishigamiAreas.json';
+// import chapter0 from '@/data/chapter0.json';
+// import chapter1 from '@/data/chapter1.json';
+// import chapter2 from '@/data/chapter2.json';
+// import chapter3 from '@/data/chapter3.json';
+// import chapter4 from '@/data/chapter4.json';
+// import chapter5 from '@/data/chapter5.json';
+// import chapter6 from '@/data/chapter6.json';
+// import chapter7 from '@/data/chapter7.json';
+// import chapter8 from '@/data/chapter8.json';
+// import chapter9 from '@/data/chapter9.json';
+// import chapter10 from '@/data/chapter10.json';
+// import chapter11 from '@/data/chapter11.json';
+// import chapter12 from '@/data/chapter12.json';
+// import chapter13 from '@/data/chapter13.json';
+// import chapter14 from '@/data/chapter14.json';
+// import chapter15 from '@/data/chapter15.json';
+// import chapter16 from '@/data/chapter16.json';
+// import chapter17 from '@/data/chapter17.json';
+// import chapter18 from '@/data/chapter18.json';
+// import chapter19 from '@/data/chapter19.json';
+// import chapter20 from '@/data/chapter20.json';
+// import chapter21 from '@/data/chapter21.json';
+// import chapter22 from '@/data/chapter22.json';
+// import chapter23 from '@/data/chapter23.json';
+// import chapter24 from '@/data/chapter24.json';
 
 const tileServerUrl = "http://10.255.2.245:8080/data/out/{z}/{x}/{y}.pbf"; // Replace with your tile server URL
 // const tileServerUrl = "https://mishigami-tiles.s3.us-east-1.amazonaws.com/{z}/{x}/{y}.png"; // Replace with your tile server URL
@@ -57,6 +81,34 @@ export default function MapScreen () {
 
   //   parseGeoJSON();
   // }, []);
+
+  // const chapters = [
+  //   chapter0,
+  //   chapter1,
+  //   chapter2,
+  //   chapter3,
+  //   chapter4,
+  //   chapter5,
+  //   chapter6,
+  //   chapter7,
+  //   chapter8,
+  //   chapter9,
+  //   chapter10,
+  //   chapter11,
+  //   chapter12,
+  //   chapter13,
+  //   chapter14,
+  //   chapter15,
+  //   chapter16,
+  //   chapter17,
+  //   chapter18,
+  //   chapter19,
+  //   chapter20,
+  //   chapter21,
+  //   chapter22,
+  //   chapter23,
+  //   chapter24,
+  // ]
 
   const markers = [
     {
@@ -153,13 +205,26 @@ Gerber offers many different year-round programs and are currently developing ev
             )
           })
         }
+        {/* {
+          chapters.map((c, i) => {
+            return (
+              <Polygon
+                key={i}
+                coordinates={c.coords} // Polygon coordinates
+                strokeColor={c.stroke} // Border color
+                fillColor={c.fill} //"rgba(135, 206, 250, 0.5)" // Fill color with transparency
+                strokeWidth={3} // Border width
+              />
+            )
+          })
+        } */}
         {/* <Overlay
           image={require('@/assets/carousel/App-Logo.png')} // Replace with your image file
           bounds={overlayBounds}
           opacity={0.7} // Optional: Adjust overlay transparency
         /> */}
         {/* <Polygon
-          coordinates={eatonCountyCoordinates} // Polygon coordinates
+          coordinates={chapter0.coords} // Polygon coordinates
           strokeColor="blue" // Border color
           fillColor="rgba(135, 206, 250, 0.5)" // Fill color with transparency
           strokeWidth={3} // Border width
