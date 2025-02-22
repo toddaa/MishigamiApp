@@ -22,7 +22,7 @@ import config from '../src/amplifyconfiguration.json';
 Amplify.configure(config);
 
 const featureClient = new ReactNativeLDClient(
-  process.env.EXPO_PUBLIC_LD_KEY,
+  process.env.EXPO_PUBLIC_LD_KEY ?? '',
   AutoEnvAttributes.Enabled,
   {
     debug: false,
@@ -54,6 +54,8 @@ export default function RootLayout () {
     featureClient
       .identify({ kind: 'user', key: 'example-user-key' })
       .catch((e) => console.error('error: ' + e))
+
+    // console.log(featureClient.stringVariationDetail)
   }, [])
 
   useEffect(() => {

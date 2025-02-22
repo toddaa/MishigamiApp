@@ -15,7 +15,7 @@ import { useDataContext } from '@/components/DataContext'
 
 const Notification = () => {
   const { dataState, saveSubscription } = useDataContext()
-  const [subscriptions, setSubscriptions] = useState(true)
+  const [subscriptions, setSubscriptions] = useState({})
 
   const [LodgeNotificationsEnabled, setLodgeNotificationsEnabled] = useState(true)
   const [NorthNotificationsEnabled, setNorthNotificationsEnabled] = useState(true)
@@ -37,7 +37,7 @@ const Notification = () => {
     <SafeAreaProvider>
 
       <ThemedView style={styles.section}>
-        <ThemedText style={styles.sectionTitle}>Notifications</ThemedText>
+        <ThemedText style={styles.sectionTitle}>Notification Subscriptions</ThemedText>
 
         <ThemedView style={styles.item}>
           <ThemedText style={styles.itemText}>Lodge Notifications</ThemedText>
