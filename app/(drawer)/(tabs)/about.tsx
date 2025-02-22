@@ -27,7 +27,7 @@ export default function AboutPage () {
         />
 
         <ThemedText style={styles.itemText}>
-          Below are key peices of data about your unique environement.  Should support be needed this data will be the key.
+          Below are key pieces of data about your unique environement.  Should support be needed this data will be the key.
         </ThemedText>
 
         <ThemedText style={styles.itemText}>

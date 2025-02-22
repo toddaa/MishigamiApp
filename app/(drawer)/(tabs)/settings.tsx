@@ -20,7 +20,7 @@ export default function SettingsPage () {
     <SafeAreaProvider>
       <CustomHeader />
       <Notification />
-      <ColorSetting />
+      {/* <ColorSetting /> */}
 
 
       {/* <ThemedView style={styles.container}> */}
