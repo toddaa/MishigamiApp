@@ -57,7 +57,8 @@
           "calendarPermission": "The app needs to access your calendar."
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

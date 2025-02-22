@@ -30,6 +30,7 @@ export default function MessagesScreen () {
   const [messages, setMessages] = useState([])
   const [isProcessing, setIsProcessing] = useState(false)
   const [isSubmitable, setIsSubmitable] = useState(false)
+  const [subscriptions, setSubscriptions] = useState([])
   const [formData, setFormData] = useState({
     subject: '',
     message: '',
@@ -37,13 +38,14 @@ export default function MessagesScreen () {
   })
 
   useEffect(() => {
-    console.log(messageFlag)
+    console.log({ messageFlag })
   }, [messageFlag])
 
   useEffect(() => {
     if (dataState.messages !== null) {
       setMessages(dataState.messages)
     }
+    setSubscriptions(Object.keys(dataState.subscriptions).filter(key => dataState.subscriptions[key]))
   }, [dataState])
 
   useEffect(() => {
@@ -162,25 +164,32 @@ export default function MessagesScreen () {
           </ThemedView>
 
           {
-            messages.map((e, i) => {
-              const title = e?.title
-              const body = e?.body
+            messages
+              .filter(m => {
+                if (subscriptions.includes(m.target)) {
+                  return true
+                }
+                return false
+              })
+              .map((e, i) => {
+                const title = e?.title
+                const body = e?.body
 
-              return <ThemedView key={i}>
+                return <ThemedView key={i}>
 
-                <ThemedText type='subtitle'>
-                  {title}
-                </ThemedText>
-                <ThemedText type='default'>
-                  {body}
-                </ThemedText>
+                  <ThemedText type='subtitle'>
+                    {title}
+                  </ThemedText>
+                  <ThemedText type='default'>
+                    {body}
+                  </ThemedText>
 
-                <View
-                  style={styles.seperator}
-                />
+                  <View
+                    style={styles.seperator}
+                  />
 
-              </ThemedView>
-            })
+                </ThemedView>
+              })
           }
 
         </View>
