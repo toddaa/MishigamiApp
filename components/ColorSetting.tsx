@@ -7,53 +7,84 @@ import { ThemedText } from '@/components/ThemedText'
 import { ThemedView } from '@/components/ThemedView'
 import Slider from '@/components/Slider'
 import { TouchableOpacity, } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { CustomHeader } from '@/components/CustomHeader'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useUserTheme } from '@/components/useUserTheme';
+
 
 const ColorSetting = () => {
   // export default function HomeScreen () {
-  const [darkMode, setDarkMode] = useState(false)
-  const [lightMode, setLightMode] = useState(false)
-  const [autoMode, setAutoMode] = useState(false)
 
-  const toggleDarkMode = () => {
-    setDarkMode((prev) => {
-      if (prev && !lightMode && !autoMode) {
-        return prev
-      }
-      if (!prev) {
-        setAutoMode(false)
-        setLightMode(false)
-      }
-      return !prev
-    })
-  }
-  const toggleLightMode = () => {
-    setLightMode((prev) => {
-      if (prev && !darkMode && !autoMode) {
-        return prev
-      }
-      if (!prev) {
-        setDarkMode(false)
-        setAutoMode(false)
-      }
-      return !prev
-    })
-  }
-  const toggleAutoMode = () => {
-    setAutoMode((prev) => {
-      if (prev && !lightMode && !darkMode) {
-        return prev
-      }
-      if (!prev) {
-        setDarkMode(false)
-        setLightMode(false)
-      }
-      return !prev
-    })
-  }
+  const [theme, setTheme] = useUserTheme();
+
+
+
+  // const [theme, setTheme] = useState<'light' | 'dark' | 'auto'>('auto');
+
+
+
+
+  // const [darkMode, setDarkMode] = useState(false)
+  // const [lightMode, setLightMode] = useState(false)
+  // const [autoMode, setAutoMode] = useState(false)
+
+
+
+
+  // useEffect(() => {
+  //   // Load theme from storage
+  //   AsyncStorage.getItem('theme').then((storedTheme) => {
+  //     if (storedTheme) setTheme(storedTheme as 'light' | 'dark' | 'auto');
+  //   });
+  // }, []);
+
+  // const updateTheme = async (selectedTheme: 'light' | 'dark' | 'auto') => {
+  //   setTheme(selectedTheme);
+  //   await AsyncStorage.setItem('theme', selectedTheme);
+  // };
+
+
+
+
+  // const toggleDarkMode = () => {
+  //   setDarkMode((prev) => {
+  //     if (prev && !lightMode && !autoMode) {
+  //       return prev
+  //     }
+  //     if (!prev) {
+  //       setAutoMode(false)
+  //       setLightMode(false)
+  //     }
+  //     return !prev
+  //   })
+  // }
+  // const toggleLightMode = () => {
+  //   setLightMode((prev) => {
+  //     if (prev && !darkMode && !autoMode) {
+  //       return prev
+  //     }
+  //     if (!prev) {
+  //       setDarkMode(false)
+  //       setAutoMode(false)
+  //     }
+  //     return !prev
+  //   })
+  // }
+  // const toggleAutoMode = () => {
+  //   setAutoMode((prev) => {
+  //     if (prev && !lightMode && !darkMode) {
+  //       return prev
+  //     }
+  //     if (!prev) {
+  //       setDarkMode(false)
+  //       setLightMode(false)
+  //     }
+  //     return !prev
+  //   })
+  // }
 
 
 
@@ -65,25 +96,37 @@ const ColorSetting = () => {
           <ThemedText style={styles.sectionTitle}>Color Theme</ThemedText>
           <ThemedView style={styles.item}>
             <ThemedText style={styles.itemText}>Dark Mode</ThemedText>
-            <Switch
+            {/* <Switch
               value={darkMode}
               onValueChange={toggleDarkMode}
+            /> */}
+            <Switch
+              value={theme === 'dark'}
+              onValueChange={() => setTheme('dark')}
             />
           </ThemedView>
 
           <ThemedView style={styles.item}>
             <ThemedText style={styles.itemText}>Light Mode</ThemedText>
-            <Switch
+            {/* <Switch
               value={lightMode}
               onValueChange={toggleLightMode}
+            /> */}
+            <Switch
+              value={theme === 'light'}
+              onValueChange={() => setTheme('light')}
             />
           </ThemedView>
 
           <ThemedView style={styles.item}>
             <ThemedText style={styles.itemText}>Auto</ThemedText>
-            <Switch
+            {/* <Switch
               value={autoMode}
               onValueChange={toggleAutoMode}
+            /> */}
+            <Switch
+              value={theme === 'auto'}
+              onValueChange={() => setTheme('auto')}
             />
           </ThemedView>
 
