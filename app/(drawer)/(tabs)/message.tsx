@@ -11,6 +11,8 @@ import { router } from 'expo-router';
 import { DrawerToggleButton } from '@react-navigation/drawer';
 import { CustomHeader } from '@/components/CustomHeader';
 import SelectDropdown from 'react-native-select-dropdown'
+import { Badge, ListItem } from '@rneui/themed'
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 const MyTextInput = ({ style, value, name = '', onChange, placeholder, placeholderTextColor }) => {
   return (
@@ -25,6 +27,7 @@ const MyTextInput = ({ style, value, name = '', onChange, placeholder, placehold
 };
 
 export default function MessagesScreen () {
+  const colorScheme = useColorScheme();
   const messageFlag = useBoolVariation('message', false)
   const { dataState, sendMessage } = useDataContext()
   const [messages, setMessages] = useState([])
@@ -85,115 +88,151 @@ export default function MessagesScreen () {
     { title: 'Central Area', value: 'central' },
   ];
 
+  const listTheme = {
+    messageList: {
+      backgroundColor: (colorScheme === 'light' ? 'white' : '#131617'),
+      marginLeft: -20,
+      marginRight: -20,
+
+    },
+    title: {
+      color: (colorScheme === 'light' ? 'black' : 'white'),
+      fontWeight: "bold"
+    },
+    body: {
+      color: (colorScheme === 'light' ? 'black' : 'white'),
+    },
+    badge: {
+      width: 30,
+      height: 30,
+      borderWidth: 0
+    },
+    badgeText: {
+      fontWeight: 'bold',
+      fontSize: 16
+    },
+  }
+
   return (
     <SafeAreaProvider>
       <CustomHeader />
+      <ScrollView>
+        <ThemedView style={styles.container}>
+          {messageFlag
+            ? <View style={styles.viewContainerNewMessage}>
+              <ThemedView style={styles.titleContainer}>
+                <ThemedText type="title" style={{ color: 'black' }}>New Message</ThemedText>
+              </ThemedView>
 
-      <ThemedView style={styles.container}>
-        {messageFlag
-          ? <View style={styles.viewContainerNewMessage}>
-            <ThemedView style={styles.titleContainer}>
-              <ThemedText type="title" style={{ color: 'black' }}>New Message</ThemedText>
-            </ThemedView>
+              {/* <ThemedText style={styles.title} >Write your message</ThemedText> */}
 
-            {/* <ThemedText style={styles.title} >Write your message</ThemedText> */}
+              <MyTextInput
+                style={styles.inputStyle}
+                // multiline
+                placeholderTextColor={'#808080'}
+                placeholder='Subject'
+                name='subject'
+                onChange={handleTextFieldChange}
+                value={formData.subject} />
 
-            <MyTextInput
-              style={styles.inputStyle}
-              // multiline
-              placeholderTextColor={'#808080'}
-              placeholder='Subject'
-              name='subject'
-              onChange={handleTextFieldChange}
-              value={formData.subject} />
+              <MyTextInput
+                style={styles.inputStyle}
+                // multiline
+                placeholderTextColor={'#808080'}
+                placeholder='Message'
+                name='message'
+                onChange={handleTextFieldChange}
+                value={formData.message} />
 
-            <MyTextInput
-              style={styles.inputStyle}
-              // multiline
-              placeholderTextColor={'#808080'}
-              placeholder='Message'
-              name='message'
-              onChange={handleTextFieldChange}
-              value={formData.message} />
-
-            <SelectDropdown
-              data={emojisWithIcons}
-              // onSelect={(selectedItem, index) => {
-              //   console.log(selectedItem, index);
-              // }}
-              onSelect={handleSelectFieldChange}
-              renderButton={(selectedItem, isOpened) => {
-                return (
-                  <View style={styles1.dropdownButtonStyle}>
-                    {/* {selectedItem && (
+              <SelectDropdown
+                data={emojisWithIcons}
+                // onSelect={(selectedItem, index) => {
+                //   console.log(selectedItem, index);
+                // }}
+                onSelect={handleSelectFieldChange}
+                renderButton={(selectedItem, isOpened) => {
+                  return (
+                    <View style={styles1.dropdownButtonStyle}>
+                      {/* {selectedItem && (
                       <Icon name={selectedItem.icon} style={styles1.dropdownButtonIconStyle} />
                     )} */}
-                    <Text style={styles1.dropdownButtonTxtStyle}>
-                      {(selectedItem && selectedItem.title) || 'Target Group'}
-                    </Text>
-                    {/* <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles1.dropdownButtonArrowStyle} /> */}
-                  </View>
-                );
-              }}
-              renderItem={(item, index, isSelected) => {
-                return (
-                  <View style={{ ...styles1.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' }) }}>
-                    {/* <Icon name={item.icon} style={styles1.dropdownItemIconStyle} /> */}
-                    <Text style={styles1.dropdownItemTxtStyle}>{item.title}</Text>
-                  </View>
-                );
-              }}
-              showsVerticalScrollIndicator={false}
-            // dropdownStyle={styles.dropdownMenuStyle}
-            />
+                      <Text style={styles1.dropdownButtonTxtStyle}>
+                        {(selectedItem && selectedItem.title) || 'Target Group'}
+                      </Text>
+                      {/* <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles1.dropdownButtonArrowStyle} /> */}
+                    </View>
+                  );
+                }}
+                renderItem={(item, index, isSelected) => {
+                  return (
+                    <View style={{ ...styles1.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' }) }}>
+                      {/* <Icon name={item.icon} style={styles1.dropdownItemIconStyle} /> */}
+                      <Text style={styles1.dropdownItemTxtStyle}>{item.title}</Text>
+                    </View>
+                  );
+                }}
+                showsVerticalScrollIndicator={false}
+              // dropdownStyle={styles.dropdownMenuStyle}
+              />
 
-            <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}
-              disabled={!isSubmitable}>
-              <Text style={styles.submitButtonText}>Send Message</Text>
-            </TouchableOpacity>
-
-
-          </View>
-          : ''
-        }
+              <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}
+                disabled={!isSubmitable}>
+                <Text style={styles.submitButtonText}>Send Message</Text>
+              </TouchableOpacity>
 
 
-        <View style={styles.viewContainer}>
-          <ThemedView style={styles.titleContainer}>
-            <ThemedText type="title">Messages</ThemedText>
-          </ThemedView>
-
-          {
-            messages
-              .filter(m => {
-                if (subscriptions.includes(m.target)) {
-                  return true
-                }
-                return false
-              })
-              .map((e, i) => {
-                const title = e?.title
-                const body = e?.body
-
-                return <ThemedView key={i}>
-
-                  <ThemedText type='subtitle'>
-                    {title}
-                  </ThemedText>
-                  <ThemedText type='default'>
-                    {body}
-                  </ThemedText>
-
-                  <View
-                    style={styles.seperator}
-                  />
-
-                </ThemedView>
-              })
+            </View>
+            : ''
           }
 
-        </View>
-      </ThemedView>
+
+          <View style={styles.viewContainer}>
+            <ThemedView style={styles.titleContainer}>
+              <ThemedText type="title">Messages</ThemedText>
+            </ThemedView>
+
+            {
+              messages
+                .filter(m => {
+                  if (subscriptions.includes(m.target)) {
+                    return true
+                  }
+                  return false
+                })
+                .map((e, i) => {
+                  const title = e?.title
+                  const body = e?.body
+                  const target = e?.target.charAt(0).toUpperCase()
+
+                  return <ListItem key={i} bottomDivider containerStyle={listTheme.messageList}>
+                    <Badge value={target} status="error" badgeStyle={listTheme.badge} textStyle={listTheme.badgeText} />
+                    <ListItem.Content>
+                      <ListItem.Title style={listTheme.title}>{title}</ListItem.Title>
+                      <ListItem.Subtitle style={listTheme.body}>{body}</ListItem.Subtitle>
+                    </ListItem.Content>
+                  </ListItem>
+
+                  // return <ThemedView key={i}>
+
+                  //   <Badge value="3" status="success" />
+                  //   <ThemedText type='subtitle'>
+                  //     {title}
+                  //   </ThemedText>
+                  //   <ThemedText type='default'>
+                  //     {body}
+                  //   </ThemedText>
+
+                  //   <View
+                  //     style={styles.seperator}
+                  //   />
+
+                  // </ThemedView>
+                })
+            }
+
+          </View>
+        </ThemedView>
+      </ScrollView>
     </SafeAreaProvider >
   );
 }
@@ -263,6 +302,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
   },
+
 });
 
 const styles1 = StyleSheet.create({
