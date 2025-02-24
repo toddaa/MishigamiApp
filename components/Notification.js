@@ -17,19 +17,16 @@ const Notification = () => {
   const { dataState, saveSubscription } = useDataContext()
   const [subscriptions, setSubscriptions] = useState({})
 
-  const [LodgeNotificationsEnabled, setLodgeNotificationsEnabled] = useState(true)
-  const [NorthNotificationsEnabled, setNorthNotificationsEnabled] = useState(true)
-  const [SouthNotificationsEnabled, setSouthNotificationsEnabled] = useState(true)
-  const [EastNotificationsEnabled, setEastNotificationsEnabled] = useState(true)
-  const [WestNotificationsEnabled, setWestNotificationsEnabled] = useState(true)
-  const [CentralNotificationsEnabled, setCentralNotificationsEnabled] = useState(true)
-
   useEffect(() => {
     // console.log(dataState.subscriptions)
     setSubscriptions(dataState.subscriptions)
   }, [dataState.subscriptions])
 
   const toggleSubscription = async (sub) => {
+    setSubscriptions({
+      ...subscriptions,
+      [sub]: !subscriptions[sub]
+    })
     await saveSubscription(sub, !subscriptions[sub])
   }
 
