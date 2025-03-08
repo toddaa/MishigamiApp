@@ -21,6 +21,10 @@ import { Amplify } from 'aws-amplify';
 import config from '../src/amplifyconfiguration.json';
 Amplify.configure(config);
 
+import * as SecureStore from 'expo-secure-store';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+
 const featureClient = new ReactNativeLDClient(
   process.env.EXPO_PUBLIC_LD_KEY ?? '',
   AutoEnvAttributes.Enabled,
@@ -46,17 +50,38 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout () {
   const colorScheme = useColorScheme();
+  const [deviceId, setDeviceId] = useState('')
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
   useEffect(() => {
-    featureClient
-      .identify({ kind: 'user', key: 'example-user-key' })
-      .catch((e) => console.error('error: ' + e))
+
+    const getCurrent = async () => {
+      let fetchUUID = await SecureStore.getItemAsync('secure_deviceid');
+      console.log(fetchUUID)
+      if (fetchUUID) {
+        setDeviceId(fetchUUID)
+      } else {
+        const uuid = uuidv4();
+        // console.log(uuid)
+        setDeviceId(uuid)
+        await SecureStore.setItemAsync('secure_deviceid', uuid)
+      }
+    }
+    getCurrent()
 
     // console.log(featureClient.stringVariationDetail)
   }, [])
+
+  useEffect(() => {
+    if (deviceId) {
+      console.log({ deviceId })
+      featureClient
+        .identify({ kind: 'user', key: deviceId })
+        .catch((e) => console.error('error: ' + e))
+    }
+  }, [deviceId]);
 
   useEffect(() => {
     if (loaded) {
