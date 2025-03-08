@@ -118,71 +118,72 @@ export default function MessagesScreen () {
       <CustomHeader />
       <ScrollView>
         <ThemedView style={styles.container}>
-          {messageFlag
-            ? <View style={styles.viewContainerNewMessage}>
-              <ThemedView style={styles.titleContainer}>
-                <ThemedText type="title" style={{ color: 'black' }}>New Message</ThemedText>
-              </ThemedView>
+          {
+            // messageFlag
+            //   ? <View style={styles.viewContainerNewMessage}>
+            //     <ThemedView style={styles.titleContainer}>
+            //       <ThemedText type="title" style={{ color: 'black' }}>New Message</ThemedText>
+            //     </ThemedView>
 
-              {/* <ThemedText style={styles.title} >Write your message</ThemedText> */}
+            //     {/* <ThemedText style={styles.title} >Write your message</ThemedText> */}
 
-              <MyTextInput
-                style={styles.inputStyle}
-                // multiline
-                placeholderTextColor={'#808080'}
-                placeholder='Subject'
-                name='subject'
-                onChange={handleTextFieldChange}
-                value={formData.subject} />
+            //     <MyTextInput
+            //       style={styles.inputStyle}
+            //       // multiline
+            //       placeholderTextColor={'#808080'}
+            //       placeholder='Subject'
+            //       name='subject'
+            //       onChange={handleTextFieldChange}
+            //       value={formData.subject} />
 
-              <MyTextInput
-                style={styles.inputStyle}
-                // multiline
-                placeholderTextColor={'#808080'}
-                placeholder='Message'
-                name='message'
-                onChange={handleTextFieldChange}
-                value={formData.message} />
+            //     <MyTextInput
+            //       style={styles.inputStyle}
+            //       // multiline
+            //       placeholderTextColor={'#808080'}
+            //       placeholder='Message'
+            //       name='message'
+            //       onChange={handleTextFieldChange}
+            //       value={formData.message} />
 
-              <SelectDropdown
-                data={emojisWithIcons}
-                // onSelect={(selectedItem, index) => {
-                //   console.log(selectedItem, index);
-                // }}
-                onSelect={handleSelectFieldChange}
-                renderButton={(selectedItem, isOpened) => {
-                  return (
-                    <View style={styles1.dropdownButtonStyle}>
-                      {/* {selectedItem && (
-                      <Icon name={selectedItem.icon} style={styles1.dropdownButtonIconStyle} />
-                    )} */}
-                      <Text style={styles1.dropdownButtonTxtStyle}>
-                        {(selectedItem && selectedItem.title) || 'Target Group'}
-                      </Text>
-                      {/* <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles1.dropdownButtonArrowStyle} /> */}
-                    </View>
-                  );
-                }}
-                renderItem={(item, index, isSelected) => {
-                  return (
-                    <View style={{ ...styles1.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' }) }}>
-                      {/* <Icon name={item.icon} style={styles1.dropdownItemIconStyle} /> */}
-                      <Text style={styles1.dropdownItemTxtStyle}>{item.title}</Text>
-                    </View>
-                  );
-                }}
-                showsVerticalScrollIndicator={false}
-              // dropdownStyle={styles.dropdownMenuStyle}
-              />
+            //     <SelectDropdown
+            //       data={emojisWithIcons}
+            //       // onSelect={(selectedItem, index) => {
+            //       //   console.log(selectedItem, index);
+            //       // }}
+            //       onSelect={handleSelectFieldChange}
+            //       renderButton={(selectedItem, isOpened) => {
+            //         return (
+            //           <View style={styles1.dropdownButtonStyle}>
+            //             {/* {selectedItem && (
+            //           <Icon name={selectedItem.icon} style={styles1.dropdownButtonIconStyle} />
+            //         )} */}
+            //             <Text style={styles1.dropdownButtonTxtStyle}>
+            //               {(selectedItem && selectedItem.title) || 'Target Group'}
+            //             </Text>
+            //             {/* <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} style={styles1.dropdownButtonArrowStyle} /> */}
+            //           </View>
+            //         );
+            //       }}
+            //       renderItem={(item, index, isSelected) => {
+            //         return (
+            //           <View style={{ ...styles1.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' }) }}>
+            //             {/* <Icon name={item.icon} style={styles1.dropdownItemIconStyle} /> */}
+            //             <Text style={styles1.dropdownItemTxtStyle}>{item.title}</Text>
+            //           </View>
+            //         );
+            //       }}
+            //       showsVerticalScrollIndicator={false}
+            //     // dropdownStyle={styles.dropdownMenuStyle}
+            //     />
 
-              <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}
-                disabled={!isSubmitable}>
-                <Text style={styles.submitButtonText}>Send Message</Text>
-              </TouchableOpacity>
+            //     <TouchableOpacity onPress={handleSubmit} style={styles.submitButton}
+            //       disabled={!isSubmitable}>
+            //       <Text style={styles.submitButtonText}>Send Message</Text>
+            //     </TouchableOpacity>
 
 
-            </View>
-            : ''
+            //   </View>
+            //   : ''
           }
 
 

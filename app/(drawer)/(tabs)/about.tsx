@@ -6,9 +6,23 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { CustomHeader } from '@/components/CustomHeader';
 import { useDataContext } from '@/components/DataContext'
 import { ListItem } from '@rneui/themed';
+import * as SecureStore from 'expo-secure-store';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function AboutPage () {
   const { expoPushToken } = useDataContext()
+  const [deviceId, setDeviceId] = useState()
+
+  useEffect(() => {
+    const getCurrent = async () => {
+      let fetchUUID = await SecureStore.getItemAsync('secure_deviceid');
+      if (fetchUUID) {
+        setDeviceId(fetchUUID)
+      }
+    }
+    getCurrent()
+  }, [])
 
   return (
     <SafeAreaProvider>
@@ -39,6 +53,21 @@ export default function AboutPage () {
             <ListItem.Subtitle>{expoPushToken}</ListItem.Subtitle>
           </ListItem.Content>
         </ListItem>
+
+        {/* <ListItem>
+          <ListItem.Content>
+            <ListItem.Title>Device Id:</ListItem.Title>
+            <ListItem.Subtitle>{DeviceInfo.getDeviceId()}</ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem> */}
+
+        <ListItem>
+          <ListItem.Content>
+            <ListItem.Title>Unique Id:</ListItem.Title>
+            <ListItem.Subtitle>{deviceId}</ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>
+
       </ThemedView>
 
 
