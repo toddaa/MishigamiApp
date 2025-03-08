@@ -197,7 +197,7 @@ export default function CalendarScreen () {
 
   const renderItem = useCallback(({ item }: any) => {
     return <AgendaItem item={item} onPress={onAgendaPress} />;
-  }, []);
+  }, [])
 
   return (
     <SafeAreaProvider>
@@ -237,7 +237,7 @@ export default function CalendarScreen () {
         <AgendaList
           sections={events}
           renderItem={renderItem}
-          // scrollToNextEvent
+          scrollToNextEvent
           sectionStyle={styles.section}
         // dayFormat={'yyyy-MM-d'}
         />

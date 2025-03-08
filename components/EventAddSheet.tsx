@@ -1,5 +1,5 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react';
-import { StyleSheet, Platform, View, Image, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { StyleSheet, Platform, View, Image, TouchableOpacity, Text, ScrollView, Pressable } from 'react-native';
 import { ExpandableCalendar, AgendaList, CalendarProvider, WeekCalendar } from 'react-native-calendars';
 import AgendaItem from '@/components/AgendaItem';
 import { useDataContext } from '@/components/DataContext'
@@ -9,6 +9,9 @@ import { Header, BottomSheet, ListItem, Card, Button, Dialog, CheckBox, Input } 
 import { add } from "date-fns";
 import * as Calendar from 'expo-calendar';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import HTMLView from 'react-native-htmlview';
+import * as WebBrowser from 'expo-web-browser';
+
 
 function isEmpty (obj) {
   for (const prop in obj) {
@@ -102,6 +105,23 @@ const EventAddSheet = ({ isVisible, bottomSheetContent, backdropAction }) => {
     }
   }
 
+  function renderNode (node, index, siblings, parent, defaultRenderer) {
+    // console.log(node.name)
+    if (node.name === 'a') {
+      return <Pressable key={index}
+        onPress={() => handleLinkPress(node.attribs.href)}>
+        <Text style={[
+          styles.eventField,
+          { color: '#0000EE' }
+        ]}>{node.attribs.href}</Text>
+      </Pressable >
+    }
+  }
+
+  const handleLinkPress = async (url) => {
+    let result = await WebBrowser.openBrowserAsync(url);
+  };
+
   return (
     <BottomSheet
       modalProps={{}}
@@ -115,7 +135,11 @@ const EventAddSheet = ({ isVisible, bottomSheetContent, backdropAction }) => {
         <Text style={styles.eventField}>{start}</Text>
         {
           bottomSheetContent.description !== ''
-            ? <Text style={styles.eventField}>{bottomSheetContent.description}</Text>
+            ? <HTMLView
+              value={bottomSheetContent.description}
+              stylesheet={styles}
+              renderNode={renderNode}
+            />
             : ''
         }
         {
